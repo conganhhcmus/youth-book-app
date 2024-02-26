@@ -1,0 +1,20 @@
+{
+    "words": [
+        "youth-book",
+        "youthbook",
+        "errmsg",
+        "openapi",
+        "tailwindcss"
+    ],
+    "ignorePaths": [
+        "*.log",
+        "commitlint.config.ts",
+        "dist",
+        "*.svg",
+        "*.css",
+        "dist/*",
+        "public/*",
+        "index.html",
+        "*.json"
+    ]
+}

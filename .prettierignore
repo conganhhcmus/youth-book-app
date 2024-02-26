@@ -1,0 +1,9 @@
+dist/*
+*.lock
+*.json
+*.yml
+*.md
+.prettierrc
+commitlint.config.ts
+.eslintrc.cjs
+vite.config.ts

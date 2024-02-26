@@ -1,0 +1,7 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+yarn ts-check
+yarn prettier-check
+yarn cspell-check
+yarn lint

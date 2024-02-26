@@ -1,0 +1,65 @@
+name: Lint & Deployment
+env:
+    VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+    VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+on:
+    push:
+        branches: [master]
+    pull_request:
+        branches: [master]
+        types: [opened, synchronize, reopened, edited]
+
+jobs:
+    check:
+        name: Check
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Use Node.js 20.x
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20.x
+                  cache: yarn
+            - name: Cache node_modules
+              uses: actions/cache@v4
+              id: yarn-cache
+              with:
+                path: ./node_modules
+
+                key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}
+                restore-keys: |
+                  ${{ runner.os }}-node_modules-
+            - name: Install packages
+              run: yarn install
+            - name: Check coding conventions
+              run: |
+                yarn ts-check
+                yarn prettier-check
+                yarn cspell-check
+                yarn lint
+            - if: github.event_name == 'push'
+              run: echo "${{ github.event.head_commit.message }}" | yarn commitlint
+            - if: github.event_name == 'pull_request'
+              run: echo "${{ github.event.pull_request.title }}" | yarn commitlint
+
+    deploy:
+        name: Deploy
+        if: github.ref == 'refs/heads/master'
+        needs: [check]
+        runs-on: ubuntu-latest
+        environment: production
+        steps:
+            - uses: actions/checkout@v4
+            - name: Use Node.js 20.x
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20.x
+                  cache: yarn
+            - name: Install Vercel CLI
+              run: yarn global add vercel@latest
+            - name: Pull Vercel Environment Information
+              run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+            - name: Build Project Artifacts
+              run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+            - name: Deploy Project Artifacts to Vercel
+              run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

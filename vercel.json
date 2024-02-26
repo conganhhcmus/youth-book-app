@@ -1,0 +1,17 @@
+{
+    "version": 2,
+    "installCommand": "yarn install",
+    "buildCommand": "yarn build",
+    "devCommand": "yarn dev",
+    "outputDirectory": "dist",
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/"
+        }
+    ],
+    "github": {
+        "autoJobCancelation": false,
+        "enabled": false
+    }
+}
