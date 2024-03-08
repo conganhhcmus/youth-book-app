@@ -3,5 +3,8 @@
     "tabWidth": 4,
     "singleAttributePerLine": true,
     "printWidth": 150,
-    "plugins": ["prettier-plugin-tailwindcss"]
+    "bracketSameLine": true,
+    "plugins": [
+        "prettier-plugin-tailwindcss"
+    ]
 }
