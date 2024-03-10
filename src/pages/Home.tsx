@@ -64,7 +64,7 @@ const Home: React.FC = () => {
                     content={translate('description_0')}
                 />
             </Helmet>
-            <section className="mt-10">
+            <section className="pt-10">
                 <TitlePreview
                     img={iconRecommend}
                     title={translate('recommend')}
@@ -73,7 +73,7 @@ const Home: React.FC = () => {
                 />
                 <Banner data={recommendData?.data} />
             </section>
-            <div className="mt-10 grid grid-cols-12 gap-4">
+            <div className="grid grid-cols-12 gap-4 pt-10">
                 <div className="col-span-12 lg:col-span-8">
                     <TitlePreview
                         img={iconRecent}
