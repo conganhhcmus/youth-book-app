@@ -1,11 +1,50 @@
+import authApis from '@/apis/auth';
+import { APP_PATH } from '@/constants/path';
 import { useAppSelector } from '@/hooks/reduxHook';
+import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
+import { User } from '@/types/user';
+import { useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 
-const Register: React.FC = () => {
+const Management: React.FC = () => {
+    const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+    const refUserName = useRef<HTMLInputElement>(null);
+    const refEmail = useRef<HTMLInputElement>(null);
+    const refPassword = useRef<HTMLInputElement>(null);
+    const refConfirmPassword = useRef<HTMLInputElement>(null);
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
+    const { callRequest } = useAxiosRequest();
+    const navigate = useNavigate();
+
+    const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
+        event.preventDefault();
+        setIsSubmitted(true);
+
+        if (refConfirmPassword.current?.value !== refPassword.current?.value) {
+            alert(`Confirm Password not match!`);
+            setIsSubmitted(false);
+            return;
+        }
+
+        const data = {
+            username: refUserName.current?.value,
+            email: refEmail.current?.value,
+            password: refPassword.current?.value,
+        } as User;
+
+        callRequest(
+            authApis.register(data),
+            () => navigate(APP_PATH.login),
+            (err) => {
+                alert(err.response?.data);
+                setIsSubmitted(false);
+            },
+        );
+    };
 
     return (
         <div className="container flex min-h-full items-center justify-center px-4 pt-4 xl:px-0">
@@ -22,6 +61,7 @@ const Register: React.FC = () => {
                         {translate('register')}
                     </h1>
                     <form
+                        onSubmit={(e) => handleSubmit(e)}
                         className="space-y-4 md:space-y-6"
                         action="#">
                         <div>
@@ -31,6 +71,7 @@ const Register: React.FC = () => {
                                 {translate('your-username')}
                             </label>
                             <input
+                                ref={refUserName}
                                 type="username"
                                 name="username"
                                 id="username"
@@ -46,6 +87,7 @@ const Register: React.FC = () => {
                                 {translate('your-email')}
                             </label>
                             <input
+                                ref={refEmail}
                                 type="email"
                                 name="email"
                                 id="email"
@@ -61,8 +103,10 @@ const Register: React.FC = () => {
                                 {translate('password')}
                             </label>
                             <input
+                                ref={refPassword}
                                 type="password"
                                 name="password"
+                                minLength={6}
                                 id="password"
                                 placeholder="••••••••"
                                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
@@ -76,8 +120,10 @@ const Register: React.FC = () => {
                                 {translate('confirm-password')}
                             </label>
                             <input
-                                type="confirm-password"
+                                ref={refConfirmPassword}
+                                type="password"
                                 name="confirm-password"
+                                minLength={6}
                                 id="confirm-password"
                                 placeholder="••••••••"
                                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
@@ -109,6 +155,7 @@ const Register: React.FC = () => {
                         </div>
                         <button
                             type="submit"
+                            disabled={isSubmitted}
                             className="w-full rounded-lg bg-gradient px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary focus:outline-none focus:ring-4 focus:ring-primary dark:bg-gradient dark:hover:bg-gradient dark:focus:ring-primary">
                             {translate('register')}
                         </button>
@@ -127,4 +174,4 @@ const Register: React.FC = () => {
     );
 };
 
-export default Register;
+export default Management;

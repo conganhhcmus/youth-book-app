@@ -41,16 +41,16 @@ const Breadcrumb = ({ title, url }: BreadcrumbProps) => {
                             viewBox="0 0 6 10">
                             <path
                                 stroke="currentColor"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
                                 d="m1 9 4-4-4-4"
                             />
                         </svg>
                         <Link
                             className="ms-1 font-medium capitalize text-black hover:text-primary dark:text-white dark:hover:text-primary md:ms-2"
                             to={url}
-                            title={translate('home')}>
+                            title={title}>
                             {title}
                         </Link>
                     </div>

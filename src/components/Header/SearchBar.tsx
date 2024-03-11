@@ -36,7 +36,7 @@ const SearchBar = () => {
 
         if (searchText !== '') {
             navigate({
-                pathname: APP_PATH.search,
+                pathname: APP_PATH.comics_search,
                 search: createSearchParams({
                     q: searchText.trim(),
                     page: '1',

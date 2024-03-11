@@ -19,3 +19,12 @@ export const INDEXED_DB = {
         } as Collection,
     },
 } as const;
+
+export const COOKIE_KEYS = {
+    token: 'token',
+    refreshToken: 'refresh_token',
+};
+
+export const ROLES = {
+    admin: 1,
+};

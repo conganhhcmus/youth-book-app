@@ -37,7 +37,7 @@ const ComicHorizontal = ({ index, item, isSearchItem = true }: SearchItemProps) 
                             {item.title}
                         </Link>
                         <Link
-                            to={`${APP_PATH.chapters}/${item.id}/${item.latest_chapter[0].id}`}
+                            to={`${APP_PATH.comics_chapters}/${item.id}/${item.latest_chapter[0].id}`}
                             title={item.latest_chapter[0].name}
                             className="text-grey-800 text-sx mt-1 line-clamp-1 font-light capitalize italic">
                             {item.latest_chapter[0].name}

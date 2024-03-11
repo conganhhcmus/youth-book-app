@@ -8,6 +8,10 @@ import useMode from '@/hooks/useMode';
 import { changeLanguage, selectLanguage, selectMode } from '@/redux/slices/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useTranslation from '@/hooks/useTranslation';
+import { COOKIE_KEYS } from '@/constants/settings';
+import { getCookie } from '@/utils/cookies';
+import { decodeJWTToken } from '@/utils/token';
+import AccountInfo from './AccountInfo';
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -28,6 +32,9 @@ const Header = () => {
         setIsOpenLanguage(false);
         dispatch(changeLanguage(lang));
     };
+
+    const token = getCookie(COOKIE_KEYS.token);
+    const userInfo = decodeJWTToken(token);
 
     return (
         <div className={`bg-header bg-cover bg-no-repeat text-black shadow`}>
@@ -133,19 +140,25 @@ const Header = () => {
                     </button>
                 </div>
                 <div className="hidden items-center sm:flex">
-                    <Link
-                        title={translate('login')}
-                        to={APP_PATH.login}
-                        className="flex w-20 flex-col items-center rounded-md px-2 py-1 hover:text-primary">
-                        <span className="mt-[2px] text-xs">{translate('login')}</span>
-                    </Link>
-                    <span>/</span>
-                    <Link
-                        title={translate('register')}
-                        to={APP_PATH.register}
-                        className="flex w-16 flex-col items-center rounded-md px-2 py-1 hover:text-primary">
-                        <span className="mt-[2px] text-xs">{translate('register')}</span>
-                    </Link>
+                    {userInfo ? (
+                        <AccountInfo userInfo={userInfo} />
+                    ) : (
+                        <>
+                            <Link
+                                title={translate('login')}
+                                to={APP_PATH.login}
+                                className="flex w-20 flex-col items-center rounded-md py-1 hover:text-primary">
+                                <span className="mt-[2px] text-xs">{translate('login')}</span>
+                            </Link>
+                            <span>/</span>
+                            <Link
+                                title={translate('register')}
+                                to={APP_PATH.register}
+                                className="flex w-16 flex-col items-center rounded-md py-1 hover:text-primary">
+                                <span className="mt-[2px] text-xs">{translate('register')}</span>
+                            </Link>
+                        </>
+                    )}
                 </div>
                 {/* hamburger button */}
                 <div className="flex items-center gap-1 sm:hidden">
@@ -198,23 +211,34 @@ const Header = () => {
                         <li>
                             <Link
                                 title={translate('history-title')}
-                                to={APP_PATH.history}
-                                className={`block capitalize hover:text-primary ${useMatch(APP_PATH.history) && ' text-primary'}`}>
+                                to={APP_PATH.comics_history}
+                                className={`block capitalize hover:text-primary ${useMatch(APP_PATH.comics_history) && ' text-primary'}`}>
                                 {translate('history')}
                             </Link>
                         </li>
                     </ul>
                     <br />
-                    <Link
-                        to={APP_PATH.login}
-                        className="flex flex-col border-y-2 border-gray-400 py-1 hover:text-primary dark:text-white">
-                        {translate('login')}
-                    </Link>
-                    <Link
-                        to={APP_PATH.register}
-                        className="flex flex-col py-1 hover:text-primary dark:text-white">
-                        {translate('register')}
-                    </Link>
+                    {!userInfo && (
+                        <>
+                            <Link
+                                to={APP_PATH.login}
+                                className="flex flex-col border-y-2 border-gray-400 py-1 hover:text-primary dark:text-white">
+                                {translate('login')}
+                            </Link>
+                            <Link
+                                to={APP_PATH.register}
+                                className="flex flex-col py-1 hover:text-primary dark:text-white">
+                                {translate('register')}
+                            </Link>
+                        </>
+                    )}
+                    {userInfo && (
+                        <Link
+                            to={APP_PATH.logout}
+                            className="flex flex-col border-y-2 border-gray-400 py-1 hover:text-primary dark:text-white">
+                            {translate('logout')}
+                        </Link>
+                    )}
                 </div>
             </div>
         </div>

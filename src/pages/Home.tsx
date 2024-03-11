@@ -68,7 +68,7 @@ const Home: React.FC = () => {
                 <TitlePreview
                     img={iconRecommend}
                     title={translate('recommend')}
-                    url={APP_PATH.recommend}
+                    url={APP_PATH.comics_recommend}
                     isShowMore={true}
                 />
                 <Banner data={recommendData?.data} />
@@ -78,7 +78,7 @@ const Home: React.FC = () => {
                     <TitlePreview
                         img={iconRecent}
                         title={translate('recent-update')}
-                        url={APP_PATH.recent}
+                        url={APP_PATH.comics_recent}
                         isShowMore={true}
                     />
                     <ListPreview data={recentData?.data} />
@@ -94,7 +94,7 @@ const Home: React.FC = () => {
                     <div className="mb-2 border p-4">
                         <TitlePreview
                             title={translate('top-daily')}
-                            url={APP_PATH.recent}
+                            url={APP_PATH.comics_recent}
                             isShowMore={true}
                         />
                         {topDailyData && <TopPreview data={topDailyData?.data} />}
@@ -102,7 +102,7 @@ const Home: React.FC = () => {
                     <div className="mb-2 border p-4">
                         <TitlePreview
                             title={translate('top-weekly')}
-                            url={APP_PATH.recent}
+                            url={APP_PATH.comics_recent}
                             isShowMore={true}
                         />
                         {topWeeklyData && <TopPreview data={topWeeklyData?.data} />}
@@ -110,7 +110,7 @@ const Home: React.FC = () => {
                     <div className="mb-2 border p-4">
                         <TitlePreview
                             title={translate('top-monthly')}
-                            url={APP_PATH.recent}
+                            url={APP_PATH.comics_recent}
                             isShowMore={true}
                         />
                         {topMonthlyData && <TopPreview data={topMonthlyData?.data} />}

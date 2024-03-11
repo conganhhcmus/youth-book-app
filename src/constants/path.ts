@@ -1,45 +1,49 @@
 export const COMICS_PATH = {
-    // suggestSearch: '/suggest-search',
     comics: '/comics',
-    // genres: '/genres',
-    // new: '/new-comics',
-    // top: '/top',
-    // type: ':type',
-    // name: ':id',
-    // idChapter: ':idChapter',
     top: '/comics/top',
-    // chapter: '/chapter',
-    // follow: '/follow',
-    // comment: '/comment',
-    // comments: '/comments',
-    recent: '/comics/recent-update',
+    recent: '/comics/recent',
     recommend: '/comics/recommend',
-    // popular: '/trending-comics',
-    // completed: '/completed-comics',
-    // boy: '/boy-comics',
-    // girl: '/girl-comics',
-    // chapters: '/chapters',
     search: '/comics/search',
-    // download: '/download',
-    // history: '/history',
 } as const;
 
-export const USERS_PATH = {} as const;
-
-export const APP_PATH = {
-    language: '/language',
-    home: '/',
-    history: '/history',
+export const AUTH_PATH = {
     register: '/register',
     login: '/login',
+    reset_password: '/reset-password',
+} as const;
+
+export const USERS_PATH = {
+    users: '/users',
+} as const;
+
+export const APP_PATH = {
+    // comics
     comics: '/comics',
-    chapters: '/chapters',
-    search: '/search',
-    genres: '/genres',
-    new_comics: '/new-comics',
-    top_comics: '/top-comics',
-    recommend: '/recommend',
-    recent: '/recent',
+    comics_genres: 'comics/genres',
+    comics_wishlist: 'comics/wishlist',
+    comics_history: 'comics/history',
+    comics_chapters: 'comics/chapters',
+    comics_search: 'comics/search',
+    comics_new: 'comics/new',
+    comics_top: 'comics/top',
+    comics_recommend: 'comics/recommend',
+    comics_recent: 'comics/recent',
+
+    // account
+    account: '/account',
+    account_history: '/account/history',
+    account_billing: '/account/billing',
+    account_password: '/account/password',
+
+    // app
+    language: '/language',
+    home: '/',
+    register: '/register',
+    login: '/login',
+    logout: '/logout',
+
+    // management
+    management: '/management',
 } as const;
 
 export const TOP_COMICS = {

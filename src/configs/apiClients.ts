@@ -1,3 +1,5 @@
+import { COOKIE_KEYS } from '@/constants/settings';
+import { getCookie } from '@/utils/cookies';
 import axios, { AxiosRequestConfig } from 'axios';
 
 const apiConfig: AxiosRequestConfig = {
@@ -13,6 +15,8 @@ const apiClients = axios.create(apiConfig);
 
 apiClients.interceptors.request.use(
     function (config) {
+        config.headers['refresh_token'] = getCookie(COOKIE_KEYS.refreshToken);
+        config.headers['token'] = getCookie(COOKIE_KEYS.token);
         return config;
     },
     function (error) {

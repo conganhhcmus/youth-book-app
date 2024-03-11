@@ -12,50 +12,50 @@ const Navbar = () => {
         {
             title: translate('new-comic-title'),
             link: {
-                pathname: APP_PATH.new_comics,
+                pathname: APP_PATH.comics_new,
                 search: createSearchParams({
                     type: 'all',
                     page: '1',
                 }).toString(),
             },
             name: translate('new-comic'),
-            isCurrent: useMatch(APP_PATH.new_comics),
+            isCurrent: useMatch(APP_PATH.comics_new),
         },
         {
             title: translate('top-comic-title'),
             link: {
-                pathname: APP_PATH.top_comics,
+                pathname: APP_PATH.comics_top,
                 search: createSearchParams({
                     type: 'all',
                     page: '1',
                 }).toString(),
             },
             name: translate('top-comic'),
-            isCurrent: useMatch(APP_PATH.top_comics),
+            isCurrent: useMatch(APP_PATH.comics_top),
         },
         {
             title: translate('genres-title'),
             link: {
-                pathname: APP_PATH.genres,
+                pathname: APP_PATH.comics_genres,
                 search: createSearchParams({
                     type: 'all',
                     page: '1',
                 }).toString(),
             },
             name: translate('genres'),
-            isCurrent: useMatch(APP_PATH.genres),
+            isCurrent: useMatch(APP_PATH.comics_genres),
         },
         {
             title: translate('history-title'),
             link: {
-                pathname: APP_PATH.history,
+                pathname: APP_PATH.comics_history,
                 search: createSearchParams({
                     type: 'all',
                     page: '1',
                 }).toString(),
             },
             name: translate('history'),
-            isCurrent: useMatch(APP_PATH.history),
+            isCurrent: useMatch(APP_PATH.comics_history),
         },
     ];
 

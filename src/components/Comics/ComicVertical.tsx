@@ -60,7 +60,7 @@ const ComicVertical = ({ data }: ComicVerticalProps) => {
                                         key={chapter.id}
                                         className="mt-2">
                                         <Link
-                                            to={`${APP_PATH.chapters}/${id}/${chapter.id}`}
+                                            to={`${APP_PATH.comics_chapters}/${id}/${chapter.id}`}
                                             title={chapter.name}
                                             className={`mt-[2px] inline-block text-sm text-primary`}>
                                             {chapter.name}
@@ -96,7 +96,7 @@ const ComicVertical = ({ data }: ComicVerticalProps) => {
                             key={chapter.id}
                             className="mt-1">
                             <Link
-                                to={`${APP_PATH.chapters}/${id}/${chapter.id}`}
+                                to={`${APP_PATH.comics_chapters}/${id}/${chapter.id}`}
                                 title={chapter.name}
                                 className="float-left inline-block truncate whitespace-nowrap text-sm text-primary">
                                 {chapter.name}
