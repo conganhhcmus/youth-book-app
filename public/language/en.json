@@ -62,9 +62,12 @@
     "new-password": "New password",
     "change-password": "Change password",
     "fullName": "full name",
-    "billing": "billing",
+    "billing-history": "billing history",
     "reset": "reset",
     "NoChange": "Data has not changed!",
-    "Confirm Password not match!": "Mật khẩu không khớp!",
+    "Confirm Password not match!": "Confirm Password not match!",
+    "comic-management": "comic management",
+    "user-management": "user management",
+    "billing-management": "billing management",
     "description_0": "The largest online comic reading website updated continuously every day - Join reading and discussing with more than 10 million members 🎉 at YouthBook ❤️💛💚"
 }

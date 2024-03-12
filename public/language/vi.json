@@ -62,9 +62,12 @@
     "new-password": "Mật khẩu mới",
     "change-password": "Đổi mật khẩu",
     "fullName": "Họ và tên",
-    "billing": "Thanh toán",
+    "billing-history": "lịch sử Thanh toán",
     "reset": "cài lại",
     "NoChange": "Không có thay đổi!",
     "Confirm Password not match!": "Mật khẩu không khớp!",
+    "comic-management": "Quản lý truyện",
+    "user-management": "Quản lý người dùng",
+    "billing-management": "Quản lý thanh toán",
     "description_0": "Web đọc truyện tranh online lớn nhất được cập nhật liên tục mỗi ngày - Cùng tham gia đọc truyện và thảo luận với hơn 10 triệu thành viên 🎉 tại YouthBook ❤️💛💚"
 }

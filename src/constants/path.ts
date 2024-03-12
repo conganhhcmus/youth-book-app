@@ -31,6 +31,7 @@ export const APP_PATH = {
 
     // account
     account: '/account',
+    account_info: '/account/info',
     account_history: '/account/history',
     account_billing: '/account/billing',
     account_password: '/account/password',
@@ -44,6 +45,9 @@ export const APP_PATH = {
 
     // management
     management: '/management',
+    management_comics: '/management/comics',
+    management_users: '/management/users',
+    management_billing: '/management/billing',
 } as const;
 
 export const TOP_COMICS = {

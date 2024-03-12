@@ -1,17 +1,50 @@
 /* eslint-disable react-refresh/only-export-components */
 import { APP_PATH } from '@/constants/path';
 import { lazy, Suspense } from 'react';
+import { redirect } from 'react-router-dom';
 
 import LoadingPage from '@/components/Loading';
-const Management = lazy(() => import('@/pages/Management'));
+import ManagementLayout from '@/layouts/ManagementLayout';
+import { ErrorBoundary } from '@/pages/ErrorBoundary';
+const ComicManagement = lazy(() => import('@/pages/Management/ComicManagement'));
+const UserManagement = lazy(() => import('@/pages/Management/UserManagement'));
+const BillingManagement = lazy(() => import('@/pages/Management/BillingManagement'));
 
 export default [
     {
         path: APP_PATH.management,
-        element: (
-            <Suspense fallback={<LoadingPage />}>
-                <Management />
-            </Suspense>
-        ),
+        element: <ManagementLayout />,
+        errorElement: <ErrorBoundary />,
+        children: [
+            {
+                index: true,
+                path: APP_PATH.management,
+                loader: () => redirect(APP_PATH.management_comics),
+            },
+            {
+                path: APP_PATH.management_comics,
+                element: (
+                    <Suspense fallback={<LoadingPage />}>
+                        <ComicManagement />
+                    </Suspense>
+                ),
+            },
+            {
+                path: APP_PATH.management_users,
+                element: (
+                    <Suspense fallback={<LoadingPage />}>
+                        <UserManagement />
+                    </Suspense>
+                ),
+            },
+            {
+                path: APP_PATH.management_billing,
+                element: (
+                    <Suspense fallback={<LoadingPage />}>
+                        <BillingManagement />
+                    </Suspense>
+                ),
+            },
+        ],
     },
 ];
