@@ -12,7 +12,7 @@ interface ComicVerticalProps {
 }
 
 const ComicVertical = ({ data }: ComicVerticalProps) => {
-    const { id, title, thumbnail, short_description } = data;
+    const { _id: id, title, thumbnail, short_description } = data;
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
 

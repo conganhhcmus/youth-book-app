@@ -29,10 +29,10 @@ const AccountInfo = ({ userInfo }: AccountInfoProps) => {
             onMouseEnter={() => setIsOpen(true)}
             onMouseLeave={() => setIsOpen(false)}
             className="relative flex w-20 cursor-pointer flex-col items-center px-2 py-1 hover:text-primary">
-            {userInfo.avatar ? (
+            {userInfo.avatarImg ? (
                 <img
                     className="h-6 w-5"
-                    src={userInfo.avatar}
+                    src={userInfo.avatarImg}
                 />
             ) : (
                 <svg

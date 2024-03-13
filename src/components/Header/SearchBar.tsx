@@ -6,7 +6,6 @@ import { useAppSelector } from '@/hooks/reduxHook';
 import useTranslation from '@/hooks/useTranslation';
 import { useQuery } from 'react-query';
 import imgLoading from '@/assets/icons/loading.gif';
-import { ComicBase } from '@/types/comic';
 import comicApis from '@/apis/comic';
 import { ComicHorizontal } from '../Comics';
 
@@ -24,7 +23,7 @@ const SearchBar = () => {
         staleTime: 3 * 60 * 1000,
     });
 
-    const data = comicList?.data as ComicBase[];
+    const data = comicList?.data?.data;
 
     const viewDetailComic = (id: string) => {
         navigate(`${APP_PATH.comics}/${id}`);
@@ -79,8 +78,8 @@ const SearchBar = () => {
                             {data &&
                                 data.map((item, i) => (
                                     <div
-                                        key={item.id}
-                                        onMouseDown={() => viewDetailComic(item.id)}
+                                        key={item._id}
+                                        onMouseDown={() => viewDetailComic(item._id)}
                                         className="cursor-pointer">
                                         <ComicHorizontal
                                             index={i}

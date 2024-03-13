@@ -16,7 +16,7 @@ const ComicHorizontal = ({ index, item, isSearchItem = true }: SearchItemProps) 
                 <div className={`flex gap-2 py-3 ${index !== 0 && ' border-t border-dashed border-[#D9D9D9] dark:border-gray-500'}`}>
                     <Link
                         title={item.title}
-                        to={`${APP_PATH.comics}/${item.id}`}
+                        to={`${APP_PATH.comics}/${item._id}`}
                         className="flex-shrink-0">
                         <img
                             src={item.thumbnail}
@@ -32,15 +32,15 @@ const ComicHorizontal = ({ index, item, isSearchItem = true }: SearchItemProps) 
                     <div className={`flex flex-col text-sm ${!isSearchItem && 'justify-between'}`}>
                         <Link
                             title={item.title}
-                            to={`${APP_PATH.comics}/${item.id}`}
+                            to={`${APP_PATH.comics}/${item._id}`}
                             className="line-clamp-1 text-base font-semibold text-black">
                             {item.title}
                         </Link>
                         <Link
-                            to={`${APP_PATH.comics_chapters}/${item.id}/${item.latest_chapter[0].id}`}
-                            title={item.latest_chapter[0].name}
+                            to={`${APP_PATH.comics_chapters}/${item._id}/${item.latest_chapter.slice(-1)[0].id}`}
+                            title={item.latest_chapter.slice(-1)[0].name}
                             className="text-grey-800 text-sx mt-1 line-clamp-1 font-light capitalize italic">
-                            {item.latest_chapter[0].name}
+                            {item.latest_chapter.slice(-1)[0].name}
                         </Link>
                         <p className={`mt-1 line-clamp-2 font-semibold text-blue-700`}>{item.authors}</p>
                         <p className={`mt-1 line-clamp-2 italic text-black dark:text-white ${!isSearchItem && ' text-xs'}`}>

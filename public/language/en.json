@@ -69,5 +69,16 @@
     "comic-management": "comic management",
     "user-management": "user management",
     "billing-management": "billing management",
+    "role": "Role",
+    "email": "Email",
+    "edit-user": "edit user",
+    "edit": "edit",
+    "wallet": "wallet",
+    "status": "status",
+    "username": "username",
+    "action": "action",
+    "admin": "Admin",
+    "normal": "Normal",
+    "delete": "Delete",
     "description_0": "The largest online comic reading website updated continuously every day - Join reading and discussing with more than 10 million members 🎉 at YouthBook ❤️💛💚"
 }

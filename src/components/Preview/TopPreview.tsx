@@ -19,10 +19,10 @@ const TopPreview = ({ data, top = 7 }: TopPreviewProps) => {
         <ul className="mt-5 flex flex-col gap-[5px]">
             {data.slice(0, top).map((item, index) => (
                 <li
-                    key={item.id}
+                    key={item._id}
                     className="flex items-center gap-3 border-b border-dashed border-[#ededed] dark:border-gray-600">
                     <Link
-                        to={`${APP_PATH.comics}/${item.id}`}
+                        to={`${APP_PATH.comics}/${item._id}`}
                         title={item.title}
                         className="flex-shrink-0 overflow-hidden">
                         <img
@@ -49,7 +49,7 @@ const TopPreview = ({ data, top = 7 }: TopPreviewProps) => {
                         <div className="-mt-[2px]">
                             <Link
                                 title={item.title}
-                                to={`${APP_PATH.comics}/${item.id}`}
+                                to={`${APP_PATH.comics}/${item._id}`}
                                 className="line-clamp-1 text-base font-semibold leading-4 text-black hover:text-primary dark:text-white dark:hover:text-primary">
                                 {item.title}
                             </Link>

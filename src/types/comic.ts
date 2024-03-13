@@ -1,5 +1,5 @@
 export interface ComicBase {
-    id: string;
+    _id: string;
     title: string;
     thumbnail: string;
     latest_chapter: {
@@ -30,4 +30,16 @@ export interface ComicBaseData {
     data: ComicBase[];
     currentPage: number;
     totalPage: number;
+}
+
+export interface ComicModel {
+    _id: string;
+    title: string;
+    thumbnail: string;
+    other_name: string[];
+    short_description: string;
+}
+
+export interface ChapterModel {
+    _id: string;
 }

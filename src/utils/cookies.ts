@@ -7,7 +7,6 @@ export const setCookie = (cname: string, value: string, expDays: number = 30) =>
         d.setTime(d.getTime() + expDays * 24 * 60 * 60 * 1000);
         expires = 'expires=' + d.toUTCString();
     }
-
     document.cookie = cname + '=' + value + ';' + expires + ';path=/';
 };
 

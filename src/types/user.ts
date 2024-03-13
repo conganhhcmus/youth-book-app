@@ -1,4 +1,5 @@
 export interface User {
+    _id: string;
     username: string;
     email: string;
     password: string;
@@ -6,6 +7,12 @@ export interface User {
     role: number;
     refreshToken: string;
     isActive: boolean;
-    avatar: string;
+    avatarImg: string;
     wallet: number;
+}
+
+export interface UserData {
+    data: User[];
+    currentPage: number;
+    totalPage: number;
 }

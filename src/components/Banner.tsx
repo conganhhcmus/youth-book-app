@@ -37,9 +37,9 @@ const Banner = ({ data }: BannerProps) => {
                     {data &&
                         data.length > 3 &&
                         data.slice(0, 3).map((item) => (
-                            <SwiperSlide key={item.id}>
+                            <SwiperSlide key={item._id}>
                                 <Link
-                                    to={`${APP_PATH.comics}/${item.id}`}
+                                    to={`${APP_PATH.comics}/${item._id}`}
                                     title="One Piece">
                                     <div
                                         className="h-[260px] w-full bg-cover bg-top bg-no-repeat md:h-[380px] md:bg-center"
@@ -62,8 +62,8 @@ const Banner = ({ data }: BannerProps) => {
                         data.length > 5 &&
                         data.slice(3, 5).map((item) => (
                             <Link
-                                key={item.id}
-                                to={`${APP_PATH.comics}/${item.id}`}
+                                key={item._id}
+                                to={`${APP_PATH.comics}/${item._id}`}
                                 title={item.title}
                                 className="h-[185px] w-full overflow-hidden">
                                 <p
@@ -80,9 +80,9 @@ const Banner = ({ data }: BannerProps) => {
                         data.length > 8 &&
                         data.slice(5, 8).map((item) => (
                             <Link
-                                key={item.id}
+                                key={item._id}
                                 title={item.title}
-                                to={`${APP_PATH.comics}/${item.id}`}
+                                to={`${APP_PATH.comics}/${item._id}`}
                                 className="h-[185px] w-[221px] overflow-hidden">
                                 <p
                                     className="h-full w-full bg-cover bg-no-repeat"

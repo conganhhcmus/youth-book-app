@@ -28,3 +28,14 @@ export const COOKIE_KEYS = {
 export const ROLES = {
     admin: 1,
 };
+
+export const ROLE_LIST = [
+    {
+        value: 1,
+        name: 'admin',
+    },
+    {
+        value: 0,
+        name: 'normal',
+    },
+];

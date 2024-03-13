@@ -10,6 +10,7 @@ export const AUTH_PATH = {
     register: '/register',
     login: '/login',
     reset_password: '/reset-password',
+    reset_token: '/reset-token',
 } as const;
 
 export const USERS_PATH = {

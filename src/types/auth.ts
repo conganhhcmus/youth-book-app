@@ -9,6 +9,6 @@ export interface UserJwtPayload {
     email: string;
     fullName: string;
     role: number;
-    avatar: string;
+    avatarImg: string;
     wallet: number;
 }

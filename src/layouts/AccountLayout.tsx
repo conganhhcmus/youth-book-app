@@ -17,7 +17,7 @@ const AccountLayout = () => {
                     content={translate('description_0')}
                 />
             </Helmet>
-            <div className="flex min-h-[700px] justify-start gap-4 px-4 pt-4 xl:px-0">
+            <div className="flex min-h-[600px] justify-start gap-4 px-4 pt-4 xl:px-0">
                 <div className="min-w-fit overflow-y-auto bg-gray-100 px-3 py-4 dark:bg-gray-800">
                     <ul className="space-y-2 font-medium">
                         <li>

@@ -9,7 +9,7 @@ const MainLayout = () => {
                 <Header />
                 <Navbar />
             </header>
-            <main className="h-full min-h-[700px] place-self-stretch">
+            <main className="place-self-stretch">
                 <Outlet />
             </main>
             <footer className="mt-20 w-full bg-gray-200">
