@@ -1,7 +1,8 @@
+import { ComicModel } from './../types/comic';
 import { TopComicType } from './../types/request';
 import apiClients from '@/configs/apiClients';
 import { COMICS_PATH } from '@/constants/path';
-import { ComicBaseData, ComicData } from '@/types/comic';
+import { Comic, ComicBaseData, ComicData, Genres } from '@/types/comic';
 import { paramOption } from '@/types/request';
 
 const comicApis = {
@@ -26,6 +27,26 @@ const comicApis = {
         };
 
         return apiClients.get<ComicData>(url, { params: paramsRequest });
+    },
+
+    genresComics() {
+        const url = COMICS_PATH.genres;
+        return apiClients.get<Genres[]>(url);
+    },
+
+    getComicInfo(id: string | undefined) {
+        const url = COMICS_PATH.comics + `/${id ?? '-1'}`;
+        return apiClients.get<Comic>(url);
+    },
+
+    updateComic(id: string | undefined, comic: ComicModel) {
+        const url = COMICS_PATH.comics + `/${id ?? '-1'}`;
+        return apiClients.put<Comic>(url, { ...comic });
+    },
+
+    addComic(comic: ComicModel) {
+        const url = COMICS_PATH.add;
+        return apiClients.post<Comic>(url, { ...comic });
     },
 };
 

@@ -54,7 +54,7 @@ const TopPreview = ({ data, top = 7 }: TopPreviewProps) => {
                                 {item.title}
                             </Link>
                             <p className="ml-[1px] line-clamp-1 text-sm leading-5 text-gray-400">
-                                {item.total_views} {translate('views')}
+                                {item.totalViews} {translate('views')}
                             </p>
                         </div>
                     </div>

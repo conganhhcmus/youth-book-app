@@ -2,22 +2,22 @@ export interface ComicBase {
     _id: string;
     title: string;
     thumbnail: string;
-    latest_chapter: {
+    chapters: {
         id: string;
         name: string;
-        updated_at: Date;
+        updatedAt: Date;
     }[];
     genres: {
-        id: string;
+        _id: string;
         name: string;
     }[];
-    authors: string;
+    author: string;
 }
 
 export interface Comic extends ComicBase {
-    other_name: string[];
-    short_description: string;
-    total_views: number;
+    otherName: string[];
+    description: string;
+    totalViews: number;
 }
 
 export interface ComicData {
@@ -33,13 +33,24 @@ export interface ComicBaseData {
 }
 
 export interface ComicModel {
-    _id: string;
-    title: string;
+    name: string;
+    description: string;
     thumbnail: string;
-    other_name: string[];
-    short_description: string;
+    otherName: string[];
+    follower: number;
+    genres: string[];
+    status: number;
+    totalViews: number;
+    author: string;
+    createTime: Date;
+    createBy: string;
 }
 
 export interface ChapterModel {
     _id: string;
+}
+
+export interface Genres {
+    _id: string;
+    name: string;
 }

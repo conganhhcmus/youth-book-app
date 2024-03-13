@@ -4,6 +4,8 @@ export const COMICS_PATH = {
     recent: '/comics/recent',
     recommend: '/comics/recommend',
     search: '/comics/search',
+    genres: '/comics/genres',
+    add: '/comics/add',
 } as const;
 
 export const AUTH_PATH = {

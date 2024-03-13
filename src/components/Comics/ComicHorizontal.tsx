@@ -37,12 +37,12 @@ const ComicHorizontal = ({ index, item, isSearchItem = true }: SearchItemProps) 
                             {item.title}
                         </Link>
                         <Link
-                            to={`${APP_PATH.comics_chapters}/${item._id}/${item.latest_chapter.slice(-1)[0].id}`}
-                            title={item.latest_chapter.slice(-1)[0].name}
+                            to={`${APP_PATH.comics_chapters}/${item._id}/${item.chapters[0].id}`}
+                            title={item.chapters[0].name}
                             className="text-grey-800 text-sx mt-1 line-clamp-1 font-light capitalize italic">
-                            {item.latest_chapter.slice(-1)[0].name}
+                            {item.chapters[0].name}
                         </Link>
-                        <p className={`mt-1 line-clamp-2 font-semibold text-blue-700`}>{item.authors}</p>
+                        <p className={`mt-1 line-clamp-2 font-semibold text-blue-700`}>{item.author}</p>
                         <p className={`mt-1 line-clamp-2 italic text-black dark:text-white ${!isSearchItem && ' text-xs'}`}>
                             {Array.isArray(item.genres) && item.genres.map((genre) => genre.name).join(', ')}
                         </p>

@@ -1,22 +1,36 @@
 import comicApis from '@/apis/comic';
+import DropDown from '@/components/Dropdown';
 import { Pagination } from '@/components/Pagination';
 import Popup from '@/components/Popup';
+import { COOKIE_KEYS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
+import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useRequestParams from '@/hooks/useRequestParams';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
-// import { Comic } from '@/types/comic';
-import { useState } from 'react';
+import { Comic, ComicModel } from '@/types/comic';
+import { getCookie } from '@/utils/cookies';
+import { decodeJWTToken } from '@/utils/token';
+import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 
 const ComicManagement: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
-    // const [comicInfo, setComicInfo] = useState<Comic>();
+    const [isShowNewAction, setIsShowNewAction] = useState<boolean>(false);
+    const [comicInfo, setComicInfo] = useState<Comic>();
+    const [genresChecked, setGenresChecked] = useState<string[]>();
+
+    // Ref
+    const refTitle = useRef<HTMLInputElement>(null);
+    const refDescription = useRef<HTMLTextAreaElement>(null);
+    const refThumbnail = useRef<HTMLInputElement>(null);
+    const refAuthor = useRef<HTMLInputElement>(null);
 
     const translate = useTranslation(lang);
     const [searchText, setSearchText] = useState<string>('');
     const { queryParams } = useRequestParams();
+    const { callRequest } = useAxiosRequest();
 
     const { data: resultData } = useQuery({
         queryKey: ['suggestSearch', { ...queryParams, q: searchText }],
@@ -24,24 +38,204 @@ const ComicManagement: React.FC = () => {
         staleTime: 3 * 60 * 1000,
     });
 
+    const { data: genresResultData } = useQuery({
+        queryKey: ['genresComics'],
+        queryFn: () => comicApis.genresComics(),
+        staleTime: 3 * 60 * 1000,
+    });
+
     const result = resultData?.data;
     const comicList = result?.data;
 
-    const handleSubmit = () => {};
-    const _editComic = () => <></>;
+    const genres = genresResultData?.data;
+
+    const token = getCookie(COOKIE_KEYS.token);
+    const userInfoPayload = decodeJWTToken(token);
+
+    const handleNew = () => {
+        setComicInfo(undefined);
+        setIsShowNewAction(true);
+    };
+
+    const handleEdit = (id: string) => {
+        setIsShowEditAction(true);
+        callRequest(comicApis.getComicInfo(id), (res) => {
+            setComicInfo(res.data);
+        });
+    };
+
+    const handleNewSubmit = () => {
+        if (!isValidNew()) {
+            alert(translate('Invalid Data'));
+            return;
+        }
+        const data = {
+            name: refTitle.current?.value,
+            description: refDescription.current?.value,
+            thumbnail: refThumbnail.current?.value,
+            author: refAuthor.current?.value,
+            genres: genresChecked,
+            createBy: userInfoPayload?._id,
+        } as ComicModel;
+
+        callRequest(comicApis.addComic(data), (res) => {
+            console.log(res.data);
+            window.location.reload();
+        });
+    };
+
+    const isValidNew = () => {
+        return (
+            genresChecked?.length &&
+            genresChecked.length > 0 &&
+            refAuthor.current?.value &&
+            refDescription.current?.value &&
+            refTitle.current?.value &&
+            refThumbnail.current?.value
+        );
+    };
+
+    const isValidEdit = () => {
+        return (
+            (genresChecked?.length && genresChecked.length > 0) ||
+            refAuthor.current?.value ||
+            refDescription.current?.value ||
+            refTitle.current?.value ||
+            refThumbnail.current?.value
+        );
+    };
+    const handleEditSubmit = () => {
+        if (!isValidEdit()) {
+            alert(translate('NoChange'));
+            return;
+        }
+        const data = {
+            ...comicInfo,
+            genres: genresChecked,
+        } as ComicModel;
+
+        callRequest(comicApis.updateComic(comicInfo?._id, data), (res) => {
+            console.log(res.data);
+            window.location.reload();
+        });
+    };
+
+    const handleGenresChange = (value: string[]) => {
+        setGenresChecked(value);
+    };
+
+    const _comicInfoContent = () => (
+        <form
+            className="space-y-4 md:space-y-6"
+            action="#">
+            <div>
+                <label
+                    htmlFor="title"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    {translate('title')}
+                </label>
+                <input
+                    ref={refTitle}
+                    type="title"
+                    name="title"
+                    id="title"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                    placeholder={comicInfo?.title}
+                    required={true}
+                />
+            </div>
+            <div>
+                <label
+                    htmlFor="genres"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    {translate('genres')}
+                </label>
+                <DropDown
+                    text={translate('choose-genres')}
+                    data={genres?.map((x) => ({ id: x._id, title: x.name, value: x._id }))}
+                    value={comicInfo?.genres.map((x) => x._id)}
+                    onChange={handleGenresChange}
+                />
+            </div>
+            <div>
+                <label
+                    htmlFor="role"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    {translate('description')}
+                </label>
+                <textarea
+                    ref={refDescription}
+                    className="rounded-lg border-2"
+                    id="description"
+                    placeholder={comicInfo?.description}
+                    rows={4}
+                    cols={66}
+                />
+            </div>
+            <div>
+                <label
+                    htmlFor="thumbnail"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    {translate('thumbnail')}
+                </label>
+                <input
+                    ref={refThumbnail}
+                    type="thumbnail"
+                    name="thumbnail"
+                    id="thumbnail"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                    placeholder={comicInfo?.thumbnail}
+                    required={true}
+                />
+            </div>
+            <div>
+                <label
+                    htmlFor="author"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    {translate('author')}
+                </label>
+                <input
+                    ref={refAuthor}
+                    type="author"
+                    name="author"
+                    id="author"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                    placeholder={comicInfo?.author}
+                    required={true}
+                />
+            </div>
+        </form>
+    );
 
     return (
-        <div className="relative h-full w-full overflow-x-auto p-8 shadow-md sm:rounded-lg">
+        <div className="relative h-full w-full overflow-x-auto border-2 p-8 sm:rounded-lg">
             {isShowEditAction && (
                 <Popup
                     closeHandle={() => setIsShowEditAction(false)}
                     title={translate('edit-comic')}
-                    content={_editComic()}
-                    submitHandle={handleSubmit}
+                    content={_comicInfoContent()}
+                    submitHandle={handleEditSubmit}
                     cancelHandle={() => setIsShowEditAction(false)}
                 />
             )}
+            {isShowNewAction && (
+                <Popup
+                    closeHandle={() => setIsShowNewAction(false)}
+                    title={translate('add-comic')}
+                    content={_comicInfoContent()}
+                    submitHandle={handleNewSubmit}
+                    cancelHandle={() => setIsShowNewAction(false)}
+                />
+            )}
             <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-white pb-4 dark:bg-gray-900 md:flex-row md:space-y-0">
+                <div className="relative">
+                    <button
+                        onClick={handleNew}
+                        className="mb-2 me-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        {translate('add')}
+                    </button>
+                </div>
+
                 <div className="relative">
                     <div className="rtl:inset-r-0 pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
                         <svg
@@ -62,9 +256,9 @@ const ComicManagement: React.FC = () => {
                     <input
                         type="text"
                         onChange={(e) => setSearchText(e.target.value)}
-                        id="table-search-users"
+                        id="table-search-comic"
                         className="block w-80 rounded-lg border border-gray-300 bg-gray-50 p-2 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                        placeholder="Search for users"
+                        placeholder="Search for comic"
                     />
                 </div>
             </div>
@@ -128,16 +322,16 @@ const ComicManagement: React.FC = () => {
                                         )}
                                         <div className="ps-3">
                                             <div className="text-base font-semibold">{comic.title}</div>
-                                            <div className="font-normal text-gray-500">{comic.authors}</div>
+                                            <div className="font-normal text-gray-500">{comic.author}</div>
                                         </div>
                                     </th>
 
                                     <td className="px-6 py-4 capitalize italic">{comic.genres.map((_) => _.name).join(', ')}</td>
-                                    <td className="px-6 py-4 capitalize">{comic.authors}</td>
-                                    <td className="px-6 py-4 capitalize">{comic.latest_chapter.slice(-1)[0].name}</td>
+                                    <td className="px-6 py-4 capitalize">{comic.author}</td>
+                                    <td className="px-6 py-4 capitalize">{comic.chapters[0].name}</td>
                                     <td className="px-6 py-4">
                                         <button
-                                            onClick={() => setIsShowEditAction(true)}
+                                            onClick={() => handleEdit(comic._id)}
                                             className="font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
                                             {translate('edit')}
                                         </button>

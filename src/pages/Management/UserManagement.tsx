@@ -153,7 +153,7 @@ const UserManagement: React.FC = () => {
     );
 
     return (
-        <div className="relative h-full w-full overflow-x-auto p-8 shadow-md sm:rounded-lg">
+        <div className="relative h-full w-full overflow-x-auto border-2 p-8 sm:rounded-lg">
             {isShowEditAction && (
                 <Popup
                     closeHandle={() => setIsShowEditAction(false)}
@@ -282,6 +282,11 @@ const UserManagement: React.FC = () => {
                             <th
                                 scope="col"
                                 className="px-6 py-3">
+                                {translate('create-at')}
+                            </th>
+                            <th
+                                scope="col"
+                                className="px-6 py-3">
                                 {translate('action')}
                             </th>
                         </tr>
@@ -343,6 +348,9 @@ const UserManagement: React.FC = () => {
                                             <div className={`me-2 h-2.5 w-2.5 rounded-full ${user.isActive ? 'bg-green-500' : 'bg-red-500'} `} />{' '}
                                             {translate(getStatusName(user.isActive))}
                                         </div>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {user.createTime ? new Date(user.createTime).toLocaleDateString() : new Date().toLocaleDateString()}
                                     </td>
                                     <td className="px-6 py-4">
                                         <button

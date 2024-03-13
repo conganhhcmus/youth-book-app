@@ -49,7 +49,7 @@ const Popup = ({ closeHandle, title, content, submit = true, cancel = true, subm
                             <span className="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <div className="space-y-4 p-4 md:p-5">{content}</div>
+                    <div className="max-h-[500px] space-y-4 overflow-y-auto p-4 md:p-5">{content}</div>
                     <div className="flex items-center justify-end gap-4 rounded-b border-t border-gray-200 p-4 dark:border-gray-600 md:p-5">
                         {cancel && (
                             <button
