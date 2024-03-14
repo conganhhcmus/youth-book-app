@@ -2,6 +2,8 @@ export interface ComicBase {
     _id: string;
     name: string;
     thumbnail: string;
+    recommend: boolean;
+    status: number;
     chapters: {
         id: string;
         name: string;
@@ -37,6 +39,7 @@ export interface ComicModel {
     name: string;
     description: string;
     thumbnail: string;
+    recommend: boolean;
     otherName: string[];
     follower: number;
     genres: string[];

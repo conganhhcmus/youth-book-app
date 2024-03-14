@@ -43,6 +43,11 @@ const comicApis = {
         const url = COMICS_PATH.add;
         return apiClients.post<Comic>(url, { ...comic });
     },
+
+    deleteComic(id: string) {
+        const url = COMICS_PATH.comics + `/${id ?? '-1'}`;
+        return apiClients.delete<Comic>(url);
+    },
 };
 
 export default comicApis;

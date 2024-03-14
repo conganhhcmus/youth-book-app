@@ -26,10 +26,11 @@ const ComicManagement: React.FC = () => {
     const [genresChecked, setGenresChecked] = useState<string[]>([]);
 
     // Ref
-    const refTitle = useRef<HTMLInputElement>(null);
+    const refName = useRef<HTMLInputElement>(null);
     const refDescription = useRef<HTMLTextAreaElement>(null);
     const refThumbnail = useRef<HTMLInputElement>(null);
     const refAuthor = useRef<HTMLInputElement>(null);
+    const refRecommend = useRef<HTMLInputElement>(null);
 
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
@@ -65,13 +66,16 @@ const ComicManagement: React.FC = () => {
 
     const handleNew = () => {
         setComicInfo(undefined);
+        setGenresChecked([]);
         setIsShowNewAction(true);
     };
 
     const handleEdit = (id: string) => {
         setIsShowEditAction(true);
         callRequest(comicApis.getComicInfo(id), (res) => {
-            setComicInfo(res.data);
+            const data = res.data as Comic;
+            setComicInfo(data);
+            setGenresChecked(data.genres.map((x) => x._id));
         });
     };
 
@@ -81,7 +85,7 @@ const ComicManagement: React.FC = () => {
             return;
         }
         const data = {
-            name: refTitle.current?.value,
+            name: refName.current?.value,
             description: refDescription.current?.value,
             thumbnail: refThumbnail.current?.value,
             author: refAuthor.current?.value,
@@ -98,22 +102,23 @@ const ComicManagement: React.FC = () => {
 
     const isValidNew = () => {
         return (
-            genresChecked?.length &&
+            genresChecked &&
             genresChecked.length > 0 &&
             refAuthor.current?.value &&
             refDescription.current?.value &&
-            refTitle.current?.value &&
+            refName.current?.value &&
             refThumbnail.current?.value
         );
     };
 
     const isValidEdit = () => {
         return (
-            (genresChecked?.length && genresChecked.length > 0) ||
+            (genresChecked && genresChecked.length > 0) ||
             refAuthor.current?.value ||
             refDescription.current?.value ||
-            refTitle.current?.value ||
-            refThumbnail.current?.value
+            refName.current?.value ||
+            refThumbnail.current?.value ||
+            refRecommend.current?.checked !== comicInfo?.recommend
         );
     };
     const handleEditSubmit = () => {
@@ -124,6 +129,11 @@ const ComicManagement: React.FC = () => {
         const data = {
             ...comicInfo,
             genres: genresChecked,
+            author: refAuthor.current?.value || comicInfo?.author,
+            description: refName.current?.value || comicInfo?.description,
+            name: refName.current?.value || comicInfo?.name,
+            thumbnail: refThumbnail.current?.value || comicInfo?.thumbnail,
+            recommend: refRecommend.current?.checked,
         } as ComicModel;
 
         callRequest(comicApis.updateComic(comicInfo?._id, data), (res) => {
@@ -143,10 +153,15 @@ const ComicManagement: React.FC = () => {
             return temp.indexOf(item) == pos;
         });
 
-        console.log(uniqueValue);
         setGenresChecked(uniqueValue);
     };
 
+    const handleDelete = (id: string) => {
+        callRequest(comicApis.deleteComic(id), (res) => {
+            console.log(res.data);
+            window.location.reload();
+        });
+    };
     const _comicInfoForm = () => (
         <form
             className="space-y-4 md:space-y-6"
@@ -158,7 +173,7 @@ const ComicManagement: React.FC = () => {
                     {translate('title')}
                 </label>
                 <input
-                    ref={refTitle}
+                    ref={refName}
                     type="title"
                     name="title"
                     id="title"
@@ -167,18 +182,31 @@ const ComicManagement: React.FC = () => {
                     required={true}
                 />
             </div>
-            <div>
+            <div className="flex flex-row gap-4">
                 <label
                     htmlFor="genres"
-                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    className="mb-2 mt-2 w-20 text-sm font-medium text-gray-900 dark:text-white">
                     {translate('genres')}
                 </label>
-                <DropDown
-                    text={translate('choose-genres')}
-                    data={genres?.map((x) => ({ id: x._id, title: x.name, value: x._id }))}
-                    value={comicInfo?.genres.map((x) => x._id)}
-                    onChange={handleGenresChange}
+                <div className="min-w-60">
+                    <DropDown
+                        text={translate('choose-genres')}
+                        data={genres?.map((x) => ({ id: x._id, title: x.name, value: x._id }))}
+                        value={comicInfo?.genres.map((x) => x._id)}
+                        onChange={handleGenresChange}
+                    />
+                </div>
+                <input
+                    type="checkbox"
+                    defaultChecked={comicInfo?.recommend}
+                    ref={refRecommend}
+                    className="mt-2 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700"
                 />
+                <label
+                    htmlFor="genres"
+                    className="mb-2 mt-2 w-20 text-sm font-medium capitalize text-gray-900 dark:text-white">
+                    {translate('recommend')}
+                </label>
             </div>
             <div>
                 <label
@@ -363,7 +391,9 @@ const ComicManagement: React.FC = () => {
                                             className="ml-2 font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
                                             {translate('edit')}
                                         </button>
-                                        <button className="ml-2 font-medium capitalize text-red-600 hover:underline dark:text-red-500">
+                                        <button
+                                            onClick={() => handleDelete(comic._id)}
+                                            className="ml-2 font-medium capitalize text-red-600 hover:underline dark:text-red-500">
                                             {translate('delete')}
                                         </button>
                                     </td>
