@@ -1,9 +1,11 @@
+import moment from 'moment';
+
 export const setCookie = (cname: string, value: string, expDays: number = 30) => {
     removeCookie(cname);
 
     let expires = '';
     if (expDays) {
-        const d = new Date();
+        const d = moment().utc().toDate();
         d.setTime(d.getTime() + expDays * 24 * 60 * 60 * 1000);
         expires = 'expires=' + d.toUTCString();
     }

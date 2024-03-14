@@ -6,6 +6,7 @@ import errorIcon from '@/assets/icons/error.webp';
 import { selectLanguage } from '@/redux/slices/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useTranslation from '@/hooks/useTranslation';
+import moment from 'moment';
 
 interface ComicVerticalProps {
     data: Comic;
@@ -66,7 +67,7 @@ const ComicVertical = ({ data }: ComicVerticalProps) => {
                                             {chapter.name}
                                         </Link>
                                         <span className="float-right inline-block text-sm text-gray-400">
-                                            {new Date(chapter.updateTime).toLocaleDateString()}
+                                            {moment(chapter.updateTime).format('DD/MM/YYYY')}
                                         </span>
                                     </div>
                                 ))}
@@ -102,7 +103,7 @@ const ComicVertical = ({ data }: ComicVerticalProps) => {
                                 {chapter.name}
                             </Link>
                             <span className="float-right inline-block text-center text-sm text-gray-400">
-                                {new Date(chapter.updateTime).toLocaleDateString()}
+                                {moment(chapter.updateTime).format('DD/MM/YYYY')}
                             </span>
                         </div>
                     ))}

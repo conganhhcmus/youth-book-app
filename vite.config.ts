@@ -4,6 +4,9 @@ import * as path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    optimizeDeps: {
+        exclude: ['js-big-decimal']
+    },
     plugins: [react()],
     resolve: {
         alias: {

@@ -1,36 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface DropDownPros {
     data: { id: string; value: string; title: string }[] | undefined;
     text: string;
     value?: string[];
-    onChange?: (val: string[]) => void;
+    onChange?: (val: string, checked: boolean) => void;
 }
 
 const DropDown = ({ text, data, value, onChange }: DropDownPros) => {
     const [isHidden, setIsHidden] = useState<boolean>(true);
-    const [currentValue, setCurrentValue] = useState<string[]>();
 
-    useEffect(() => {
-        setCurrentValue(value);
-    }, [value]);
-
-    const handleCheck = (val: string) => {
-        const tempValue = currentValue || [];
-
-        const index = tempValue.indexOf(val);
-        if (index > -1) {
-            tempValue.splice(index, 1);
-        } else {
-            tempValue.push(val);
-        }
-
-        const uniqueValue = tempValue.filter((c, index) => {
-            return tempValue.indexOf(c) === index;
-        });
-
-        setCurrentValue(uniqueValue);
-        onChange && onChange(uniqueValue);
+    const handleCheck = (val: string, checked: boolean) => {
+        onChange && onChange(val, checked);
     };
 
     return (
@@ -70,7 +51,7 @@ const DropDown = ({ text, data, value, onChange }: DropDownPros) => {
                                     <input
                                         key={e.id}
                                         id={e.id}
-                                        onClick={() => handleCheck(e.value)}
+                                        onClick={(element) => handleCheck(e.value, element.currentTarget.checked)}
                                         type="checkbox"
                                         defaultChecked={value && value.includes(e.value)}
                                         value={e.value}

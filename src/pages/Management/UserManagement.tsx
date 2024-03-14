@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { getCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
 import { APP_PATH } from '@/constants/path';
+import moment from 'moment';
 
 const UserManagement: React.FC = () => {
     const [isShowAction, setIsShowAction] = useState<boolean>(false);
@@ -114,23 +115,15 @@ const UserManagement: React.FC = () => {
                 <select
                     ref={refRole}
                     id="role"
+                    defaultValue={userInfo?.role}
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
-                    {ROLE_LIST.map((role) =>
-                        role.value === userInfo?.role ? (
-                            <option
-                                key={role.value}
-                                value={role.value}
-                                selected>
-                                {translate(role.name)}
-                            </option>
-                        ) : (
-                            <option
-                                key={role.value}
-                                value={role.value}>
-                                {translate(role.name)}
-                            </option>
-                        ),
-                    )}
+                    {ROLE_LIST.map((role) => (
+                        <option
+                            key={role.value}
+                            value={role.value}>
+                            {translate(role.name)}
+                        </option>
+                    ))}
                 </select>
             </div>
             <div>
@@ -177,7 +170,7 @@ const UserManagement: React.FC = () => {
                     cancelHandle={() => setIsShowEditAction(false)}
                 />
             )}
-            <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-white pb-4 dark:bg-gray-900 md:flex-row md:space-y-0">
+            <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-white pb-4 dark:bg-gray-700 md:flex-row md:space-y-0">
                 <div>
                     <button
                         onClick={() => setIsShowAction((prev) => !prev)}
@@ -364,7 +357,7 @@ const UserManagement: React.FC = () => {
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
-                                        {user.createTime ? new Date(user.createTime).toLocaleDateString() : new Date().toLocaleDateString()}
+                                        {user.createTime ? moment(user.createTime).format('DD/MM/YYYY') : moment().format('DD/MM/YYYY')}
                                     </td>
                                     <td className="px-6 py-4">
                                         <button

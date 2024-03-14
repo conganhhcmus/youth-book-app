@@ -12,12 +12,12 @@ const genresApi = {
 
     addGenres(data: GenresModel) {
         const url = GENRES_PATH.add;
-        return apiClients.post<GenresData>(url, { ...data });
+        return apiClients.post<Genres>(url, { ...data });
     },
 
     deleteGenres(id: string) {
         const url = GENRES_PATH.genres + `/${id}`;
-        return apiClients.delete<GenresData>(url);
+        return apiClients.delete<Genres>(url);
     },
 
     getGenresById(id: string) {

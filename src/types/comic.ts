@@ -47,8 +47,31 @@ export interface ComicModel {
     createBy: string;
 }
 
-export interface ChapterModel {
+export interface Chapter {
     _id: string;
+    comicId: string;
+    name: string;
+    type: number;
+    content: string;
+    price: number;
+    updateTime: Date;
+    createTime: Date;
+}
+
+export interface ChapterData {
+    data: Chapter[];
+    currentPage: number;
+    totalPage: number;
+}
+
+export interface ChapterModel {
+    comicId: string;
+    name: string;
+    type: number;
+    content: string;
+    price: number;
+    updateTime: Date;
+    createTime: Date;
 }
 
 export interface Genres {

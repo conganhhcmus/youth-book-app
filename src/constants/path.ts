@@ -12,6 +12,11 @@ export const GENRES_PATH = {
     add: '/genres/add',
 };
 
+export const CHAPTER_PATH = {
+    chapters: '/chapters',
+    add: '/chapters/add',
+};
+
 export const AUTH_PATH = {
     register: '/register',
     login: '/login',

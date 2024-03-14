@@ -31,11 +31,22 @@ export const ROLES = {
 
 export const ROLE_LIST = [
     {
+        value: 0,
+        name: 'normal',
+    },
+    {
         value: 1,
         name: 'admin',
     },
+];
+
+export const COMIC_TYPES_LIST = [
     {
         value: 0,
-        name: 'normal',
+        name: 'text',
+    },
+    {
+        value: 1,
+        name: 'picture',
     },
 ];

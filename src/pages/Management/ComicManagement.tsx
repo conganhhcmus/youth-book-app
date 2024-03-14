@@ -13,6 +13,7 @@ import { selectLanguage } from '@/redux/slices/settings';
 import { Comic, ComicModel } from '@/types/comic';
 import { getCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
+import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +23,7 @@ const ComicManagement: React.FC = () => {
     const [isShowNewAction, setIsShowNewAction] = useState<boolean>(false);
     const [searchText, setSearchText] = useState<string>('');
     const [comicInfo, setComicInfo] = useState<Comic>();
-    const [genresChecked, setGenresChecked] = useState<string[]>();
+    const [genresChecked, setGenresChecked] = useState<string[]>([]);
 
     // Ref
     const refTitle = useRef<HTMLInputElement>(null);
@@ -86,6 +87,7 @@ const ComicManagement: React.FC = () => {
             author: refAuthor.current?.value,
             genres: genresChecked,
             createBy: userInfoPayload?._id,
+            createTime: moment().utc().toDate(),
         } as ComicModel;
 
         callRequest(comicApis.addComic(data), (res) => {
@@ -130,11 +132,22 @@ const ComicManagement: React.FC = () => {
         });
     };
 
-    const handleGenresChange = (value: string[]) => {
-        setGenresChecked(value);
+    const handleGenresChange = (value: string, checked: boolean) => {
+        let temp = [...genresChecked, value];
+
+        if (!checked) {
+            temp = temp.filter((v) => v !== value);
+        }
+
+        const uniqueValue = temp.filter(function (item, pos) {
+            return temp.indexOf(item) == pos;
+        });
+
+        console.log(uniqueValue);
+        setGenresChecked(uniqueValue);
     };
 
-    const _comicInfoContent = () => (
+    const _comicInfoForm = () => (
         <form
             className="space-y-4 md:space-y-6"
             action="#">
@@ -175,11 +188,11 @@ const ComicManagement: React.FC = () => {
                 </label>
                 <textarea
                     ref={refDescription}
-                    className="rounded-lg border-2"
+                    className="w-full rounded-lg border-2"
                     id="description"
                     placeholder={comicInfo?.description}
                     rows={4}
-                    cols={66}
+                    cols={50}
                 />
             </div>
             <div>
@@ -223,7 +236,7 @@ const ComicManagement: React.FC = () => {
                 <Popup
                     closeHandle={() => setIsShowEditAction(false)}
                     title={translate('edit-comic')}
-                    content={_comicInfoContent()}
+                    content={_comicInfoForm()}
                     submitHandle={handleEditSubmit}
                     cancelHandle={() => setIsShowEditAction(false)}
                 />
@@ -232,12 +245,12 @@ const ComicManagement: React.FC = () => {
                 <Popup
                     closeHandle={() => setIsShowNewAction(false)}
                     title={translate('add-comic')}
-                    content={_comicInfoContent()}
+                    content={_comicInfoForm()}
                     submitHandle={handleNewSubmit}
                     cancelHandle={() => setIsShowNewAction(false)}
                 />
             )}
-            <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-white pb-4 dark:bg-gray-900 md:flex-row md:space-y-0">
+            <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-white pb-4 dark:bg-gray-700 md:flex-row md:space-y-0">
                 <div className="relative">
                     <button
                         onClick={handleNew}
@@ -311,16 +324,16 @@ const ComicManagement: React.FC = () => {
                                     className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
                                     <th
                                         scope="row"
-                                        className="flex items-center whitespace-nowrap px-6 py-4 text-gray-900 dark:text-white">
+                                        className="flex items-center px-6 py-4 text-gray-900 dark:text-white">
                                         {comic.thumbnail ? (
                                             <img
-                                                className="h-10 w-10 rounded-full"
+                                                className="h-12 w-8 rounded-lg"
                                                 src={comic.thumbnail}
                                                 alt={comic.name}
                                             />
                                         ) : (
                                             <svg
-                                                className="h-10 w-10 rounded-full"
+                                                className="h-10 w-10 rounded-lg"
                                                 viewBox="0 0 1024 1024"
                                                 version="1.1"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -330,20 +343,20 @@ const ComicManagement: React.FC = () => {
                                                 />
                                             </svg>
                                         )}
-                                        <div className="ps-3">
+                                        <div className="max-w-[200px] ps-3">
                                             <div className="text-base font-semibold">{comic.name}</div>
                                             <div className="font-normal text-gray-500">{comic.author}</div>
                                         </div>
                                     </th>
 
-                                    <td className="px-6 py-4 capitalize italic">{comic.genres.map((_) => _.name).join(', ')}</td>
+                                    <td className="max-w-[200px] px-6 py-4 capitalize italic">{comic.genres.map((_) => _.name).join(', ')}</td>
                                     <td className="px-6 py-4 capitalize">{comic.author}</td>
-                                    <td className="px-6 py-4 capitalize">{comic.chapters.length}</td>
+                                    <td className="px-6 py-4 font-bold capitalize">{comic.chapters.length}</td>
                                     <td className="px-6 py-4">
                                         <button
-                                            onClick={() => navigate(APP_PATH.management_chapters)}
+                                            onClick={() => navigate(APP_PATH.management_chapters + `/${comic._id}`)}
                                             className="font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
-                                            {translate('chapter-management')}
+                                            {translate('management')}
                                         </button>
                                         <button
                                             onClick={() => handleEdit(comic._id)}

@@ -32,7 +32,7 @@ export default [
                 ),
             },
             {
-                path: APP_PATH.management_chapters,
+                path: APP_PATH.management_chapters + '/:comicId',
                 element: (
                     <Suspense fallback={<LoadingPage />}>
                         <ChapterManagement />

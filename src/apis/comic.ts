@@ -1,5 +1,5 @@
-import { ComicModel } from './../types/comic';
-import { TopComicType } from './../types/request';
+import { ComicModel } from '@/types/comic';
+import { TopComicType } from '@/types/request';
 import apiClients from '@/configs/apiClients';
 import { COMICS_PATH } from '@/constants/path';
 import { Comic, ComicBaseData, ComicData } from '@/types/comic';

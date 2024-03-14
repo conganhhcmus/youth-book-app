@@ -11,6 +11,7 @@ import { selectLanguage } from '@/redux/slices/settings';
 import { Genres, GenresModel } from '@/types/comic';
 import { getCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
+import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
@@ -92,7 +93,7 @@ const GenresManagement: React.FC = () => {
 
         const data = {
             name: refName.current.value,
-            createTime: new Date(),
+            createTime: moment().utc().toDate(),
             createBy: userInfoPayload?._id,
         } as GenresModel;
 
@@ -102,7 +103,7 @@ const GenresManagement: React.FC = () => {
         });
     };
 
-    const _genresInfoContent = () => (
+    const _genresInfoForm = () => (
         <form
             className="space-y-4 md:space-y-6"
             action="#">
@@ -131,7 +132,7 @@ const GenresManagement: React.FC = () => {
                 <Popup
                     closeHandle={() => setIsShowEditAction(false)}
                     title={translate('edit-genres')}
-                    content={_genresInfoContent()}
+                    content={_genresInfoForm()}
                     submitHandle={handleEditSubmit}
                     cancelHandle={() => setIsShowEditAction(false)}
                 />
@@ -140,12 +141,12 @@ const GenresManagement: React.FC = () => {
                 <Popup
                     closeHandle={() => setIsShowNewAction(false)}
                     title={translate('add-genres')}
-                    content={_genresInfoContent()}
+                    content={_genresInfoForm()}
                     submitHandle={handleNewSubmit}
                     cancelHandle={() => setIsShowNewAction(false)}
                 />
             )}
-            <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-white pb-4 dark:bg-gray-900 md:flex-row md:space-y-0">
+            <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-white pb-4 dark:bg-gray-700 md:flex-row md:space-y-0">
                 <div className="relative">
                     <button
                         onClick={handleNew}
@@ -213,8 +214,8 @@ const GenresManagement: React.FC = () => {
                                     key={genres._id}
                                     className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
                                     <td className="px-6 py-4 font-bold capitalize">{genres.name}</td>
-                                    <td className="px-6 py-4 capitalize">{new Date(genres.createTime).toLocaleString()}</td>
-                                    <td className="px-6 py-4 capitalize">{new Date(genres.updateTime).toLocaleString()}</td>
+                                    <td className="px-6 py-4 capitalize">{moment(genres.createTime).format('DD/MM/YYYY')}</td>
+                                    <td className="px-6 py-4 capitalize">{moment(genres.updateTime).format('DD/MM/YYYY')}</td>
                                     <td className="px-6 py-4">
                                         <button
                                             onClick={() => handleEdit(genres._id)}
