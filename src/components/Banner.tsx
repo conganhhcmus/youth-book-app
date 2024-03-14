@@ -64,7 +64,7 @@ const Banner = ({ data }: BannerProps) => {
                             <Link
                                 key={item._id}
                                 to={`${APP_PATH.comics}/${item._id}`}
-                                title={item.title}
+                                title={item.name}
                                 className="h-[185px] w-full overflow-hidden">
                                 <p
                                     className="h-full w-full bg-cover bg-center bg-no-repeat"
@@ -81,7 +81,7 @@ const Banner = ({ data }: BannerProps) => {
                         data.slice(5, 8).map((item) => (
                             <Link
                                 key={item._id}
-                                title={item.title}
+                                title={item.name}
                                 to={`${APP_PATH.comics}/${item._id}`}
                                 className="h-[185px] w-[221px] overflow-hidden">
                                 <p

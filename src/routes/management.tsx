@@ -7,6 +7,8 @@ import LoadingPage from '@/components/Loading';
 import ManagementLayout from '@/layouts/ManagementLayout';
 import { ErrorBoundary } from '@/pages/ErrorBoundary';
 const ComicManagement = lazy(() => import('@/pages/Management/ComicManagement'));
+const ChapterManagement = lazy(() => import('@/pages/Management/ChapterManagement'));
+const GenresManagement = lazy(() => import('@/pages/Management/GenresManagement'));
 const UserManagement = lazy(() => import('@/pages/Management/UserManagement'));
 const BillingManagement = lazy(() => import('@/pages/Management/BillingManagement'));
 
@@ -26,6 +28,22 @@ export default [
                 element: (
                     <Suspense fallback={<LoadingPage />}>
                         <ComicManagement />
+                    </Suspense>
+                ),
+            },
+            {
+                path: APP_PATH.management_chapters,
+                element: (
+                    <Suspense fallback={<LoadingPage />}>
+                        <ChapterManagement />
+                    </Suspense>
+                ),
+            },
+            {
+                path: APP_PATH.management_genres,
+                element: (
+                    <Suspense fallback={<LoadingPage />}>
+                        <GenresManagement />
                     </Suspense>
                 ),
             },

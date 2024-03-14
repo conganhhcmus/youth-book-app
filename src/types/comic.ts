@@ -1,11 +1,12 @@
 export interface ComicBase {
     _id: string;
-    title: string;
+    name: string;
     thumbnail: string;
     chapters: {
         id: string;
         name: string;
-        updatedAt: Date;
+        updateTime: Date;
+        createTime: Date;
     }[];
     genres: {
         _id: string;
@@ -53,4 +54,20 @@ export interface ChapterModel {
 export interface Genres {
     _id: string;
     name: string;
+    updateTime: Date;
+    createTime: Date;
+    createBy: string;
+}
+
+export interface GenresModel {
+    name: string;
+    updateTime: Date;
+    createTime: Date;
+    createBy: string;
+}
+
+export interface GenresData {
+    data: Genres[];
+    currentPage: number;
+    totalPage: number;
 }

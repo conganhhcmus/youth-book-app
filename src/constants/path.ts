@@ -4,9 +4,13 @@ export const COMICS_PATH = {
     recent: '/comics/recent',
     recommend: '/comics/recommend',
     search: '/comics/search',
-    genres: '/comics/genres',
     add: '/comics/add',
 } as const;
+
+export const GENRES_PATH = {
+    genres: '/genres',
+    add: '/genres/add',
+};
 
 export const AUTH_PATH = {
     register: '/register',
@@ -51,6 +55,8 @@ export const APP_PATH = {
     management_comics: '/management/comics',
     management_users: '/management/users',
     management_billing: '/management/billing',
+    management_chapters: '/management/chapters',
+    management_genres: '/management/genres',
 } as const;
 
 export const TOP_COMICS = {

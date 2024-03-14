@@ -23,13 +23,13 @@ const TopPreview = ({ data, top = 7 }: TopPreviewProps) => {
                     className="flex items-center gap-3 border-b border-dashed border-[#ededed] dark:border-gray-600">
                     <Link
                         to={`${APP_PATH.comics}/${item._id}`}
-                        title={item.title}
+                        title={item.name}
                         className="flex-shrink-0 overflow-hidden">
                         <img
                             loading="lazy"
                             src={item.thumbnail}
-                            alt={item.title}
-                            title={item.title}
+                            alt={item.name}
+                            title={item.name}
                             className="h-[50px] w-20 object-cover object-center"
                             onError={({ currentTarget }) => {
                                 currentTarget.onerror = null;
@@ -48,10 +48,10 @@ const TopPreview = ({ data, top = 7 }: TopPreviewProps) => {
                         </span>
                         <div className="-mt-[2px]">
                             <Link
-                                title={item.title}
+                                title={item.name}
                                 to={`${APP_PATH.comics}/${item._id}`}
                                 className="line-clamp-1 text-base font-semibold leading-4 text-black hover:text-primary dark:text-white dark:hover:text-primary">
-                                {item.title}
+                                {item.name}
                             </Link>
                             <p className="ml-[1px] line-clamp-1 text-sm leading-5 text-gray-400">
                                 {item.totalViews} {translate('views')}

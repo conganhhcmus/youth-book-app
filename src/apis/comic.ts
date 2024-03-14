@@ -2,7 +2,7 @@ import { ComicModel } from './../types/comic';
 import { TopComicType } from './../types/request';
 import apiClients from '@/configs/apiClients';
 import { COMICS_PATH } from '@/constants/path';
-import { Comic, ComicBaseData, ComicData, Genres } from '@/types/comic';
+import { Comic, ComicBaseData, ComicData } from '@/types/comic';
 import { paramOption } from '@/types/request';
 
 const comicApis = {
@@ -27,11 +27,6 @@ const comicApis = {
         };
 
         return apiClients.get<ComicData>(url, { params: paramsRequest });
-    },
-
-    genresComics() {
-        const url = COMICS_PATH.genres;
-        return apiClients.get<Genres[]>(url);
     },
 
     getComicInfo(id: string | undefined) {

@@ -12,7 +12,7 @@ interface ComicVerticalProps {
 }
 
 const ComicVertical = ({ data }: ComicVerticalProps) => {
-    const { _id: id, title: title, thumbnail, description: short_description } = data;
+    const { _id: id, name: title, thumbnail, description: short_description } = data;
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
 
@@ -66,7 +66,7 @@ const ComicVertical = ({ data }: ComicVerticalProps) => {
                                             {chapter.name}
                                         </Link>
                                         <span className="float-right inline-block text-sm text-gray-400">
-                                            {new Date(chapter.updatedAt).toLocaleDateString()}
+                                            {new Date(chapter.updateTime).toLocaleDateString()}
                                         </span>
                                     </div>
                                 ))}
@@ -102,7 +102,7 @@ const ComicVertical = ({ data }: ComicVerticalProps) => {
                                 {chapter.name}
                             </Link>
                             <span className="float-right inline-block text-center text-sm text-gray-400">
-                                {new Date(chapter.updatedAt).toLocaleDateString()}
+                                {new Date(chapter.updateTime).toLocaleDateString()}
                             </span>
                         </div>
                     ))}

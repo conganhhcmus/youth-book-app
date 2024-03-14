@@ -94,7 +94,7 @@ const Login: React.FC = () => {
                             </label>
                             <input
                                 ref={refPassword}
-                                minLength={6}
+                                minLength={4}
                                 type="password"
                                 name="password"
                                 id="password"

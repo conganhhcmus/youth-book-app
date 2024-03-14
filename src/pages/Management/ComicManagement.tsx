@@ -1,7 +1,9 @@
 import comicApis from '@/apis/comic';
+import genresApi from '@/apis/genres';
 import DropDown from '@/components/Dropdown';
 import { Pagination } from '@/components/Pagination';
 import Popup from '@/components/Popup';
+import { APP_PATH } from '@/constants/path';
 import { COOKIE_KEYS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
@@ -11,13 +13,14 @@ import { selectLanguage } from '@/redux/slices/settings';
 import { Comic, ComicModel } from '@/types/comic';
 import { getCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
 const ComicManagement: React.FC = () => {
-    const lang = useAppSelector((state) => selectLanguage(state.settings));
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
     const [isShowNewAction, setIsShowNewAction] = useState<boolean>(false);
+    const [searchText, setSearchText] = useState<string>('');
     const [comicInfo, setComicInfo] = useState<Comic>();
     const [genresChecked, setGenresChecked] = useState<string[]>();
 
@@ -27,10 +30,11 @@ const ComicManagement: React.FC = () => {
     const refThumbnail = useRef<HTMLInputElement>(null);
     const refAuthor = useRef<HTMLInputElement>(null);
 
+    const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
-    const [searchText, setSearchText] = useState<string>('');
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
+    const navigate = useNavigate();
 
     const { data: resultData } = useQuery({
         queryKey: ['suggestSearch', { ...queryParams, q: searchText }],
@@ -39,18 +43,24 @@ const ComicManagement: React.FC = () => {
     });
 
     const { data: genresResultData } = useQuery({
-        queryKey: ['genresComics'],
-        queryFn: () => comicApis.genresComics(),
+        queryKey: ['allGenres'],
+        queryFn: () => genresApi.getAllGenres(),
         staleTime: 3 * 60 * 1000,
     });
 
     const result = resultData?.data;
     const comicList = result?.data;
 
-    const genres = genresResultData?.data;
+    const genres = genresResultData?.data?.data;
 
     const token = getCookie(COOKIE_KEYS.token);
     const userInfoPayload = decodeJWTToken(token);
+
+    useEffect(() => {
+        if (!userInfoPayload) {
+            navigate(APP_PATH.home);
+        }
+    }, [userInfoPayload, navigate]);
 
     const handleNew = () => {
         setComicInfo(undefined);
@@ -140,7 +150,7 @@ const ComicManagement: React.FC = () => {
                     name="title"
                     id="title"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                    placeholder={comicInfo?.title}
+                    placeholder={comicInfo?.name}
                     required={true}
                 />
             </div>
@@ -284,7 +294,7 @@ const ComicManagement: React.FC = () => {
                             <th
                                 scope="col"
                                 className="px-6 py-3">
-                                {translate('latest-chapter')}
+                                {translate('number-chapter')}
                             </th>
                             <th
                                 scope="col"
@@ -306,7 +316,7 @@ const ComicManagement: React.FC = () => {
                                             <img
                                                 className="h-10 w-10 rounded-full"
                                                 src={comic.thumbnail}
-                                                alt={comic.title}
+                                                alt={comic.name}
                                             />
                                         ) : (
                                             <svg
@@ -321,18 +331,23 @@ const ComicManagement: React.FC = () => {
                                             </svg>
                                         )}
                                         <div className="ps-3">
-                                            <div className="text-base font-semibold">{comic.title}</div>
+                                            <div className="text-base font-semibold">{comic.name}</div>
                                             <div className="font-normal text-gray-500">{comic.author}</div>
                                         </div>
                                     </th>
 
                                     <td className="px-6 py-4 capitalize italic">{comic.genres.map((_) => _.name).join(', ')}</td>
                                     <td className="px-6 py-4 capitalize">{comic.author}</td>
-                                    <td className="px-6 py-4 capitalize">{comic.chapters[0].name}</td>
+                                    <td className="px-6 py-4 capitalize">{comic.chapters.length}</td>
                                     <td className="px-6 py-4">
                                         <button
-                                            onClick={() => handleEdit(comic._id)}
+                                            onClick={() => navigate(APP_PATH.management_chapters)}
                                             className="font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
+                                            {translate('chapter-management')}
+                                        </button>
+                                        <button
+                                            onClick={() => handleEdit(comic._id)}
+                                            className="ml-2 font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
                                             {translate('edit')}
                                         </button>
                                         <button className="ml-2 font-medium capitalize text-red-600 hover:underline dark:text-red-500">
