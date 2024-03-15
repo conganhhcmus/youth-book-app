@@ -150,7 +150,7 @@ const ComicDetail: React.FC = () => {
                                                         title={translate('read-now-title')}
                                                         to={
                                                             dataComics.chapters.length > 0
-                                                                ? `/${APP_PATH.comics_chapters}/${dataComics.chapters[0]._id}`
+                                                                ? `${APP_PATH.comics_chapters}/${dataComics.chapters[0]._id}`
                                                                 : '#'
                                                         }
                                                         className="flex h-[38px] w-[140px] flex-shrink-0 items-center justify-center gap-2 rounded bg-gradient font-semibold capitalize text-white">

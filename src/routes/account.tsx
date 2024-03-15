@@ -8,7 +8,7 @@ import { ErrorBoundary } from '@/pages/ErrorBoundary';
 import AccountLayout from '@/layouts/AccountLayout';
 
 const AccountInfo = lazy(() => import('@/pages/Account/AccountInfo'));
-const BillingHistory = lazy(() => import('@/pages/Account/BillingHistory'));
+const BillingHistory = lazy(() => import('@/pages/Account/PaymentHistory'));
 const ChangePassword = lazy(() => import('@/pages/Account/ChangePassword'));
 
 export default [

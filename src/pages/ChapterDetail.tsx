@@ -36,12 +36,12 @@ const ChapterDetail: React.FC = () => {
 
     const onChangeChapter = (e: React.ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault();
-        navigate(`/${APP_PATH.comics_chapters}/${e.target.value}`);
+        navigate(`${APP_PATH.comics_chapters}/${e.target.value}`);
     };
 
     const onChangePrevOrNextChapter = (index: number) => {
         const value = dataChapter[index]._id;
-        navigate(`/${APP_PATH.comics_chapters}/${value}`);
+        navigate(`${APP_PATH.comics_chapters}/${value}`);
     };
 
     return (
@@ -79,7 +79,7 @@ const ChapterDetail: React.FC = () => {
                 <select
                     onChange={(e) => onChangeChapter(e)}
                     value={chapterId}
-                    className="inline-flex h-10 w-[400px] items-center overflow-hidden text-ellipsis border-2 border-gray-400 bg-yellow-100 pl-4 font-bold text-gray-700">
+                    className="inline-flex h-10 w-[350px] items-center overflow-hidden text-ellipsis border-2 border-gray-400 bg-yellow-100 pl-4 font-bold text-gray-700">
                     {dataChapter &&
                         dataChapter.map((chapter) => (
                             <option

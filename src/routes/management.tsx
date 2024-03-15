@@ -10,7 +10,7 @@ const ComicManagement = lazy(() => import('@/pages/Management/ComicManagement'))
 const ChapterManagement = lazy(() => import('@/pages/Management/ChapterManagement'));
 const GenresManagement = lazy(() => import('@/pages/Management/GenresManagement'));
 const UserManagement = lazy(() => import('@/pages/Management/UserManagement'));
-const BillingManagement = lazy(() => import('@/pages/Management/BillingManagement'));
+const BillingManagement = lazy(() => import('@/pages/Management/PaymentManagement'));
 
 export default [
     {

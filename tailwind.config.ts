@@ -10,6 +10,7 @@ export default {
         extend: {
             colors: {
                 primary: '#67EB64',
+                'primary-2': '#3DAA19',
                 secondary: '#A4FF2B',
             },
             backgroundImage: {
@@ -23,7 +24,7 @@ export default {
         function ({ addComponents }) {
             addComponents({
                 '.container': {
-                    maxWidth: '1200px',
+                    maxWidth: '1280px',
                     marginLeft: 'auto',
                     marginRight: 'auto',
                 },

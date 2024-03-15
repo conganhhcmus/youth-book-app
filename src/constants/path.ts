@@ -28,18 +28,22 @@ export const USERS_PATH = {
     users: '/users',
 } as const;
 
+export const PAYMENT_PATH = {
+    deposit: '/payment/deposit',
+    transaction: '/transaction',
+};
+
 export const APP_PATH = {
     // comics
     comics: '/comics',
-    comics_genres: 'comics/genres',
-    comics_wishlist: 'comics/wishlist',
-    comics_history: 'comics/history',
-    comics_chapters: 'comics/chapters',
-    comics_search: 'comics/search',
-    comics_new: 'comics/new',
-    comics_top: 'comics/top',
-    comics_recommend: 'comics/recommend',
-    comics_recent: 'comics/recent',
+    comics_genres: '/comics/genres',
+    comics_history: '/comics/history',
+    comics_chapters: '/comics/chapters',
+    comics_search: '/comics/search',
+    comics_new: '/comics/new',
+    comics_top: '/comics/top',
+    comics_recommend: '/comics/recommend',
+    comics_recent: '/comics/recent',
 
     // account
     account: '/account',
@@ -47,6 +51,7 @@ export const APP_PATH = {
     account_history: '/account/history',
     account_billing: '/account/billing',
     account_password: '/account/password',
+    account_wishlist: '/account/wishlist',
 
     // app
     language: '/language',
@@ -62,6 +67,9 @@ export const APP_PATH = {
     management_billing: '/management/billing',
     management_chapters: '/management/chapters',
     management_genres: '/management/genres',
+
+    // payment
+    payment_deposit: '/payment/deposit',
 } as const;
 
 export const TOP_COMICS = {

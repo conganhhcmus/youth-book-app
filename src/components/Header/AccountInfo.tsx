@@ -5,6 +5,7 @@ import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
 import { UserJwtPayload } from '@/types/auth';
 import { removeCookie } from '@/utils/cookies';
+import { formatCurrency } from '@/utils/format';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -52,14 +53,11 @@ const AccountInfo = ({ userInfo }: AccountInfoProps) => {
                 <div className="absolute top-10 z-50 w-36 bg-transparent py-2">
                     <div className="items-left flex flex-col justify-center border bg-white p-1 text-black shadow-lg lg:p-2">
                         <div className="flex flex-col items-center justify-center gap-1">
-                            <p className="flex items-center justify-center gap-x-1 font-bold text-primary">
-                                {userInfo.wallet ?? 0}
-                                <span className="font-normal text-black">pt</span>
-                            </p>
+                            <p className="flex items-center justify-center gap-x-1 font-bold text-primary">{formatCurrency(userInfo.wallet)}</p>
                             <Link
                                 className="flex w-[80%] items-center justify-center rounded-lg border bg-gradient px-2 text-white"
                                 title={translate('deposit')}
-                                to={APP_PATH.comics_wishlist}>
+                                to={APP_PATH.payment_deposit}>
                                 {translate('deposit')}
                             </Link>
                         </div>
@@ -116,7 +114,7 @@ const AccountInfo = ({ userInfo }: AccountInfoProps) => {
                         )}
                         <Link
                             title={translate('wish-list')}
-                            to={APP_PATH.comics_wishlist}
+                            to={APP_PATH.account_wishlist}
                             className="flex min-w-[100px] items-center justify-start gap-2 px-2 py-1 capitalize hover:bg-[rgba(0,0,0,0.05)] active:scale-90 dark:hover:bg-[rgba(255,255,255,0.1)]">
                             <svg
                                 className="mt-1 h-4 w-4 fill-gray-600"

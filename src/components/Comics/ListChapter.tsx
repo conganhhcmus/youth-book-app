@@ -90,7 +90,7 @@ const ListChapter = ({ data }: Props) => {
             <div className="my-5 grid grid-cols-2 flex-wrap gap-5 text-sm font-semibold text-gray-800 dark:text-gray-200 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-4">
                 {dataChapter.map((item) => (
                     <Link
-                        to={`/${APP_PATH.comics_chapters}/${item._id}`}
+                        to={`${APP_PATH.comics_chapters}/${item._id}`}
                         title={item.name}
                         key={item._id}
                         className="h-[38px] truncate rounded-sm bg-[#f6f6f6] px-4 pt-2 text-base font-normal hover:bg-primary/10 hover:text-primary dark:bg-gray-800 dark:hover:bg-primary/20">

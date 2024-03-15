@@ -16,6 +16,7 @@ import { getCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
 import { APP_PATH } from '@/constants/path';
 import moment from 'moment';
+import { formatCurrency } from '@/utils/format';
 
 const UserManagement: React.FC = () => {
     const [isShowAction, setIsShowAction] = useState<boolean>(false);
@@ -346,9 +347,7 @@ const UserManagement: React.FC = () => {
                                     </th>
                                     <td className="px-6 py-4 capitalize">{translate(getRoleName(user.role))}</td>
                                     <td className="px-6 py-4 ">
-                                        <div className="flex items-center gap-x-2 capitalize">
-                                            <div className="font-bold text-primary">{user.wallet}</div>pt
-                                        </div>
+                                        <div className="font-bold text-primary">{formatCurrency(user.wallet)}</div>
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center capitalize">

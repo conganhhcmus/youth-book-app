@@ -382,7 +382,7 @@ const ComicManagement: React.FC = () => {
                                     <td className="px-6 py-4 font-bold capitalize">{comic.chapters.length}</td>
                                     <td className="px-6 py-4">
                                         <button
-                                            onClick={() => navigate(APP_PATH.management_chapters + `/${comic._id}`)}
+                                            onClick={() => navigate(APP_PATH.management_chapters + `${comic._id}`)}
                                             className="font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
                                             {translate('management')}
                                         </button>
