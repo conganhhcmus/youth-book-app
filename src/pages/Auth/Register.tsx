@@ -1,14 +1,11 @@
 import authApis from '@/apis/auth';
 import { APP_PATH } from '@/constants/path';
-import { COOKIE_KEYS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
 import { User } from '@/types/user';
-import { getCookie } from '@/utils/cookies';
-import { decodeJWTToken } from '@/utils/token';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -22,15 +19,6 @@ const Register: React.FC = () => {
     const translate = useTranslation(lang);
     const { callRequest } = useAxiosRequest();
     const navigate = useNavigate();
-
-    const token = getCookie(COOKIE_KEYS.token);
-    const userInfoPayload = decodeJWTToken(token);
-
-    useEffect(() => {
-        if (userInfoPayload) {
-            navigate(APP_PATH.home);
-        }
-    }, [userInfoPayload, navigate]);
 
     const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
         event.preventDefault();

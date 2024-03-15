@@ -14,7 +14,7 @@ import { Comic, ComicModel } from '@/types/comic';
 import { getCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
 import moment from 'moment';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -57,12 +57,6 @@ const ComicManagement: React.FC = () => {
 
     const token = getCookie(COOKIE_KEYS.token);
     const userInfoPayload = decodeJWTToken(token);
-
-    useEffect(() => {
-        if (!userInfoPayload) {
-            navigate(APP_PATH.home);
-        }
-    }, [userInfoPayload, navigate]);
 
     const handleNew = () => {
         setComicInfo(undefined);

@@ -6,11 +6,10 @@ import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
 import { User } from '@/types/user';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
-import { getCookie, setCookie } from '@/utils/cookies';
-import { decodeJWTToken } from '@/utils/token';
+import { setCookie } from '@/utils/cookies';
 
 const Login: React.FC = () => {
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -21,15 +20,6 @@ const Login: React.FC = () => {
     const translate = useTranslation(lang);
     const { callRequest } = useAxiosRequest();
     const navigate = useNavigate();
-
-    const token = getCookie(COOKIE_KEYS.token);
-    const userInfoPayload = decodeJWTToken(token);
-
-    useEffect(() => {
-        if (userInfoPayload) {
-            navigate(APP_PATH.home);
-        }
-    }, [userInfoPayload, navigate]);
 
     const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
         event.preventDefault();

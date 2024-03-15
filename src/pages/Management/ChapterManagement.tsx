@@ -1,19 +1,16 @@
 import chapterApi from '@/apis/chapter';
 import Popup from '@/components/Popup';
 import { TextAreaEditor } from '@/components';
-import { APP_PATH } from '@/constants/path';
-import { COMIC_TYPES_LIST, COOKIE_KEYS } from '@/constants/settings';
+import { COMIC_TYPES_LIST } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useRequestParams from '@/hooks/useRequestParams';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
 import { Chapter, ChapterModel } from '@/types/comic';
-import { getCookie } from '@/utils/cookies';
-import { decodeJWTToken } from '@/utils/token';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import moment from 'moment';
 
 const ChapterManagement: React.FC = () => {
@@ -28,7 +25,6 @@ const ChapterManagement: React.FC = () => {
 
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
-    const navigate = useNavigate();
 
     // Ref
     const [chapterContent, setChapterContent] = useState<string>('');
@@ -46,15 +42,6 @@ const ChapterManagement: React.FC = () => {
     const chapterResult = chapterResultData?.data;
 
     const chapterList = chapterResult?.data;
-
-    const token = getCookie(COOKIE_KEYS.token);
-    const userInfoPayload = decodeJWTToken(token);
-
-    useEffect(() => {
-        if (!userInfoPayload) {
-            navigate(APP_PATH.home);
-        }
-    }, [userInfoPayload, navigate]);
 
     const handleNew = () => {
         setChapterInfo(undefined);

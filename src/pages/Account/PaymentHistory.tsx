@@ -1,5 +1,4 @@
 import paymentApis from '@/apis/payment';
-import { APP_PATH } from '@/constants/path';
 import { COOKIE_KEYS, FILTER_OPTIONS, STATUS_OPTIONS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useRequestParams from '@/hooks/useRequestParams';
@@ -11,27 +10,19 @@ import { decodeJWTToken } from '@/utils/token';
 import { getTransactionStatusName, getTransactionTypeName } from '@/utils/transaction';
 import classNames from 'classnames';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 const PaymentHistory: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     const { queryParams } = useRequestParams();
-    const navigate = useNavigate();
 
     const [filterOptions, setFilterOptions] = useState<number>(0);
     const [statusOptions, setStatusOptions] = useState<number[]>(STATUS_OPTIONS.map((x) => x.value));
 
     const token = getCookie(COOKIE_KEYS.token);
     const userInfoPayload = decodeJWTToken(token);
-
-    useEffect(() => {
-        if (!userInfoPayload) {
-            navigate(APP_PATH.home);
-        }
-    }, [navigate, userInfoPayload]);
 
     const { data: transactionDataResult } = useQuery({
         queryKey: ['getAllTransactionByUser', queryParams, filterOptions, statusOptions],

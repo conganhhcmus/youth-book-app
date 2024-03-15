@@ -1,5 +1,4 @@
 import authApis from '@/apis/auth';
-import { APP_PATH } from '@/constants/path';
 import { COOKIE_KEYS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
@@ -8,8 +7,7 @@ import { selectLanguage } from '@/redux/slices/settings';
 import { User } from '@/types/user';
 import { getCookie, setCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRef, useState } from 'react';
 
 const ChangePassword: React.FC = () => {
     const refPassword = useRef<HTMLInputElement>(null);
@@ -20,16 +18,9 @@ const ChangePassword: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     const { callRequest } = useAxiosRequest();
-    const navigate = useNavigate();
 
     const token = getCookie(COOKIE_KEYS.token);
     const userInfoPayload = decodeJWTToken(token);
-
-    useEffect(() => {
-        if (!userInfoPayload) {
-            navigate(APP_PATH.home);
-        }
-    }, [userInfoPayload, navigate]);
 
     const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
         event.preventDefault();

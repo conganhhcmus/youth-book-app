@@ -4,17 +4,14 @@ import useRequestParams from '@/hooks/useRequestParams';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
 import { getRoleName, getStatusName } from '@/utils/user';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Pagination } from '@/components/Pagination';
 import Popup from '@/components/Popup';
 import { User } from '@/types/user';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
-import { COOKIE_KEYS, ROLE_LIST } from '@/constants/settings';
-import { useNavigate } from 'react-router-dom';
-import { getCookie } from '@/utils/cookies';
-import { decodeJWTToken } from '@/utils/token';
-import { APP_PATH } from '@/constants/path';
+import { ROLE_LIST } from '@/constants/settings';
+
 import moment from 'moment';
 import { formatCurrency } from '@/utils/format';
 
@@ -33,7 +30,6 @@ const UserManagement: React.FC = () => {
     const translate = useTranslation(lang);
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
-    const navigate = useNavigate();
 
     const { data: resultData } = useQuery({
         queryKey: ['getAllUsers', { ...queryParams, q: searchText }],
@@ -43,15 +39,6 @@ const UserManagement: React.FC = () => {
 
     const result = resultData?.data;
     const userList = result?.data;
-
-    useEffect(() => {
-        const token = getCookie(COOKIE_KEYS.token);
-        const userInfoPayload = decodeJWTToken(token);
-
-        if (!userInfoPayload) {
-            navigate(APP_PATH.home);
-        }
-    }, [navigate]);
 
     const handleEdit = (id: string) => {
         setIsShowEditAction(true);

@@ -1,5 +1,4 @@
 import userApis from '@/apis/user';
-import { APP_PATH } from '@/constants/path';
 import { COOKIE_KEYS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
@@ -8,9 +7,8 @@ import { selectLanguage } from '@/redux/slices/settings';
 import { User } from '@/types/user';
 import { getCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 const AccountInfo: React.FC = () => {
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -20,7 +18,6 @@ const AccountInfo: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     const { callRequest } = useAxiosRequest();
-    const navigate = useNavigate();
 
     const token = getCookie(COOKIE_KEYS.token);
     const userInfoPayload = decodeJWTToken(token);
@@ -31,12 +28,6 @@ const AccountInfo: React.FC = () => {
         staleTime: 3 * 60 * 1000,
         enabled: !!userInfoPayload,
     });
-
-    useEffect(() => {
-        if (!userInfoPayload) {
-            navigate(APP_PATH.home);
-        }
-    }, [userInfoPayload, navigate]);
 
     const userInfo = userInfoRes?.data;
 

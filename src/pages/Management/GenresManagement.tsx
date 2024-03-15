@@ -1,7 +1,6 @@
 import genresApi from '@/apis/genres';
 import { Pagination } from '@/components/Pagination';
 import Popup from '@/components/Popup';
-import { APP_PATH } from '@/constants/path';
 import { COOKIE_KEYS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
@@ -12,9 +11,8 @@ import { Genres, GenresModel } from '@/types/comic';
 import { getCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
 import moment from 'moment';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 const GenresManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
@@ -26,7 +24,6 @@ const GenresManagement: React.FC = () => {
 
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
-    const navigate = useNavigate();
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
 
@@ -41,12 +38,6 @@ const GenresManagement: React.FC = () => {
 
     const token = getCookie(COOKIE_KEYS.token);
     const userInfoPayload = decodeJWTToken(token);
-
-    useEffect(() => {
-        if (!userInfoPayload) {
-            navigate(APP_PATH.home);
-        }
-    }, [userInfoPayload, navigate]);
 
     const handleNew = () => {
         setGenresInfo(undefined);
