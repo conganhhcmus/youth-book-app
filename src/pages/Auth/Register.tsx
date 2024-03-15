@@ -10,7 +10,7 @@ import { getCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
 import { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -173,11 +173,11 @@ const Register: React.FC = () => {
                         </button>
                         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                             {translate('already-account')}{' '}
-                            <a
-                                href="#"
+                            <Link
+                                to={APP_PATH.login}
                                 className="text-grey-700 font-medium capitalize hover:text-primary hover:underline dark:text-gray-200 dark:hover:text-primary">
                                 {translate('login-here')}
-                            </a>
+                            </Link>
                         </p>
                     </form>
                 </div>

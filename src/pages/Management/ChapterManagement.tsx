@@ -33,6 +33,7 @@ const ChapterManagement: React.FC = () => {
     // Ref
     const [chapterContent, setChapterContent] = useState<string>('');
     const refName = useRef<HTMLInputElement>(null);
+    const refShortName = useRef<HTMLInputElement>(null);
     const refPrice = useRef<HTMLInputElement>(null);
     const refType = useRef<HTMLSelectElement>(null);
 
@@ -75,11 +76,11 @@ const ChapterManagement: React.FC = () => {
     };
 
     const isValidNew = () => {
-        return refName.current?.value && chapterContent && refPrice.current?.value && refType.current?.value;
+        return refName.current?.value && refShortName.current?.value && chapterContent && refPrice.current?.value && refType.current?.value;
     };
 
     const isValidEdit = () => {
-        return chapterContent || refName.current?.value || refPrice.current?.value || refType.current?.value;
+        return chapterContent || refName.current?.value || refShortName.current?.value || refPrice.current?.value || refType.current?.value;
     };
 
     const handleEditSubmit = () => {
@@ -87,6 +88,20 @@ const ChapterManagement: React.FC = () => {
             alert(translate('NoChange'));
             return;
         }
+
+        const data = {
+            ...chapterInfo,
+            name: refName.current?.value || chapterInfo?.name,
+            shortName: refShortName.current?.value || chapterInfo?.shortName,
+            type: (refType.current?.value && parseInt(refType.current?.value)) || chapterInfo?.type,
+            content: chapterContent || chapterInfo?.content,
+            price: (refPrice.current?.value && parseInt(refPrice.current?.value)) || chapterInfo?.price,
+        } as ChapterModel;
+
+        callRequest(chapterApi.updateChapter(chapterInfo?._id, data), (res) => {
+            console.log(res.data);
+            window.location.reload();
+        });
     };
 
     const handleNewSubmit = () => {
@@ -98,6 +113,7 @@ const ChapterManagement: React.FC = () => {
         const data = {
             comicId: comicId,
             name: refName.current?.value,
+            shortName: refShortName.current?.value,
             type: parseInt(refType.current?.value || '0'),
             content: chapterContent,
             price: parseInt(refPrice.current?.value || '0'),
@@ -132,13 +148,18 @@ const ChapterManagement: React.FC = () => {
             </div>
             <div>
                 <label
-                    htmlFor="role"
+                    htmlFor="shortName"
                     className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                    {translate('content')}
+                    {translate('short-name')}
                 </label>
-                <TextAreaEditor
-                    onChange={(val) => setChapterContent(val)}
-                    initialValue={chapterInfo?.content}
+                <input
+                    ref={refShortName}
+                    type="shortName"
+                    name="shortName"
+                    id="shortName"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                    placeholder={chapterInfo?.shortName}
+                    required={true}
                 />
             </div>
             <div>
@@ -177,6 +198,17 @@ const ChapterManagement: React.FC = () => {
                         </option>
                     ))}
                 </select>
+            </div>
+            <div>
+                <label
+                    htmlFor="content"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    {translate('content')}
+                </label>
+                <TextAreaEditor
+                    onChange={(val) => setChapterContent(val)}
+                    initialValue={chapterInfo?.content}
+                />
             </div>
         </form>
     );

@@ -20,11 +20,13 @@ const Banner = ({ data }: BannerProps) => {
         }
     }, []);
 
+    const maxLength = data && data.length > 10 ? 10 : (data && data.length) || 0;
+
     return (
         <section
             ref={el}
             className={`mt-4 flex gap-[10px] transition-all duration-500 sm:mt-0 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
-            <div className="relative w-full md:w-[65%] lg:w-[510px]">
+            <div className="relative w-full">
                 <Swiper
                     slidesPerView={1}
                     spaceBetween={10}
@@ -34,9 +36,8 @@ const Banner = ({ data }: BannerProps) => {
                     }}
                     modules={[Autoplay, Pagination]}
                     pagination={{ el: '.swiper-pagination', clickable: true }}>
-                    {data &&
-                        data.length > 3 &&
-                        data.slice(0, 3).map((item) => (
+                    {maxLength > 0 &&
+                        data.slice(-maxLength).map((item) => (
                             <SwiperSlide key={item._id}>
                                 <Link
                                     to={`${APP_PATH.comics}/${item._id}`}
@@ -56,7 +57,7 @@ const Banner = ({ data }: BannerProps) => {
                     className="swiper-pagination bottom-[2px_!important] right-0"
                 />
             </div>
-            <div className="hidden flex-1 flex-shrink-0 grid-cols-6 gap-[10px] md:grid">
+            {/* <div className="hidden flex-1 flex-shrink-0 grid-cols-6 gap-[10px] md:grid">
                 <div className="col-span-6 flex flex-col items-center gap-[10px] lg:flex-row">
                     {data &&
                         data.length > 5 &&
@@ -93,7 +94,7 @@ const Banner = ({ data }: BannerProps) => {
                             </Link>
                         ))}
                 </div>
-            </div>
+            </div> */}
         </section>
     );
 };

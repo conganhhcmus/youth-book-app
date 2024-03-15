@@ -5,11 +5,13 @@ import { selectLanguage } from '@/redux/slices/settings';
 import { Link } from 'react-router-dom';
 
 interface BreadcrumbProps {
-    title: string;
-    url: string;
+    element?: {
+        title: string;
+        url: string;
+    }[];
 }
 
-const Breadcrumb = ({ title, url }: BreadcrumbProps) => {
+const Breadcrumb = ({ element }: BreadcrumbProps) => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     return (
@@ -31,30 +33,33 @@ const Breadcrumb = ({ title, url }: BreadcrumbProps) => {
                         {translate('home')}
                     </Link>
                 </li>
-                <li>
-                    <div className="flex items-center">
-                        <svg
-                            className="mx-1 h-3 w-3 text-gray-400 rtl:rotate-180"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 6 10">
-                            <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="m1 9 4-4-4-4"
-                            />
-                        </svg>
-                        <Link
-                            className="ms-1 font-medium capitalize text-black hover:text-primary dark:text-white dark:hover:text-primary md:ms-2"
-                            to={url}
-                            title={title}>
-                            {title}
-                        </Link>
-                    </div>
-                </li>
+                {element &&
+                    element.map((e) => (
+                        <li key={e.title}>
+                            <div className="flex items-center">
+                                <svg
+                                    className="mx-1 h-3 w-3 text-gray-400 rtl:rotate-180"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 6 10">
+                                    <path
+                                        stroke="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="m1 9 4-4-4-4"
+                                    />
+                                </svg>
+                                <Link
+                                    className="ms-1 font-medium capitalize text-black hover:text-primary dark:text-white dark:hover:text-primary md:ms-2"
+                                    to={e.url}
+                                    title={e.title}>
+                                    {e.title}
+                                </Link>
+                            </div>
+                        </li>
+                    ))}
             </ol>
         </nav>
     );

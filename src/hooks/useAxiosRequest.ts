@@ -11,7 +11,12 @@ const useAxiosRequest = () => {
                 return response.data;
             })
             .catch((err) => {
-                errorCallback && errorCallback(err);
+                if (errorCallback) {
+                    errorCallback(err);
+                } else {
+                    alert(err.message);
+                    window.location.reload();
+                }
             });
     };
 

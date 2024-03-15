@@ -6,6 +6,8 @@ import { paramOption } from '@/types/request';
 
 const chapterApi = {
     getAllChapters(comicId: string | undefined, params?: paramOption) {
+        if (!comicId) return;
+
         const url = CHAPTER_PATH.chapters;
         return apiClients.get<ChapterData>(url, { params: { ...params, comicId } });
     },
@@ -20,8 +22,8 @@ const chapterApi = {
         return apiClients.delete<Chapter>(url);
     },
 
-    getChapterById(id: string) {
-        const url = CHAPTER_PATH.chapters + `/${id}`;
+    getChapterById(id: string | undefined) {
+        const url = CHAPTER_PATH.chapters + `/${id ?? '-1'}`;
         return apiClients.get<Chapter>(url);
     },
 

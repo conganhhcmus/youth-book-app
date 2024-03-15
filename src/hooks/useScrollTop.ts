@@ -1,21 +1,23 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-const useScrollTop = (dependencyList: unknown[] = []) => {
+const useScrollTop = (val: number) => {
+    const [isShow, setIsShow] = useState<boolean>(false);
+
+    const heightToHide = val;
+    const listenToScroll = () => {
+        const windowScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        if (windowScroll > heightToHide) {
+            setIsShow(true);
+        } else {
+            setIsShow(false);
+        }
+    };
     useEffect(() => {
-        const scrollToTop = () => {
-            window.scroll({
-                top: 0,
-                behavior: 'smooth',
-            });
-        };
+        window.addEventListener('scroll', listenToScroll);
+        return () => window.removeEventListener('scroll', listenToScroll);
+    });
 
-        window.addEventListener('scroll', scrollToTop);
-
-        return () => {
-            window.removeEventListener('scroll', scrollToTop);
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, dependencyList);
+    return isShow;
 };
 
 export default useScrollTop;

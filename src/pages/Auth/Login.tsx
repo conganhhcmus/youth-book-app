@@ -8,7 +8,7 @@ import { selectLanguage } from '@/redux/slices/settings';
 import { User } from '@/types/user';
 import { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getCookie, setCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
 
@@ -111,11 +111,11 @@ const Login: React.FC = () => {
                         </button>
                         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                             {translate('no-account')}{' '}
-                            <a
-                                href="#"
+                            <Link
+                                to={APP_PATH.register}
                                 className="text-grey-700 font-medium capitalize hover:text-primary hover:underline dark:text-gray-200 dark:hover:text-primary">
                                 {translate('register-here')}
-                            </a>
+                            </Link>
                         </p>
                     </form>
                 </div>

@@ -4,12 +4,7 @@ export interface ComicBase {
     thumbnail: string;
     recommend: boolean;
     status: number;
-    chapters: {
-        id: string;
-        name: string;
-        updateTime: Date;
-        createTime: Date;
-    }[];
+    chapters: Chapter[];
     genres: {
         _id: string;
         name: string;
@@ -21,6 +16,7 @@ export interface Comic extends ComicBase {
     otherName: string[];
     description: string;
     totalViews: number;
+    totalFollowers: number;
 }
 
 export interface ComicData {
@@ -54,6 +50,7 @@ export interface Chapter {
     _id: string;
     comicId: string;
     name: string;
+    shortName: string;
     type: number;
     content: string;
     price: number;
@@ -70,6 +67,7 @@ export interface ChapterData {
 export interface ChapterModel {
     comicId: string;
     name: string;
+    shortName: string;
     type: number;
     content: string;
     price: number;

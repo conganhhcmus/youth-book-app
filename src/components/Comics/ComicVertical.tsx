@@ -58,13 +58,13 @@ const ComicVertical = ({ data }: ComicVerticalProps) => {
                                 data.chapters &&
                                 data.chapters.slice(0, 3).map((chapter) => (
                                     <div
-                                        key={chapter.id}
+                                        key={chapter._id}
                                         className="mt-2">
                                         <Link
-                                            to={`${APP_PATH.comics_chapters}/${id}/${chapter.id}`}
-                                            title={chapter.name}
+                                            to={`${APP_PATH.comics_chapters}/${chapter._id}`}
+                                            title={chapter.shortName || chapter.name}
                                             className={`mt-[2px] inline-block text-sm text-primary`}>
-                                            {chapter.name}
+                                            {chapter.shortName || chapter.name}
                                         </Link>
                                         <span className="float-right inline-block text-sm text-gray-400">
                                             {moment(chapter.updateTime).format('DD/MM/YYYY')}
@@ -94,13 +94,13 @@ const ComicVertical = ({ data }: ComicVerticalProps) => {
                     data.chapters &&
                     data.chapters.map((chapter) => (
                         <div
-                            key={chapter.id}
+                            key={chapter._id}
                             className="mt-1">
                             <Link
-                                to={`${APP_PATH.comics_chapters}/${id}/${chapter.id}`}
-                                title={chapter.name}
+                                to={`${APP_PATH.comics_chapters}/${chapter._id}`}
+                                title={chapter.shortName || chapter.name}
                                 className="float-left inline-block truncate whitespace-nowrap text-sm text-primary">
-                                {chapter.name}
+                                {chapter.shortName || chapter.name}
                             </Link>
                             <span className="float-right inline-block text-center text-sm text-gray-400">
                                 {moment(chapter.updateTime).format('DD/MM/YYYY')}
