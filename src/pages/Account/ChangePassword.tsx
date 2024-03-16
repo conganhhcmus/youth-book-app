@@ -8,6 +8,7 @@ import { User } from '@/types/user';
 import { getCookie, setCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
 import { useRef, useState } from 'react';
+import Swal from 'sweetalert2';
 
 const ChangePassword: React.FC = () => {
     const refPassword = useRef<HTMLInputElement>(null);
@@ -44,18 +45,17 @@ const ChangePassword: React.FC = () => {
 
         const newPassword = refConfirmPassword.current?.value ?? '';
 
-        callRequest(
-            authApis.changePassword(userInfoPayload?._id, data, newPassword),
-            (res) => {
-                setCookie(COOKIE_KEYS.token, res.data.token);
-                setCookie(COOKIE_KEYS.refreshToken, res.data.refreshToken);
+        callRequest(authApis.changePassword(userInfoPayload?._id, data, newPassword), (res) => {
+            setCookie(COOKIE_KEYS.token, res.data.token);
+            setCookie(COOKIE_KEYS.refreshToken, res.data.refreshToken);
+            Swal.fire({
+                title: 'Updated!',
+                text: 'Your data has been updated.',
+                icon: 'success',
+            }).then(() => {
                 window.location.reload();
-            },
-            (err) => {
-                alert(err.response?.data);
-                setIsSubmitted(false);
-            },
-        );
+            });
+        });
     };
 
     return (

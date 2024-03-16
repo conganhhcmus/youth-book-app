@@ -16,6 +16,11 @@ const authApis = {
         const url = AUTH_PATH.reset_password + `/${id ?? '-1'}`;
         return apiClients.post<AuthToken>(url, { ...user, newPassword });
     },
+
+    fetchInfo() {
+        const url = AUTH_PATH.fetch_info;
+        return apiClients.get<string>(url);
+    },
 };
 
 export default authApis;

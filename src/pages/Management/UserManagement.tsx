@@ -11,9 +11,9 @@ import Popup from '@/components/Popup';
 import { User } from '@/types/user';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
 import { ROLE_LIST } from '@/constants/settings';
-
 import moment from 'moment';
 import { formatCurrency } from '@/utils/format';
+import Swal from 'sweetalert2';
 
 const UserManagement: React.FC = () => {
     const [isShowAction, setIsShowAction] = useState<boolean>(false);
@@ -50,7 +50,6 @@ const UserManagement: React.FC = () => {
     const handleSubmit = () => {
         if (!refFullName.current?.value && !refEmail.current?.value && refRole.current?.value == userInfo?.role) {
             alert(translate('NoChange'));
-            setIsShowEditAction(false);
             return;
         }
 
@@ -61,17 +60,16 @@ const UserManagement: React.FC = () => {
             role: refRole.current?.value ? refRole.current?.value : userInfo?.role,
         } as User;
 
-        callRequest(
-            userApis.updateUserInfo(userInfo?._id, data),
-            (res) => {
-                console.log(res.data);
+        callRequest(userApis.updateUserInfo(userInfo?._id, data), (res) => {
+            console.log(res.data);
+            Swal.fire({
+                title: 'Updated!',
+                text: 'Your data has been updated.',
+                icon: 'success',
+            }).then(() => {
                 window.location.reload();
-            },
-            (err) => {
-                alert(err.response?.data);
-                setIsShowEditAction(false);
-            },
-        );
+            });
+        });
     };
 
     const _editUser = () => (

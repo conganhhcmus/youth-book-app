@@ -9,6 +9,7 @@ import { getCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
 import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
+import Swal from 'sweetalert2';
 
 const AccountInfo: React.FC = () => {
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -46,17 +47,16 @@ const AccountInfo: React.FC = () => {
             fullName: refFullName.current?.value ? refFullName.current?.value : userInfo?.fullName,
         } as User;
 
-        callRequest(
-            userApis.updateUserInfo(userInfoPayload?._id, data),
-            (res) => {
-                console.log(res.data);
+        callRequest(userApis.updateUserInfo(userInfoPayload?._id, data), (res) => {
+            console.log(res.data);
+            Swal.fire({
+                title: 'Updated!',
+                text: 'Your data has been updated.',
+                icon: 'success',
+            }).then(() => {
                 window.location.reload();
-            },
-            (err) => {
-                alert(err.response?.data);
-                setIsSubmitted(false);
-            },
-        );
+            });
+        });
     };
 
     const handleReset = (event: React.FormEvent<HTMLElement>) => {

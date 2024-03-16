@@ -1,4 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
+import Swal from 'sweetalert2';
 
 type CallbackFunction = (res: AxiosResponse) => void;
 type ErrorCallbackFunction = (err: AxiosError) => void;
@@ -14,8 +15,14 @@ const useAxiosRequest = () => {
                 if (errorCallback) {
                     errorCallback(err);
                 } else {
-                    alert(err.message);
-                    window.location.reload();
+                    console.log(err);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                    }).then(() => {
+                        window.location.reload();
+                    });
                 }
             });
     };

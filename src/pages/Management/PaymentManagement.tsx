@@ -11,6 +11,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
+import Swal from 'sweetalert2';
 
 const PaymentManagement: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
@@ -47,8 +48,13 @@ const PaymentManagement: React.FC = () => {
     const onActionHandle = (id: string, status: number) => {
         callRequest(paymentApis.updateTransaction(id, status), (res) => {
             console.log(res.data);
-            alert(res.data);
-            window.location.reload();
+            Swal.fire({
+                title: 'Updated!',
+                text: 'Your data has been updated.',
+                icon: 'success',
+            }).then(() => {
+                window.location.reload();
+            });
         });
     };
 

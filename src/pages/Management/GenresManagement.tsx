@@ -13,6 +13,7 @@ import { decodeJWTToken } from '@/utils/token';
 import moment from 'moment';
 import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
+import Swal from 'sweetalert2';
 
 const GenresManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
@@ -53,9 +54,27 @@ const GenresManagement: React.FC = () => {
     };
 
     const handleDelete = (id: string) => {
-        callRequest(genresApi.deleteGenres(id), (res) => {
-            console.log(res.data);
-            window.location.reload();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                callRequest(genresApi.deleteGenres(id), (res) => {
+                    console.log(res.data);
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: 'Your data has been deleted.',
+                        icon: 'success',
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                });
+            }
         });
     };
 
@@ -72,7 +91,13 @@ const GenresManagement: React.FC = () => {
 
         callRequest(genresApi.updateGenres(genresInfo?._id, data), (res) => {
             console.log(res.data);
-            window.location.reload();
+            Swal.fire({
+                title: 'Updated!',
+                text: 'Your data has been updated.',
+                icon: 'success',
+            }).then(() => {
+                window.location.reload();
+            });
         });
     };
 
@@ -90,7 +115,13 @@ const GenresManagement: React.FC = () => {
 
         callRequest(genresApi.addGenres(data), (res) => {
             console.log(res.data);
-            window.location.reload();
+            Swal.fire({
+                title: 'Added!',
+                text: 'Your data has been added.',
+                icon: 'success',
+            }).then(() => {
+                window.location.reload();
+            });
         });
     };
 

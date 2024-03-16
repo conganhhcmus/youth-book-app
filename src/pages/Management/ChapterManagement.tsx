@@ -12,6 +12,7 @@ import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
+import Swal from 'sweetalert2';
 
 const ChapterManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
@@ -56,9 +57,27 @@ const ChapterManagement: React.FC = () => {
     };
 
     const handleDelete = (id: string) => {
-        callRequest(chapterApi.deleteChapter(id), (res) => {
-            console.log(res.data);
-            window.location.reload();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                callRequest(chapterApi.deleteChapter(id), (res) => {
+                    console.log(res.data);
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: 'Your data has been deleted.',
+                        icon: 'success',
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                });
+            }
         });
     };
 
@@ -87,7 +106,13 @@ const ChapterManagement: React.FC = () => {
 
         callRequest(chapterApi.updateChapter(chapterInfo?._id, data), (res) => {
             console.log(res.data);
-            window.location.reload();
+            Swal.fire({
+                title: 'Updated!',
+                text: 'Your data has been updated.',
+                icon: 'success',
+            }).then(() => {
+                window.location.reload();
+            });
         });
     };
 
@@ -109,7 +134,13 @@ const ChapterManagement: React.FC = () => {
 
         callRequest(chapterApi.addChapter(data), (res) => {
             console.log(res.data);
-            window.location.reload();
+            Swal.fire({
+                title: 'Added!',
+                text: 'Your data has been added.',
+                icon: 'success',
+            }).then(() => {
+                window.location.reload();
+            });
         });
     };
 

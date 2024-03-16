@@ -22,6 +22,7 @@ export const AUTH_PATH = {
     login: '/login',
     reset_password: '/reset-password',
     reset_token: '/reset-token',
+    fetch_info: '/fetch-info',
 } as const;
 
 export const USERS_PATH = {

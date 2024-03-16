@@ -17,6 +17,7 @@ import moment from 'moment';
 import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const ComicManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
@@ -90,7 +91,13 @@ const ComicManagement: React.FC = () => {
 
         callRequest(comicApis.addComic(data), (res) => {
             console.log(res.data);
-            window.location.reload();
+            Swal.fire({
+                title: 'Added !',
+                text: 'Your data has been added.',
+                icon: 'success',
+            }).then(() => {
+                window.location.reload();
+            });
         });
     };
 
@@ -132,7 +139,13 @@ const ComicManagement: React.FC = () => {
 
         callRequest(comicApis.updateComic(comicInfo?._id, data), (res) => {
             console.log(res.data);
-            window.location.reload();
+            Swal.fire({
+                title: 'Updated!',
+                text: 'Your data has been updated.',
+                icon: 'success',
+            }).then(() => {
+                window.location.reload();
+            });
         });
     };
 
@@ -151,9 +164,27 @@ const ComicManagement: React.FC = () => {
     };
 
     const handleDelete = (id: string) => {
-        callRequest(comicApis.deleteComic(id), (res) => {
-            console.log(res.data);
-            window.location.reload();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                callRequest(comicApis.deleteComic(id), (res) => {
+                    console.log(res.data);
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: 'Your data has been deleted.',
+                        icon: 'success',
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                });
+            }
         });
     };
     const _comicInfoForm = () => (
@@ -376,7 +407,7 @@ const ComicManagement: React.FC = () => {
                                     <td className="px-6 py-4 font-bold capitalize">{comic.chapters.length}</td>
                                     <td className="px-6 py-4">
                                         <button
-                                            onClick={() => navigate(APP_PATH.management_chapters + `${comic._id}`)}
+                                            onClick={() => navigate(APP_PATH.management_chapters + `/${comic._id}`)}
                                             className="font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
                                             {translate('management')}
                                         </button>

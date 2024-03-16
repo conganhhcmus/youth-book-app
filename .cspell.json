@@ -8,7 +8,9 @@
         "tailwindcss",
         "reduxjs",
         "swiper",
-        "fanpage"
+        "fanpage",
+        "Swal",
+        "sweetalert2"
     ],
     "ignorePaths": [
         "*.log",
