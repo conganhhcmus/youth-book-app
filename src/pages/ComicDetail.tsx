@@ -7,15 +7,17 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
 import { NotFound } from './NotFound';
 import { Link, createSearchParams } from 'react-router-dom';
-import { APP_PATH } from '@/constants/path';
+import { APP_PATH, TOP_COMICS } from '@/constants/path';
 import imgError from '@/assets/icons/error.webp';
 import RatingStar from '@/components/RatingStar';
 import { formatCurrency } from '@/utils/format';
 import { useEffect, useRef, useState } from 'react';
-import { ListChapter } from '@/components/Comics';
+import { ComicHorizontal, ListChapter } from '@/components/Comics';
 import useReadChapter from '@/hooks/useReadChapter';
 import { isEnabledRead } from '@/utils/comic';
 import useAlertMsg from '@/hooks/useAlertMsg';
+import useRequestParams from '@/hooks/useRequestParams';
+import imgLoading from '@/assets/icons/loading.gif';
 
 const ComicDetail: React.FC = () => {
     const { comicId } = useParams();
@@ -27,6 +29,7 @@ const ComicDetail: React.FC = () => {
     const translate = useTranslation(lang);
     const { handleReadChapter, transactionList } = useReadChapter();
     const { dontSupportAlert } = useAlertMsg();
+    const { defaultQueryParams } = useRequestParams();
 
     const { data: comicResultData, isError } = useQuery({
         queryKey: ['getComicInfo', { comicId }],
@@ -34,7 +37,15 @@ const ComicDetail: React.FC = () => {
         staleTime: 3 * 60 * 1000,
     });
 
+    const { data: topWeeklyList } = useQuery({
+        queryKey: ['top-weekly-comics', defaultQueryParams],
+        queryFn: () => comicApis.topComics(TOP_COMICS.weekly, defaultQueryParams),
+        staleTime: 3 * 60 * 1000,
+    });
+
     const dataComics = comicResultData?.data;
+
+    const topWeeklyData = topWeeklyList?.data.data;
 
     useEffect(() => {
         if (refDescription.current) {
@@ -251,26 +262,22 @@ const ComicDetail: React.FC = () => {
                                             {dataComics.chapters.length > 0 && <ListChapter data={dataComics.chapters} />}
                                         </section>
                                     </div>
-                                    {/* <div className="hidden w-[238px] flex-shrink-0 flex-col gap-6 md:flex">
+                                    <div className="hidden w-[238px] flex-shrink-0 flex-col gap-6 md:flex">
                                         <>
                                             <h4 className="flex items-center border px-5 py-3 pl-3 text-lg font-semibold text-black dark:border-gray-500 dark:text-white">
-                                                Top weekly
+                                                {translate('top-weekly')}
                                             </h4>
                                             <div className="-mt-6 flex min-h-[600px] flex-col border border-t-0 dark:border-gray-500">
-                                                {dataWeeklyComics &&
-                                                    dataWeeklyComics.slice(0, 10).map((item, i) => (
-                                                        <SuggestComics
-                                                            key={item.id}
+                                                {topWeeklyData &&
+                                                    topWeeklyData.slice(0, 10).map((item, i) => (
+                                                        <ComicHorizontal
+                                                            key={item._id}
                                                             index={i}
-                                                            title={item.title}
-                                                            src={item.thumbnail}
-                                                            idChapter={item.last_chapter.id}
-                                                            chapter={item.last_chapter.name}
-                                                            genres={item.genres.map((item) => item.name) as [string]}
-                                                            idComic={item.id}
+                                                            item={item}
+                                                            isSearchItem={false}
                                                         />
                                                     ))}
-                                                {!dataWeeklyComics && (
+                                                {!topWeeklyData && (
                                                     <div className="flex h-[300px] items-center justify-center gap-2 text-black dark:text-white">
                                                         <img
                                                             src={imgLoading}
@@ -282,7 +289,7 @@ const ComicDetail: React.FC = () => {
                                                 )}
                                             </div>
                                         </>
-                                    </div> */}
+                                    </div>
                                 </div>
                             </div>
                         </div>

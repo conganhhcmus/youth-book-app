@@ -29,13 +29,13 @@ const comicApis = {
         return apiClients.get<ComicData>(url, { params: paramsRequest });
     },
 
-    getComicInfo(id: string | undefined) {
-        const url = COMICS_PATH.comics + `/${id ?? '-1'}`;
+    getComicInfo(id: string = '-1') {
+        const url = COMICS_PATH.comics + `/${id}`;
         return apiClients.get<Comic>(url);
     },
 
-    updateComic(id: string | undefined, comic: ComicModel) {
-        const url = COMICS_PATH.comics + `/${id ?? '-1'}`;
+    updateComic(id: string = '-1', comic: ComicModel) {
+        const url = COMICS_PATH.comics + `/${id}`;
         return apiClients.put<Comic>(url, { ...comic });
     },
 

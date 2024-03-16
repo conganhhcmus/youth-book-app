@@ -45,6 +45,23 @@ export const getLocalDbByKey = (key: string, collection: Collection) => {
     return store.get(key);
 };
 
+export const getDataByKey = (key: string, collection: Collection, handleResponse: (data: unknown[]) => void) => {
+    const db = window.db;
+    const trans = db.transaction(collection.name, 'readwrite');
+    const store = trans.objectStore(collection.name);
+    const cursorRequest = store.index(key).openCursor(null, 'prevunique');
+    const response: unknown[] = [];
+    cursorRequest.onsuccess = () => {
+        const cursor = cursorRequest.result;
+        if (cursor) {
+            response.push(cursor.value);
+            cursor.continue();
+        } else {
+            handleResponse(response);
+        }
+    };
+};
+
 export const addLocalDb = (data: object, collection: Collection) => {
     const db = window.db;
     const trans = db.transaction(collection.name, 'readwrite');

@@ -73,8 +73,8 @@ const Home: React.FC = () => {
                 />
                 <Banner data={recommendData?.data} />
             </section>
-            <div className="grid grid-cols-12 gap-4 pt-10">
-                <div className="col-span-12 lg:col-span-8">
+            <div className="flex flex-row gap-4 pt-10">
+                <div className="">
                     <TitlePreview
                         img={iconRecent}
                         title={translate('recent-update')}
@@ -90,7 +90,7 @@ const Home: React.FC = () => {
                         />
                     )}
                 </div>
-                <div className="ml-4 hidden lg:col-span-4 lg:block">
+                <div className="ml-4 hidden w-[350px] lg:block">
                     <div className="mb-2 border p-4">
                         <TitlePreview
                             title={translate('top-daily')}

@@ -6,6 +6,9 @@ import LoadingPage from '@/components/Loading';
 const ComicDetail = lazy(() => import('@/pages/ComicDetail'));
 const ChapterDetail = lazy(() => import('@/pages/ChapterDetail'));
 const Genres = lazy(() => import('@/pages/Genres'));
+const History = lazy(() => import('@/pages/History'));
+const New = lazy(() => import('@/pages/New'));
+const Top = lazy(() => import('@/pages/Top'));
 
 export default [
     {
@@ -29,6 +32,30 @@ export default [
         element: (
             <Suspense fallback={<LoadingPage />}>
                 <Genres />
+            </Suspense>
+        ),
+    },
+    {
+        path: APP_PATH.history,
+        element: (
+            <Suspense fallback={<LoadingPage />}>
+                <History />
+            </Suspense>
+        ),
+    },
+    {
+        path: APP_PATH.new,
+        element: (
+            <Suspense fallback={<LoadingPage />}>
+                <New />
+            </Suspense>
+        ),
+    },
+    {
+        path: APP_PATH.top,
+        element: (
+            <Suspense fallback={<LoadingPage />}>
+                <Top />
             </Suspense>
         ),
     },

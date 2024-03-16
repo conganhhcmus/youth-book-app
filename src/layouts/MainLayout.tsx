@@ -33,6 +33,13 @@ const MainLayout = () => {
         }
     }, [callRequest, navigate, userInfoPayload]);
 
+    useEffect(() => {
+        window.scroll({
+            top: 0,
+            behavior: 'smooth',
+        });
+    }, []);
+
     return (
         <div className="grid h-full min-h-screen grid-cols-1 place-content-between">
             <header

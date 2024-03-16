@@ -95,3 +95,14 @@ export interface GenresData {
     currentPage: number;
     totalPage: number;
 }
+
+export interface HistoryComic {
+    id: string;
+    name: string;
+    thumbnail: string;
+    description: string;
+    time: string;
+    chapter_id: string;
+    reading_at: number;
+    last_reading: string;
+}

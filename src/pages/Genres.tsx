@@ -11,6 +11,7 @@ import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from 'react-query';
 import { Link, createSearchParams } from 'react-router-dom';
+import imgLoading from '@/assets/icons/loading.gif';
 
 const Genres: React.FC = () => {
     const { queryParams } = useRequestParams();
@@ -19,13 +20,13 @@ const Genres: React.FC = () => {
 
     const type = useMemo(() => (queryParams.type !== undefined ? queryParams.type : 'all'), [queryParams.type]);
 
-    const { data: genresResultData } = useQuery({
+    const { data: genresResultData, isLoading: isLoadingGenres } = useQuery({
         queryKey: ['getFullGenres'],
         queryFn: () => genresApi.getFullGenres(),
         staleTime: 3 * 60 * 1000,
     });
 
-    const { data: comicResultData } = useQuery({
+    const { data: comicResultData, isLoading: isLoadingComic } = useQuery({
         queryKey: ['getComicByGenres', queryParams],
         queryFn: () => comicApis.getComicByGenres(queryParams),
         staleTime: 3 * 60 * 1000,
@@ -40,6 +41,18 @@ const Genres: React.FC = () => {
     ];
 
     const resultData = comicResultData?.data;
+
+    if (isLoadingGenres || isLoadingComic)
+        return (
+            <div className="flex h-[300px] items-center justify-center gap-2 text-black dark:text-white">
+                <img
+                    src={imgLoading}
+                    alt="loading icon"
+                    loading="lazy"
+                />
+                Loading...
+            </div>
+        );
 
     return (
         <>

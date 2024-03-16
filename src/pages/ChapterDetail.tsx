@@ -11,6 +11,11 @@ import { Helmet } from 'react-helmet-async';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router';
 import { NotFound } from './NotFound';
+import { useEffect } from 'react';
+import { addLocalDb } from '@/utils/indexedDB';
+import { INDEXED_DB } from '@/constants/settings';
+import comicApis from '@/apis/comic';
+import moment from 'moment';
 
 const ChapterDetail: React.FC = () => {
     const { chapterId } = useParams();
@@ -36,7 +41,32 @@ const ChapterDetail: React.FC = () => {
 
     const dataChapter = chapterResultData?.data.data || [];
 
+    const { data: comicResultData } = useQuery({
+        queryKey: ['getComicInfo', { comicId: chapterDetail?.comicId }],
+        queryFn: () => comicApis.getComicInfo(chapterDetail?.comicId),
+        staleTime: 3 * 60 * 1000,
+        enabled: !!chapterDetail && !!chapterDetail.comicId,
+    });
+
+    const comicDetail = comicResultData?.data;
     const currentIndex = dataChapter.findIndex((chapter) => chapter._id === chapterDetail?._id);
+
+    useEffect(() => {
+        if (chapterDetail && comicDetail) {
+            const data = {
+                id: comicDetail._id,
+                name: comicDetail.name,
+                thumbnail: comicDetail.thumbnail,
+                description: comicDetail.description,
+                time: moment().format('hh:mm - DD/MM/YYY'),
+                chapter_id: chapterDetail._id,
+                reading_at: new Date().getTime(),
+                last_reading: chapterDetail.name,
+            };
+
+            addLocalDb(data, INDEXED_DB.collection.history);
+        }
+    }, [chapterDetail, comicDetail]);
 
     const onChangeChapter = (e: React.ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault();
@@ -83,9 +113,9 @@ const ChapterDetail: React.FC = () => {
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
-                                fill-rule="evenodd"
+                                fillRule="evenodd"
                                 d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-                                clip-rule="evenodd"></path>
+                                clipRule="evenodd"></path>
                         </svg>
                         <p className="ml-2">{translate('prev')}</p>
                     </div>
@@ -118,9 +148,9 @@ const ChapterDetail: React.FC = () => {
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
-                                fill-rule="evenodd"
+                                fillRule="evenodd"
                                 d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                                clip-rule="evenodd"></path>
+                                clipRule="evenodd"></path>
                         </svg>
                     </div>
                 </button>
