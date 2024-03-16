@@ -1,13 +1,14 @@
 import { APP_PATH } from '@/constants/path';
 import { COOKIE_KEYS, ROLES } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
+import useAlertMsg from '@/hooks/useAlertMsg';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
 import { UserJwtPayload } from '@/types/auth';
 import { removeCookie } from '@/utils/cookies';
 import { formatCurrency } from '@/utils/format';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface AccountInfoProps {
     userInfo: UserJwtPayload;
@@ -17,12 +18,12 @@ const AccountInfo = ({ userInfo }: AccountInfoProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
-    const navigate = useNavigate();
+    const { dontSupportAlert } = useAlertMsg();
 
     const logout = () => {
         removeCookie(COOKIE_KEYS.token);
         removeCookie(COOKIE_KEYS.refreshToken);
-        navigate(APP_PATH.home);
+        window.location.href = APP_PATH.home;
     };
 
     return (
@@ -113,6 +114,10 @@ const AccountInfo = ({ userInfo }: AccountInfoProps) => {
                             </>
                         )}
                         <Link
+                            onClick={(event) => {
+                                event.preventDefault();
+                                dontSupportAlert(false);
+                            }}
                             title={translate('wish-list')}
                             to={APP_PATH.account_wishlist}
                             className="flex min-w-[100px] items-center justify-start gap-2 px-2 py-1 capitalize hover:bg-[rgba(0,0,0,0.05)] active:scale-90 dark:hover:bg-[rgba(255,255,255,0.1)]">

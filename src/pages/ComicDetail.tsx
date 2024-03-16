@@ -13,6 +13,9 @@ import RatingStar from '@/components/RatingStar';
 import { formatCurrency } from '@/utils/format';
 import { useEffect, useRef, useState } from 'react';
 import { ListChapter } from '@/components/Comics';
+import useReadChapter from '@/hooks/useReadChapter';
+import { isEnabledRead } from '@/utils/comic';
+import useAlertMsg from '@/hooks/useAlertMsg';
 
 const ComicDetail: React.FC = () => {
     const { comicId } = useParams();
@@ -22,6 +25,8 @@ const ComicDetail: React.FC = () => {
 
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
+    const { handleReadChapter, transactionList } = useReadChapter();
+    const { dontSupportAlert } = useAlertMsg();
 
     const { data: comicResultData, isError } = useQuery({
         queryKey: ['getComicInfo', { comicId }],
@@ -40,7 +45,7 @@ const ComicDetail: React.FC = () => {
     if (isError) return <NotFound />;
 
     return (
-        <div className="container px-4 xl:px-0">
+        <div className="">
             <Helmet>
                 <title>{`${dataComics?.name} [Tới ${dataComics?.chapters.at(0)?.name}] - YouthBook`}</title>
                 <meta
@@ -56,7 +61,7 @@ const ComicDetail: React.FC = () => {
                             style={{
                                 backgroundColor: 'rgba(0,0,0,0.4)',
                                 backgroundImage: `url('${dataComics?.thumbnail}')`,
-                                filter: 'blur(60px)',
+                                filter: 'blur(5px)',
                             }}
                         />
                     </div>
@@ -147,13 +152,14 @@ const ComicDetail: React.FC = () => {
                                                 </div>
                                                 <div className="mt-2 flex items-center gap-3">
                                                     <Link
+                                                        onClick={(event) => handleReadChapter(event, dataComics.chapters[0])}
                                                         title={translate('read-now-title')}
                                                         to={
                                                             dataComics.chapters.length > 0
                                                                 ? `${APP_PATH.comics_chapters}/${dataComics.chapters[0]._id}`
                                                                 : '#'
                                                         }
-                                                        className="flex h-[38px] w-[140px] flex-shrink-0 items-center justify-center gap-2 rounded bg-gradient font-semibold capitalize text-white">
+                                                        className="flex h-[38px] w-[150px] flex-shrink-0 items-center justify-center gap-2 rounded bg-gradient font-semibold capitalize text-white">
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -170,10 +176,32 @@ const ComicDetail: React.FC = () => {
                                                             />
                                                         </svg>
                                                         {translate('read-now')}
+                                                        {!isEnabledRead(dataComics.chapters[0], transactionList) && (
+                                                            <svg
+                                                                className="mx-1 inline-flex h-5 w-5"
+                                                                viewBox="0 0 24 24"
+                                                                fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <g strokeWidth="0"></g>
+                                                                <g
+                                                                    strokeLinecap="round"
+                                                                    strokeLinejoin="round"></g>
+                                                                <g>
+                                                                    <path
+                                                                        d="M12 14.5V16.5M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288"
+                                                                        stroke="#000000"
+                                                                        strokeWidth="2"
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"></path>
+                                                                </g>
+                                                            </svg>
+                                                        )}
                                                     </Link>
                                                     <button
                                                         title={translate('follow')}
-                                                        onClick={() => {}}
+                                                        onClick={() => {
+                                                            dontSupportAlert(false);
+                                                        }}
                                                         className="flex h-[38px] w-[120px] flex-shrink-0 items-center justify-center gap-2 rounded border border-primary font-semibold capitalize text-primary active:scale-95">
                                                         <svg
                                                             className="mt-1 h-6 w-6 fill-primary"

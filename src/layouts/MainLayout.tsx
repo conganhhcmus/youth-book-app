@@ -19,9 +19,7 @@ const MainLayout = () => {
     const userInfoPayload = decodeJWTToken(token);
 
     useEffect(() => {
-        if (!userInfoPayload) {
-            navigate(APP_PATH.home);
-        } else {
+        if (userInfoPayload) {
             callRequest(
                 authApis.fetchInfo(),
                 (res) => {

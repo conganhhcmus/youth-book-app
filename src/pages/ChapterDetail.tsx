@@ -1,13 +1,16 @@
 import chapterApi from '@/apis/chapter';
 import { APP_PATH } from '@/constants/path';
 import { useAppSelector } from '@/hooks/reduxHook';
+import useReadChapter from '@/hooks/useReadChapter';
 import useScrollTop from '@/hooks/useScrollTop';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
+import { isEnabledRead } from '@/utils/comic';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router';
+import { NotFound } from './NotFound';
 
 const ChapterDetail: React.FC = () => {
     const { chapterId } = useParams();
@@ -15,6 +18,7 @@ const ChapterDetail: React.FC = () => {
     const translate = useTranslation(lang);
     const navigate = useNavigate();
     const isShow = useScrollTop(50);
+    const { handleBuyEvent, transactionList } = useReadChapter();
 
     const { data: chapterDetailResultData } = useQuery({
         queryKey: ['getChapterById', { chapterId }],
@@ -36,13 +40,23 @@ const ChapterDetail: React.FC = () => {
 
     const onChangeChapter = (e: React.ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault();
-        navigate(`${APP_PATH.comics_chapters}/${e.target.value}`);
+        const chapter = dataChapter.find((x) => x._id === e.target.value);
+        if (!chapter) return window.location.reload();
+        if (isEnabledRead(chapter, transactionList)) {
+            return navigate(`${APP_PATH.comics_chapters}/${chapter._id}`);
+        }
+        handleBuyEvent(chapter);
     };
 
     const onChangePrevOrNextChapter = (index: number) => {
-        const value = dataChapter[index]._id;
-        navigate(`${APP_PATH.comics_chapters}/${value}`);
+        const chapter = dataChapter[index];
+        if (isEnabledRead(chapter, transactionList)) {
+            return navigate(`${APP_PATH.comics_chapters}/${chapter._id}`);
+        }
+        handleBuyEvent(chapter);
     };
+
+    if (!chapterDetail || !isEnabledRead(chapterDetail, transactionList)) return <NotFound />;
 
     return (
         <div className="container relative border-2 px-4 xl:px-0">
@@ -55,7 +69,7 @@ const ChapterDetail: React.FC = () => {
             </Helmet>
             <div
                 className={classNames('flex w-full flex-row items-start justify-center bg-yellow-50 py-6 ', {
-                    'fixed top-0 max-w-[1200px]': isShow,
+                    'fixed top-0 z-50 max-w-[1280px]': isShow,
                 })}>
                 <button
                     type="button"

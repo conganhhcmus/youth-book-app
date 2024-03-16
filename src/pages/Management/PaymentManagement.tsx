@@ -1,6 +1,7 @@
 import paymentApis from '@/apis/payment';
 import { FILTER_OPTIONS, STATUS_OPTIONS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
+import useAlertMsg from '@/hooks/useAlertMsg';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useRequestParams from '@/hooks/useRequestParams';
 import useTranslation from '@/hooks/useTranslation';
@@ -11,13 +12,13 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import Swal from 'sweetalert2';
 
 const PaymentManagement: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
+    const { updateSuccessAlert } = useAlertMsg();
 
     const [filterOptions, setFilterOptions] = useState<number>(0);
     const [statusOptions, setStatusOptions] = useState<number[]>(STATUS_OPTIONS.map((x) => x.value));
@@ -48,13 +49,7 @@ const PaymentManagement: React.FC = () => {
     const onActionHandle = (id: string, status: number) => {
         callRequest(paymentApis.updateTransaction(id, status), (res) => {
             console.log(res.data);
-            Swal.fire({
-                title: 'Updated!',
-                text: 'Your data has been updated.',
-                icon: 'success',
-            }).then(() => {
-                window.location.reload();
-            });
+            updateSuccessAlert(true);
         });
     };
 
@@ -149,7 +144,13 @@ const PaymentManagement: React.FC = () => {
                                     className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
                                     <td className="px-6 py-4">{transaction.users[0].username}</td>
                                     <td className="px-6 py-4">{translate(getTransactionTypeName(transaction.type))}</td>
-                                    <td className="px-6 py-4 font-bold text-primary">{formatCurrency(transaction.amount)}</td>
+                                    <td
+                                        className={classNames('px-6 py-4 font-bold ', {
+                                            'text-primary': transaction.amount >= 0,
+                                            'text-red-500': transaction.amount < 0,
+                                        })}>
+                                        {formatCurrency(transaction.amount)}
+                                    </td>
                                     <td className="px-6 py-4">
                                         <p
                                             className={classNames('capitalize', {

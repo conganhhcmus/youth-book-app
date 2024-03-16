@@ -10,7 +10,8 @@
         "swiper",
         "fanpage",
         "Swal",
-        "sweetalert2"
+        "sweetalert2",
+        "dont"
     ],
     "ignorePaths": [
         "*.log",

@@ -1,6 +1,6 @@
 import apiClients from '@/configs/apiClients';
 import { PAYMENT_PATH } from '@/constants/path';
-import { TransactionData } from '@/types/payment';
+import { Transaction, TransactionData } from '@/types/payment';
 import { paramOption } from '@/types/request';
 
 const paymentApis = {
@@ -8,6 +8,12 @@ const paymentApis = {
         const url = PAYMENT_PATH.deposit;
         return apiClients.post(url, { amount });
     },
+
+    buy(chapterId: string, amount: number) {
+        const url = PAYMENT_PATH.buy;
+        return apiClients.post(url, { amount, chapterId });
+    },
+
     getAllTransactionByUser(userId: string | undefined, option: number, status: number[], params?: paramOption) {
         if (!userId) return;
         const url = PAYMENT_PATH.transaction + `/${userId}`;
@@ -22,6 +28,12 @@ const paymentApis = {
     updateTransaction(id: string, status: number) {
         const url = PAYMENT_PATH.transaction + `/${id}`;
         return apiClients.post(url, { status });
+    },
+
+    getAllBuyTransactionByUser(userId: string | undefined) {
+        if (!userId) return;
+        const url = PAYMENT_PATH.transaction_buy + `/${userId}`;
+        return apiClients.get<Transaction[]>(url);
     },
 };
 

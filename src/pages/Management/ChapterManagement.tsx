@@ -13,6 +13,7 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import Swal from 'sweetalert2';
+import useAlertMsg from '@/hooks/useAlertMsg';
 
 const ChapterManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
@@ -26,6 +27,7 @@ const ChapterManagement: React.FC = () => {
 
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
+    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert } = useAlertMsg();
 
     // Ref
     const [chapterContent, setChapterContent] = useState<string>('');
@@ -69,13 +71,7 @@ const ChapterManagement: React.FC = () => {
             if (result.isConfirmed) {
                 callRequest(chapterApi.deleteChapter(id), (res) => {
                     console.log(res.data);
-                    Swal.fire({
-                        title: 'Deleted!',
-                        text: 'Your data has been deleted.',
-                        icon: 'success',
-                    }).then(() => {
-                        window.location.reload();
-                    });
+                    deleteSuccessAlert(true);
                 });
             }
         });
@@ -106,13 +102,7 @@ const ChapterManagement: React.FC = () => {
 
         callRequest(chapterApi.updateChapter(chapterInfo?._id, data), (res) => {
             console.log(res.data);
-            Swal.fire({
-                title: 'Updated!',
-                text: 'Your data has been updated.',
-                icon: 'success',
-            }).then(() => {
-                window.location.reload();
-            });
+            updateSuccessAlert(true);
         });
     };
 
@@ -134,13 +124,7 @@ const ChapterManagement: React.FC = () => {
 
         callRequest(chapterApi.addChapter(data), (res) => {
             console.log(res.data);
-            Swal.fire({
-                title: 'Added!',
-                text: 'Your data has been added.',
-                icon: 'success',
-            }).then(() => {
-                window.location.reload();
-            });
+            addSuccessAlert(true);
         });
     };
 

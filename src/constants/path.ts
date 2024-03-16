@@ -31,7 +31,9 @@ export const USERS_PATH = {
 
 export const PAYMENT_PATH = {
     deposit: '/payment/deposit',
+    buy: '/payment/buy',
     transaction: '/transaction',
+    transaction_buy: '/transaction/buy',
 };
 
 export const APP_PATH = {

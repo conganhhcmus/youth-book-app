@@ -3,6 +3,7 @@ import { Pagination } from '@/components/Pagination';
 import Popup from '@/components/Popup';
 import { COOKIE_KEYS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
+import useAlertMsg from '@/hooks/useAlertMsg';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useRequestParams from '@/hooks/useRequestParams';
 import useTranslation from '@/hooks/useTranslation';
@@ -27,6 +28,7 @@ const GenresManagement: React.FC = () => {
     const translate = useTranslation(lang);
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
+    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert } = useAlertMsg();
 
     const { data: genresResultData } = useQuery({
         queryKey: ['allGenres', { ...queryParams, q: searchText }],
@@ -66,13 +68,7 @@ const GenresManagement: React.FC = () => {
             if (result.isConfirmed) {
                 callRequest(genresApi.deleteGenres(id), (res) => {
                     console.log(res.data);
-                    Swal.fire({
-                        title: 'Deleted!',
-                        text: 'Your data has been deleted.',
-                        icon: 'success',
-                    }).then(() => {
-                        window.location.reload();
-                    });
+                    deleteSuccessAlert(true);
                 });
             }
         });
@@ -91,13 +87,7 @@ const GenresManagement: React.FC = () => {
 
         callRequest(genresApi.updateGenres(genresInfo?._id, data), (res) => {
             console.log(res.data);
-            Swal.fire({
-                title: 'Updated!',
-                text: 'Your data has been updated.',
-                icon: 'success',
-            }).then(() => {
-                window.location.reload();
-            });
+            updateSuccessAlert(true);
         });
     };
 
@@ -115,13 +105,7 @@ const GenresManagement: React.FC = () => {
 
         callRequest(genresApi.addGenres(data), (res) => {
             console.log(res.data);
-            Swal.fire({
-                title: 'Added!',
-                text: 'Your data has been added.',
-                icon: 'success',
-            }).then(() => {
-                window.location.reload();
-            });
+            addSuccessAlert(true);
         });
     };
 

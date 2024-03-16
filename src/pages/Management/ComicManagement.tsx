@@ -6,6 +6,7 @@ import Popup from '@/components/Popup';
 import { APP_PATH } from '@/constants/path';
 import { COOKIE_KEYS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
+import useAlertMsg from '@/hooks/useAlertMsg';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useRequestParams from '@/hooks/useRequestParams';
 import useTranslation from '@/hooks/useTranslation';
@@ -38,6 +39,7 @@ const ComicManagement: React.FC = () => {
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
     const navigate = useNavigate();
+    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert } = useAlertMsg();
 
     const { data: resultData } = useQuery({
         queryKey: ['suggestSearch', { ...queryParams, q: searchText }],
@@ -91,13 +93,7 @@ const ComicManagement: React.FC = () => {
 
         callRequest(comicApis.addComic(data), (res) => {
             console.log(res.data);
-            Swal.fire({
-                title: 'Added !',
-                text: 'Your data has been added.',
-                icon: 'success',
-            }).then(() => {
-                window.location.reload();
-            });
+            addSuccessAlert(true);
         });
     };
 
@@ -139,13 +135,7 @@ const ComicManagement: React.FC = () => {
 
         callRequest(comicApis.updateComic(comicInfo?._id, data), (res) => {
             console.log(res.data);
-            Swal.fire({
-                title: 'Updated!',
-                text: 'Your data has been updated.',
-                icon: 'success',
-            }).then(() => {
-                window.location.reload();
-            });
+            updateSuccessAlert(true);
         });
     };
 
@@ -176,13 +166,7 @@ const ComicManagement: React.FC = () => {
             if (result.isConfirmed) {
                 callRequest(comicApis.deleteComic(id), (res) => {
                     console.log(res.data);
-                    Swal.fire({
-                        title: 'Deleted!',
-                        text: 'Your data has been deleted.',
-                        icon: 'success',
-                    }).then(() => {
-                        window.location.reload();
-                    });
+                    deleteSuccessAlert(true);
                 });
             }
         });

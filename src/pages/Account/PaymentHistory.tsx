@@ -132,7 +132,13 @@ const PaymentHistory: React.FC = () => {
                                     key={transaction._id}
                                     className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
                                     <td className="px-6 py-4">{translate(getTransactionTypeName(transaction.type))}</td>
-                                    <td className="px-6 py-4 font-bold text-primary">{formatCurrency(transaction.amount)}</td>
+                                    <td
+                                        className={classNames('px-6 py-4 font-bold ', {
+                                            'text-primary': transaction.amount >= 0,
+                                            'text-red-500': transaction.amount < 0,
+                                        })}>
+                                        {formatCurrency(transaction.amount)}
+                                    </td>
                                     <td className="px-6 py-4">
                                         <p
                                             className={classNames('capitalize', {

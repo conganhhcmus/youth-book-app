@@ -1,6 +1,7 @@
 import userApis from '@/apis/user';
 import { COOKIE_KEYS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
+import useAlertMsg from '@/hooks/useAlertMsg';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
@@ -9,7 +10,6 @@ import { getCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
 import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
-import Swal from 'sweetalert2';
 
 const AccountInfo: React.FC = () => {
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -19,6 +19,7 @@ const AccountInfo: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     const { callRequest } = useAxiosRequest();
+    const { updateSuccessAlert } = useAlertMsg();
 
     const token = getCookie(COOKIE_KEYS.token);
     const userInfoPayload = decodeJWTToken(token);
@@ -49,13 +50,7 @@ const AccountInfo: React.FC = () => {
 
         callRequest(userApis.updateUserInfo(userInfoPayload?._id, data), (res) => {
             console.log(res.data);
-            Swal.fire({
-                title: 'Updated!',
-                text: 'Your data has been updated.',
-                icon: 'success',
-            }).then(() => {
-                window.location.reload();
-            });
+            updateSuccessAlert(true);
         });
     };
 

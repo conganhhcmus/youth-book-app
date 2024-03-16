@@ -13,13 +13,14 @@ import useAxiosRequest from '@/hooks/useAxiosRequest';
 import { ROLE_LIST } from '@/constants/settings';
 import moment from 'moment';
 import { formatCurrency } from '@/utils/format';
-import Swal from 'sweetalert2';
+import useAlertMsg from '@/hooks/useAlertMsg';
 
 const UserManagement: React.FC = () => {
     const [isShowAction, setIsShowAction] = useState<boolean>(false);
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
     const [searchText, setSearchText] = useState<string>('');
-    // const [checkedList, setCheckedList] = useState<string[]>([]);
+    const { updateSuccessAlert } = useAlertMsg();
+
     const [userInfo, setUserInfo] = useState<User>();
 
     const refRole = useRef<HTMLSelectElement>(null);
@@ -62,13 +63,7 @@ const UserManagement: React.FC = () => {
 
         callRequest(userApis.updateUserInfo(userInfo?._id, data), (res) => {
             console.log(res.data);
-            Swal.fire({
-                title: 'Updated!',
-                text: 'Your data has been updated.',
-                icon: 'success',
-            }).then(() => {
-                window.location.reload();
-            });
+            updateSuccessAlert(true);
         });
     };
 
