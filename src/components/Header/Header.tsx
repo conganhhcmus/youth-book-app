@@ -211,8 +211,8 @@ const Header = () => {
                         <li>
                             <Link
                                 title={translate('history-title')}
-                                to={APP_PATH.comics_history}
-                                className={`block capitalize hover:text-primary ${useMatch(APP_PATH.comics_history) && ' text-primary'}`}>
+                                to={APP_PATH.history}
+                                className={`block capitalize hover:text-primary ${useMatch(APP_PATH.history) && ' text-primary'}`}>
                                 {translate('history')}
                             </Link>
                         </li>

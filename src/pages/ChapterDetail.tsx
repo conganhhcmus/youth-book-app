@@ -20,7 +20,7 @@ const ChapterDetail: React.FC = () => {
     const isShow = useScrollTop(50);
     const { handleBuyEvent, transactionList } = useReadChapter();
 
-    const { data: chapterDetailResultData } = useQuery({
+    const { data: chapterDetailResultData, isLoading } = useQuery({
         queryKey: ['getChapterById', { chapterId }],
         queryFn: () => chapterApi.getChapterById(chapterId),
         staleTime: 3 * 60 * 1000,
@@ -56,7 +56,7 @@ const ChapterDetail: React.FC = () => {
         handleBuyEvent(chapter);
     };
 
-    if (!chapterDetail || !isEnabledRead(chapterDetail, transactionList)) return <NotFound />;
+    if (!isLoading && (!chapterDetail || !isEnabledRead(chapterDetail, transactionList))) return <NotFound />;
 
     return (
         <div className="container relative border-2 px-4 xl:px-0">

@@ -48,6 +48,11 @@ const comicApis = {
         const url = COMICS_PATH.comics + `/${id ?? '-1'}`;
         return apiClients.delete<Comic>(url);
     },
+
+    getComicByGenres(params?: paramOption) {
+        const url = COMICS_PATH.genres;
+        return apiClients.get<ComicData>(url, { params });
+    },
 };
 
 export default comicApis;

@@ -5,11 +5,13 @@ export const COMICS_PATH = {
     recommend: '/comics/recommend',
     search: '/comics/search',
     add: '/comics/add',
+    genres: '/comics/genres',
 } as const;
 
 export const GENRES_PATH = {
     genres: '/genres',
     add: '/genres/add',
+    get_full: '/genres/get-full',
 };
 
 export const CHAPTER_PATH = {
@@ -39,14 +41,8 @@ export const PAYMENT_PATH = {
 export const APP_PATH = {
     // comics
     comics: '/comics',
-    comics_genres: '/comics/genres',
-    comics_history: '/comics/history',
     comics_chapters: '/comics/chapters',
     comics_search: '/comics/search',
-    comics_new: '/comics/new',
-    comics_top: '/comics/top',
-    comics_recommend: '/comics/recommend',
-    comics_recent: '/comics/recent',
 
     // account
     account: '/account',
@@ -58,10 +54,17 @@ export const APP_PATH = {
 
     // app
     language: '/language',
-    home: '/',
     register: '/register',
     login: '/login',
     logout: '/logout',
+    // pages
+    home: '/',
+    genres: '/genres',
+    history: '/history',
+    new: '/new',
+    top: '/top',
+    recommend: '/recommend',
+    recent: '/recent',
 
     // management
     management: '/management',

@@ -111,7 +111,7 @@ const ComicDetail: React.FC = () => {
                                                         return genre._id !== undefined ? (
                                                             <Link
                                                                 to={{
-                                                                    pathname: APP_PATH.comics_genres,
+                                                                    pathname: APP_PATH.genres,
                                                                     search: createSearchParams({
                                                                         type: genre._id,
                                                                         page: '1',

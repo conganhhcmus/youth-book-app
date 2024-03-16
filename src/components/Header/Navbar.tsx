@@ -12,50 +12,50 @@ const Navbar = () => {
         {
             title: translate('new-comic-title'),
             link: {
-                pathname: APP_PATH.comics_new,
+                pathname: APP_PATH.new,
                 search: createSearchParams({
                     type: 'all',
                     page: '1',
                 }).toString(),
             },
             name: translate('new-comic'),
-            isCurrent: useMatch(APP_PATH.comics_new),
+            isCurrent: useMatch(APP_PATH.new),
         },
         {
             title: translate('top-comic-title'),
             link: {
-                pathname: APP_PATH.comics_top,
+                pathname: APP_PATH.top,
                 search: createSearchParams({
                     type: 'all',
                     page: '1',
                 }).toString(),
             },
             name: translate('top-comic'),
-            isCurrent: useMatch(APP_PATH.comics_top),
+            isCurrent: useMatch(APP_PATH.top),
         },
         {
             title: translate('genres-title'),
             link: {
-                pathname: APP_PATH.comics_genres,
+                pathname: APP_PATH.genres,
                 search: createSearchParams({
                     type: 'all',
                     page: '1',
                 }).toString(),
             },
             name: translate('genres'),
-            isCurrent: useMatch(APP_PATH.comics_genres),
+            isCurrent: useMatch(APP_PATH.genres),
         },
         {
             title: translate('history-title'),
             link: {
-                pathname: APP_PATH.comics_history,
+                pathname: APP_PATH.history,
                 search: createSearchParams({
                     type: 'all',
                     page: '1',
                 }).toString(),
             },
             name: translate('history'),
-            isCurrent: useMatch(APP_PATH.comics_history),
+            isCurrent: useMatch(APP_PATH.history),
         },
     ];
 

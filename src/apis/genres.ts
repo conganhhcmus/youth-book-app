@@ -29,6 +29,11 @@ const genresApi = {
         const url = GENRES_PATH.genres + `/${id ?? '-1'}`;
         return apiClients.put<Genres>(url, { ...data });
     },
+
+    getFullGenres() {
+        const url = GENRES_PATH.get_full;
+        return apiClients.get<Genres[]>(url);
+    },
 };
 
 export default genresApi;

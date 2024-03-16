@@ -11,7 +11,8 @@
         "fanpage",
         "Swal",
         "sweetalert2",
-        "dont"
+        "dont",
+        "Tất cả"
     ],
     "ignorePaths": [
         "*.log",

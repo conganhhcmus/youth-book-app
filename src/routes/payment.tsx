@@ -3,7 +3,7 @@ import { APP_PATH } from '@/constants/path';
 import { lazy, Suspense } from 'react';
 import LoadingPage from '@/components/Loading';
 
-const Deposit = lazy(() => import('@/pages/Payment/Deposit'));
+const Deposit = lazy(() => import('@/pages/Deposit'));
 
 export default [
     {

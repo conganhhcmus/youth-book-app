@@ -5,6 +5,7 @@ import LoadingPage from '@/components/Loading';
 
 const ComicDetail = lazy(() => import('@/pages/ComicDetail'));
 const ChapterDetail = lazy(() => import('@/pages/ChapterDetail'));
+const Genres = lazy(() => import('@/pages/Genres'));
 
 export default [
     {
@@ -20,6 +21,14 @@ export default [
         element: (
             <Suspense fallback={<LoadingPage />}>
                 <ChapterDetail />
+            </Suspense>
+        ),
+    },
+    {
+        path: APP_PATH.genres,
+        element: (
+            <Suspense fallback={<LoadingPage />}>
+                <Genres />
             </Suspense>
         ),
     },
