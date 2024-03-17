@@ -1,11 +1,11 @@
 import paymentApis from '@/apis/payment';
 import { Pagination } from '@/components/Pagination';
-import { COOKIE_KEYS, FILTER_OPTIONS, STATUS_OPTIONS } from '@/constants/settings';
+import { FILTER_OPTIONS, STATUS_OPTIONS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useRequestParams from '@/hooks/useRequestParams';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
-import { getCookie } from '@/utils/cookies';
+import { selectAccessToken } from '@/redux/slices/token';
 import { formatCurrency } from '@/utils/format';
 import { decodeJWTToken } from '@/utils/token';
 import { getTransactionStatusName, getTransactionTypeName } from '@/utils/transaction';
@@ -21,8 +21,7 @@ const PaymentHistory: React.FC = () => {
 
     const [filterOptions, setFilterOptions] = useState<number>(0);
     const [statusOptions, setStatusOptions] = useState<number[]>(STATUS_OPTIONS.map((x) => x.value));
-
-    const token = getCookie(COOKIE_KEYS.token);
+    const token = useAppSelector((state) => selectAccessToken(state.token));
     const userInfoPayload = decodeJWTToken(token);
 
     const { data: transactionDataResult } = useQuery({

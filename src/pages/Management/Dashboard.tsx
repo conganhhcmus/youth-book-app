@@ -1,17 +1,18 @@
 import dashboardApis from '@/apis/dashboard';
 import { APP_PATH } from '@/constants/path';
-import { COOKIE_KEYS, ROLES } from '@/constants/settings';
+import { ROLES } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
-import { getCookie } from '@/utils/cookies';
+import { selectAccessToken } from '@/redux/slices/token';
 import { formatCurrency } from '@/utils/format';
 import { decodeJWTToken } from '@/utils/token';
 import { useQuery } from 'react-query';
 
 const Dashboard: React.FC = () => {
-    const token = getCookie(COOKIE_KEYS.token);
+    const token = useAppSelector((state) => selectAccessToken(state.token));
     const userInfoPayload = decodeJWTToken(token);
+
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
 

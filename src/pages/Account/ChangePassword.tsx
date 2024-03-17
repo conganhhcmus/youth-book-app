@@ -1,14 +1,14 @@
 import authApis from '@/apis/auth';
-import { COOKIE_KEYS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useAlertMsg from '@/hooks/useAlertMsg';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
+import { changeAccessToken, changeRefreshToken, selectAccessToken } from '@/redux/slices/token';
 import { User } from '@/types/user';
-import { getCookie, setCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
 import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 const ChangePassword: React.FC = () => {
     const refPassword = useRef<HTMLInputElement>(null);
@@ -20,8 +20,9 @@ const ChangePassword: React.FC = () => {
     const translate = useTranslation(lang);
     const { callRequest } = useAxiosRequest();
     const { updateSuccessAlert } = useAlertMsg();
+    const dispatch = useDispatch();
 
-    const token = getCookie(COOKIE_KEYS.token);
+    const token = useAppSelector((state) => selectAccessToken(state.token));
     const userInfoPayload = decodeJWTToken(token);
 
     const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
@@ -47,8 +48,8 @@ const ChangePassword: React.FC = () => {
         const newPassword = refConfirmPassword.current?.value ?? '';
 
         callRequest(authApis.changePassword(userInfoPayload?._id, data, newPassword), (res) => {
-            setCookie(COOKIE_KEYS.token, res.data.token);
-            setCookie(COOKIE_KEYS.refreshToken, res.data.refreshToken);
+            dispatch(changeAccessToken(res.data.token));
+            dispatch(changeRefreshToken(res.data.refreshToken));
             updateSuccessAlert(true);
         });
     };

@@ -8,15 +8,16 @@ import useMode from '@/hooks/useMode';
 import { changeLanguage, selectLanguage, selectMode } from '@/redux/slices/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useTranslation from '@/hooks/useTranslation';
-import { COOKIE_KEYS } from '@/constants/settings';
-import { getCookie } from '@/utils/cookies';
-import { decodeJWTToken } from '@/utils/token';
 import AccountInfo from './AccountInfo';
+import { selectAccessToken } from '@/redux/slices/token';
+import { decodeJWTToken } from '@/utils/token';
 
 const Header = () => {
     const dispatch = useDispatch();
     const [isOpenMiniMenu, setIsOpenMiniMenu] = useState<boolean>(false);
     const [isOpenLanguage, setIsOpenLanguage] = useState<boolean>(false);
+    const token = useAppSelector((state) => selectAccessToken(state.token));
+    const userInfo = decodeJWTToken(token);
     const mode = useAppSelector((state) => selectMode(state.settings));
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
@@ -32,9 +33,6 @@ const Header = () => {
         setIsOpenLanguage(false);
         dispatch(changeLanguage(lang));
     };
-
-    const token = getCookie(COOKIE_KEYS.token);
-    const userInfo = decodeJWTToken(token);
 
     return (
         <div className={`bg-header bg-cover bg-no-repeat text-black shadow`}>
@@ -141,7 +139,10 @@ const Header = () => {
                 </div>
                 <div className="hidden items-center sm:flex">
                     {userInfo ? (
-                        <AccountInfo userInfo={userInfo} />
+                        <AccountInfo
+                            key={userInfo._id}
+                            userInfo={userInfo}
+                        />
                     ) : (
                         <>
                             <Link

@@ -1,9 +1,9 @@
 import { APP_PATH } from '@/constants/path';
-import { COOKIE_KEYS, ROLES } from '@/constants/settings';
+import { ROLES } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
-import { getCookie } from '@/utils/cookies';
+import { selectAccessToken } from '@/redux/slices/token';
 import { decodeJWTToken } from '@/utils/token';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet-async';
@@ -12,8 +12,9 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 const ManagementLayout = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
-    const token = getCookie(COOKIE_KEYS.token);
+    const token = useAppSelector((state) => selectAccessToken(state.token));
     const userInfoPayload = decodeJWTToken(token);
+
     const location = useLocation();
     const path = location.pathname;
 

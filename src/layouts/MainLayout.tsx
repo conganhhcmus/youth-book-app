@@ -3,19 +3,21 @@ import { Footer } from '@/components';
 import { Header, Navbar } from '@/components/Header';
 import ScrollToTop from '@/components/ScrollTop';
 import { APP_PATH } from '@/constants/path';
-import { COOKIE_KEYS } from '@/constants/settings';
+import { useAppSelector } from '@/hooks/reduxHook';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
-import { getCookie, setCookie } from '@/utils/cookies';
+import { changeAccessToken, selectAccessToken } from '@/redux/slices/token';
 import { decodeJWTToken } from '@/utils/token';
 import classNames from 'classnames';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const MainLayout = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { callRequest } = useAxiosRequest();
-    const token = getCookie(COOKIE_KEYS.token);
+    const dispatch = useDispatch();
+    const token = useAppSelector((state) => selectAccessToken(state.token));
     const userInfoPayload = decodeJWTToken(token);
 
     useEffect(() => {
@@ -24,14 +26,14 @@ const MainLayout = () => {
                 authApis.fetchInfo(),
                 (res) => {
                     const token = res.data;
-                    !!token && setCookie(COOKIE_KEYS.token, token);
+                    !!token && dispatch(changeAccessToken(token));
                 },
                 (err) => {
                     console.log(err);
                 },
             );
         }
-    }, [callRequest, navigate, userInfoPayload]);
+    }, [callRequest, dispatch, navigate, userInfoPayload]);
 
     useEffect(() => {
         window.scroll({

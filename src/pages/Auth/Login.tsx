@@ -1,6 +1,5 @@
 import authApis from '@/apis/auth';
 import { APP_PATH } from '@/constants/path';
-import { COOKIE_KEYS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useTranslation from '@/hooks/useTranslation';
@@ -9,7 +8,8 @@ import { User } from '@/types/user';
 import { useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
-import { setCookie } from '@/utils/cookies';
+import { changeAccessToken, changeRefreshToken } from '@/redux/slices/token';
+import { useDispatch } from 'react-redux';
 
 const Login: React.FC = () => {
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -20,6 +20,7 @@ const Login: React.FC = () => {
     const translate = useTranslation(lang);
     const { callRequest } = useAxiosRequest();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
         event.preventDefault();
@@ -33,8 +34,8 @@ const Login: React.FC = () => {
         callRequest(
             authApis.login(data),
             (res) => {
-                setCookie(COOKIE_KEYS.token, res.data.token);
-                setCookie(COOKIE_KEYS.refreshToken, res.data.refreshToken);
+                dispatch(changeAccessToken(res.data.token));
+                dispatch(changeRefreshToken(res.data.refreshToken));
                 navigate(APP_PATH.home);
             },
             (err) => {

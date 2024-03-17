@@ -4,7 +4,7 @@ import DropDown from '@/components/Dropdown';
 import { Pagination } from '@/components/Pagination';
 import Popup from '@/components/Popup';
 import { APP_PATH } from '@/constants/path';
-import { COMIC_STATUS_LIST, COOKIE_KEYS } from '@/constants/settings';
+import { COMIC_STATUS_LIST } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useAlertMsg from '@/hooks/useAlertMsg';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
@@ -12,13 +12,13 @@ import useRequestParams from '@/hooks/useRequestParams';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
 import { Comic, ComicModel } from '@/types/comic';
-import { getCookie } from '@/utils/cookies';
-import { decodeJWTToken } from '@/utils/token';
 import moment from 'moment';
 import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import imgLoading from '@/assets/icons/loading.gif';
+import { selectAccessToken } from '@/redux/slices/token';
+import { decodeJWTToken } from '@/utils/token';
 
 const ComicManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
@@ -59,7 +59,7 @@ const ComicManagement: React.FC = () => {
 
     const genres = genresResultData?.data?.data;
 
-    const token = getCookie(COOKIE_KEYS.token);
+    const token = useAppSelector((state) => selectAccessToken(state.token));
     const userInfoPayload = decodeJWTToken(token);
 
     const handleNew = () => {

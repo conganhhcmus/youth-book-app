@@ -1,13 +1,14 @@
 import { APP_PATH } from '@/constants/path';
-import { COOKIE_KEYS, ROLES } from '@/constants/settings';
+import { ROLES } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useAlertMsg from '@/hooks/useAlertMsg';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
+import { changeAccessToken, changeRefreshToken } from '@/redux/slices/token';
 import { UserJwtPayload } from '@/types/auth';
-import { removeCookie } from '@/utils/cookies';
 import { formatCurrency } from '@/utils/format';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 interface AccountInfoProps {
@@ -19,10 +20,11 @@ const AccountInfo = ({ userInfo }: AccountInfoProps) => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     const { dontSupportAlert } = useAlertMsg();
+    const dispatch = useDispatch();
 
     const logout = () => {
-        removeCookie(COOKIE_KEYS.token);
-        removeCookie(COOKIE_KEYS.refreshToken);
+        dispatch(changeAccessToken(''));
+        dispatch(changeRefreshToken(''));
         window.location.href = APP_PATH.home;
     };
 

@@ -1,15 +1,14 @@
 import genresApi from '@/apis/genres';
 import { Pagination } from '@/components/Pagination';
 import Popup from '@/components/Popup';
-import { COOKIE_KEYS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useAlertMsg from '@/hooks/useAlertMsg';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useRequestParams from '@/hooks/useRequestParams';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
+import { selectAccessToken } from '@/redux/slices/token';
 import { Genres, GenresModel } from '@/types/comic';
-import { getCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
 import moment from 'moment';
 import { useRef, useState } from 'react';
@@ -38,7 +37,7 @@ const GenresManagement: React.FC = () => {
     const genresResult = genresResultData?.data;
     const genresList = genresResult?.data;
 
-    const token = getCookie(COOKIE_KEYS.token);
+    const token = useAppSelector((state) => selectAccessToken(state.token));
     const userInfoPayload = decodeJWTToken(token);
 
     const handleNew = () => {

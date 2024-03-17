@@ -1,9 +1,6 @@
 import { selectLanguage } from '@/redux/slices/settings';
 import { useAppSelector } from './reduxHook';
 import useTranslation from './useTranslation';
-import { getCookie } from '@/utils/cookies';
-import { COOKIE_KEYS } from '@/constants/settings';
-import { decodeJWTToken } from '@/utils/token';
 import useAxiosRequest from './useAxiosRequest';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
@@ -13,12 +10,15 @@ import { isEnabledRead } from '@/utils/comic';
 import Swal from 'sweetalert2';
 import { APP_PATH } from '@/constants/path';
 import { formatCurrency } from '@/utils/format';
+import { selectAccessToken } from '@/redux/slices/token';
+import { decodeJWTToken } from '@/utils/token';
 
 const useReadChapter = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
-    const token = getCookie(COOKIE_KEYS.token);
+    const token = useAppSelector((state) => selectAccessToken(state.token));
     const userInfoPayload = decodeJWTToken(token);
+
     const { callRequest } = useAxiosRequest();
     const navigate = useNavigate();
 

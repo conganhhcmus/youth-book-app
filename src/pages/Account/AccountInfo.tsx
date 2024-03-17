@@ -1,12 +1,11 @@
 import userApis from '@/apis/user';
-import { COOKIE_KEYS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useAlertMsg from '@/hooks/useAlertMsg';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
+import { selectAccessToken } from '@/redux/slices/token';
 import { User } from '@/types/user';
-import { getCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
 import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
@@ -21,7 +20,7 @@ const AccountInfo: React.FC = () => {
     const { callRequest } = useAxiosRequest();
     const { updateSuccessAlert, confirmUpdateAlert } = useAlertMsg();
 
-    const token = getCookie(COOKIE_KEYS.token);
+    const token = useAppSelector((state) => selectAccessToken(state.token));
     const userInfoPayload = decodeJWTToken(token);
 
     const { data: userInfoRes } = useQuery({
