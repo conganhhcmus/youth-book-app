@@ -5,14 +5,17 @@ import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
 import { getCookie } from '@/utils/cookies';
 import { decodeJWTToken } from '@/utils/token';
+import classNames from 'classnames';
 import { Helmet } from 'react-helmet-async';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 
 const ManagementLayout = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     const token = getCookie(COOKIE_KEYS.token);
     const userInfoPayload = decodeJWTToken(token);
+    const location = useLocation();
+    const path = location.pathname;
 
     if (!userInfoPayload) {
         window.location.href = APP_PATH.home;
@@ -30,43 +33,53 @@ const ManagementLayout = () => {
             <div className="flex min-h-[600px] justify-start gap-4 px-4 pt-4 xl:px-0">
                 <div className="min-w-fit overflow-y-auto bg-gray-100 px-3 py-4 dark:bg-gray-800">
                     <ul className="space-y-2 font-medium">
-                        {(userInfoPayload?.role === ROLES.admin || userInfoPayload?.role === ROLES.collaborators) && (
-                            <li>
-                                <Link
-                                    title={translate('billing-management')}
-                                    to={APP_PATH.management_billing}
-                                    className="group flex items-center rounded-lg fill-gray-700 p-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                    <svg
-                                        className="h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                                        viewBox="0 0 12 12"
-                                        enableBackground="new 0 0 12 12"
-                                        version="1.1"
-                                        fill="currentColor"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <g
-                                            id="SVGRepo_bgCarrier"
-                                            strokeWidth="0"></g>
-                                        <g
-                                            id="SVGRepo_tracerCarrier"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"></g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <path d="M11,1.5H1c-0.5517578,0-1,0.4482422-1,1v7c0,0.5517578,0.4482422,1,1,1h10c0.5517578,0,1-0.4482422,1-1v-7 C12,1.9482422,11.5517578,1.5,11,1.5z M4,8.5H2v-1h2V8.5z M8,8.5H5v-1h3V8.5z"></path>
-                                        </g>
-                                    </svg>
-                                    <span className="ms-3 flex-1 whitespace-nowrap capitalize">{translate('billing-management')}</span>
-                                </Link>
-                            </li>
-                        )}
                         {userInfoPayload?.role === ROLES.admin && (
                             <>
                                 <li>
                                     <Link
+                                        title={translate('dashboard')}
+                                        to={APP_PATH.management_dashboard}
+                                        className={classNames(
+                                            'group flex items-center rounded-lg fill-gray-700 p-2 text-gray-900 hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700',
+                                            {
+                                                'bg-gray-300 dark:bg-gray-700': path.includes(APP_PATH.management_dashboard),
+                                            },
+                                        )}>
+                                        <svg
+                                            className={classNames(
+                                                'h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white',
+                                                {
+                                                    'text-gray-900 dark:text-white': path.includes(APP_PATH.management_dashboard),
+                                                },
+                                            )}
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                                            <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                                        </svg>
+                                        <span className="ms-3 flex-1 whitespace-nowrap capitalize">{translate('dashboard')}</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
                                         title={translate('comic-management')}
                                         to={APP_PATH.management_comics}
-                                        className="group flex items-center rounded-lg fill-gray-700 p-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                        className={classNames(
+                                            'group flex items-center rounded-lg fill-gray-700 p-2 text-gray-900 hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700',
+                                            {
+                                                'bg-gray-300 dark:bg-gray-700':
+                                                    path.includes(APP_PATH.management_comics) || path.includes(APP_PATH.management_chapters),
+                                            },
+                                        )}>
                                         <svg
-                                            className="h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                                            className={classNames(
+                                                'h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white',
+                                                {
+                                                    'text-gray-900 dark:text-white':
+                                                        path.includes(APP_PATH.management_comics) || path.includes(APP_PATH.management_chapters),
+                                                },
+                                            )}
                                             viewBox="0 0 24 24"
                                             fill="currentColor"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -94,9 +107,19 @@ const ManagementLayout = () => {
                                     <Link
                                         title={translate('genres-management')}
                                         to={APP_PATH.management_genres}
-                                        className="group flex items-center rounded-lg fill-gray-700 p-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                        className={classNames(
+                                            'group flex items-center rounded-lg fill-gray-700 p-2 text-gray-900 hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700',
+                                            {
+                                                'bg-gray-300 dark:bg-gray-700': path.includes(APP_PATH.management_genres),
+                                            },
+                                        )}>
                                         <svg
-                                            className="h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                                            className={classNames(
+                                                'h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white',
+                                                {
+                                                    'text-gray-900 dark:text-white': path.includes(APP_PATH.management_genres),
+                                                },
+                                            )}
                                             viewBox="0 0 24 24"
                                             fill="currentColor"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -124,9 +147,19 @@ const ManagementLayout = () => {
                                     <Link
                                         title={translate('user-management')}
                                         to={APP_PATH.management_users}
-                                        className="group flex items-center rounded-lg fill-gray-700 p-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                        className={classNames(
+                                            'group flex items-center rounded-lg fill-gray-700 p-2 text-gray-900 hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700',
+                                            {
+                                                'bg-gray-300 dark:bg-gray-700': path.includes(APP_PATH.management_users),
+                                            },
+                                        )}>
                                         <svg
-                                            className="h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                                            className={classNames(
+                                                'h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white',
+                                                {
+                                                    'text-gray-900 dark:text-white': path.includes(APP_PATH.management_users),
+                                                },
+                                            )}
                                             aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="currentColor"
@@ -137,6 +170,44 @@ const ManagementLayout = () => {
                                     </Link>
                                 </li>
                             </>
+                        )}
+                        {(userInfoPayload?.role === ROLES.admin || userInfoPayload?.role === ROLES.collaborators) && (
+                            <li>
+                                <Link
+                                    title={translate('billing-management')}
+                                    to={APP_PATH.management_billing}
+                                    className={classNames(
+                                        'group flex items-center rounded-lg fill-gray-700 p-2 text-gray-900 hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700',
+                                        {
+                                            'bg-gray-300 dark:bg-gray-700': path.includes(APP_PATH.management_billing),
+                                        },
+                                    )}>
+                                    <svg
+                                        className={classNames(
+                                            'h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white',
+                                            {
+                                                'text-gray-900 dark:text-white': path.includes(APP_PATH.management_billing),
+                                            },
+                                        )}
+                                        viewBox="0 0 12 12"
+                                        enableBackground="new 0 0 12 12"
+                                        version="1.1"
+                                        fill="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g
+                                            id="SVGRepo_bgCarrier"
+                                            strokeWidth="0"></g>
+                                        <g
+                                            id="SVGRepo_tracerCarrier"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path d="M11,1.5H1c-0.5517578,0-1,0.4482422-1,1v7c0,0.5517578,0.4482422,1,1,1h10c0.5517578,0,1-0.4482422,1-1v-7 C12,1.9482422,11.5517578,1.5,11,1.5z M4,8.5H2v-1h2V8.5z M8,8.5H5v-1h3V8.5z"></path>
+                                        </g>
+                                    </svg>
+                                    <span className="ms-3 flex-1 whitespace-nowrap capitalize">{translate('billing-management')}</span>
+                                </Link>
+                            </li>
                         )}
                     </ul>
                 </div>

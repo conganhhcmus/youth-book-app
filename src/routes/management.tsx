@@ -11,6 +11,7 @@ const ChapterManagement = lazy(() => import('@/pages/Management/ChapterManagemen
 const GenresManagement = lazy(() => import('@/pages/Management/GenresManagement'));
 const UserManagement = lazy(() => import('@/pages/Management/UserManagement'));
 const BillingManagement = lazy(() => import('@/pages/Management/PaymentManagement'));
+const Dashboard = lazy(() => import('@/pages/Management/Dashboard'));
 
 export default [
     {
@@ -21,7 +22,15 @@ export default [
             {
                 index: true,
                 path: APP_PATH.management,
-                loader: () => redirect(APP_PATH.management_billing),
+                loader: () => redirect(APP_PATH.management_dashboard),
+            },
+            {
+                path: APP_PATH.management_dashboard,
+                element: (
+                    <Suspense fallback={<LoadingPage />}>
+                        <Dashboard />
+                    </Suspense>
+                ),
             },
             {
                 path: APP_PATH.management_comics,

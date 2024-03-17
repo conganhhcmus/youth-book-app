@@ -35,7 +35,7 @@ const PaymentManagement: React.FC = () => {
     const resultData = transactionDataResult?.data;
     const transactionList = resultData?.data;
 
-    const onStatusChange = (event: React.MouseEvent<HTMLInputElement>, value: number) => {
+    const onStatusChange = (event: React.ChangeEvent<HTMLInputElement>, value: number) => {
         let temp = [...statusOptions, value];
 
         if (!event.currentTarget.checked) {
@@ -60,35 +60,35 @@ const PaymentManagement: React.FC = () => {
         <div className="relative h-full w-full overflow-x-auto border-2 p-8 sm:rounded-lg">
             <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-white pb-4 dark:bg-gray-700 md:flex-row md:space-y-0">
                 <div className="flex flex-col">
-                    <div className="inline-flex items-center rounded-lg bg-white px-3 py-1.5 text-sm font-medium text-gray-500 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:focus:ring-gray-700">
+                    <div
+                        key="options"
+                        className="inline-flex items-center rounded-lg bg-white px-3 py-1.5 text-sm font-medium text-gray-500 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:focus:ring-gray-700">
                         {FILTER_OPTIONS.map((option) => (
-                            <>
-                                <div
-                                    key={option.value}
-                                    className="mb-[0.125rem] mr-8 inline-block min-h-[1.5rem] pl-[1.5rem]">
-                                    <input
-                                        className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
-                                        type="radio"
-                                        name="inlineRadioOptions"
-                                        id={option.name}
-                                        value={option.value}
-                                        checked={option.value == filterOptions}
-                                        onChange={() => setFilterOptions(option.value)}
-                                    />
-                                    <label
-                                        className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
-                                        htmlFor={option.name}>
-                                        {translate(option.name)}
-                                    </label>
-                                </div>
-                            </>
+                            <div
+                                key={`option - ${option.value}`}
+                                className="mb-[0.125rem] mr-8 inline-block min-h-[1.5rem] pl-[1.5rem]">
+                                <input
+                                    className="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
+                                    type="radio"
+                                    name="inlineRadioOptions"
+                                    id={option.name}
+                                    value={option.value}
+                                    checked={option.value == filterOptions}
+                                    onChange={() => setFilterOptions(option.value)}
+                                />
+                                <label
+                                    className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
+                                    htmlFor={option.name}>
+                                    {translate(option.name)}
+                                </label>
+                            </div>
                         ))}
                     </div>
                     <div className="inline-flex items-center rounded-lg bg-white px-3 py-1.5 text-sm font-medium text-gray-500 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:focus:ring-gray-700">
                         {STATUS_OPTIONS.map((option) => (
-                            <>
+                            <div key={option.name}>
                                 <input
-                                    onClick={(e) => onStatusChange(e, option.value)}
+                                    onChange={(e) => onStatusChange(e, option.value)}
                                     id={option.name}
                                     type="checkbox"
                                     checked={statusOptions.includes(option.value)}
@@ -99,7 +99,7 @@ const PaymentManagement: React.FC = () => {
                                     className="w-30 mb-2 ml-2 mr-6 mt-2 text-sm font-medium capitalize text-gray-900 dark:text-white">
                                     {translate(option.name)}
                                 </label>
-                            </>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -129,7 +129,7 @@ const PaymentManagement: React.FC = () => {
                     />
                 </div>
             </div>
-            <div className="relative h-96 w-full overflow-y-auto sm:rounded-lg">
+            <div className="relative min-h-[335px] w-full overflow-y-auto sm:rounded-lg">
                 <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
                     <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                         <tr>

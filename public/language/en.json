@@ -147,5 +147,13 @@
     "updating": "Updating",
     "new-title": "New Comic - YouthBook",
     "top-all": "Top All",
+    "payment-by-day": "Total Income In 1 Day",
+    "payment-by-week":"Total Income In 1 Week",
+    "payment-by-1-month": "Total Income In 1 Month",
+    "payment-by-3-months": "Total Income In 3 Months",
+    "payment-by-year": "Total Income In 1 Year",
+    "total-payment": "Total Income",
+    "total-users": "Total Users",
+    "total-comics": "Total Comics",
     "description_0": "The largest online comic reading website updated continuously every day - Join reading and discussing with more than 10 million members 🎉 at YouthBook ❤️💛💚"
 }

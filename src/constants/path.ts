@@ -27,6 +27,10 @@ export const AUTH_PATH = {
     fetch_info: '/fetch-info',
 } as const;
 
+export const DASHBOARD_PATH = {
+    dashboard: 'dashboard',
+} as const;
+
 export const USERS_PATH = {
     users: '/users',
 } as const;
@@ -67,6 +71,7 @@ export const APP_PATH = {
     recent: '/recent',
 
     // management
+    management_dashboard: '/management/dashboard',
     management: '/management',
     management_comics: '/management/comics',
     management_users: '/management/users',
