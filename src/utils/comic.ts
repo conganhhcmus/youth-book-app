@@ -6,7 +6,7 @@ export const getComicResponse = (data: Comic): ComicModel => {
 };
 
 export const isEnabledRead = (chapter: Chapter, transaction: Transaction[] = []) => {
-    if (chapter.price <= 0 || transaction.map((trans) => trans.sourceId).includes(chapter._id)) {
+    if (!chapter || chapter.price <= 0 || transaction.map((trans) => trans.sourceId).includes(chapter._id)) {
         return true;
     }
 

@@ -15,7 +15,6 @@ const Pagination = ({ page, totalPage, queryConfig }: PaginationProps) => {
     const RANGE = 2;
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
-    if (totalPage <= 1) return <></>;
 
     const _renderPagination = () => {
         let dotAfter = false;

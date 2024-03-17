@@ -44,7 +44,7 @@ export default [
         ),
     },
     {
-        path: APP_PATH.new,
+        path: APP_PATH.recent,
         element: (
             <Suspense fallback={<LoadingPage />}>
                 <New />

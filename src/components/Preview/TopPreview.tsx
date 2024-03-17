@@ -50,7 +50,7 @@ const TopPreview = ({ data, top = 7 }: TopPreviewProps) => {
                             <Link
                                 title={item.name}
                                 to={`${APP_PATH.comics}/${item._id}`}
-                                className="text-base font-semibold leading-4 text-black hover:text-primary dark:text-white dark:hover:text-primary">
+                                className="line-clamp-2 text-base font-semibold leading-4 text-black hover:text-primary dark:text-white dark:hover:text-primary">
                                 {item.name}
                             </Link>
                             <p className="ml-[1px] line-clamp-1 text-sm leading-5 text-gray-400">

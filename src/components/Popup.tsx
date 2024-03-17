@@ -1,7 +1,7 @@
 import { useAppSelector } from '@/hooks/reduxHook';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 interface PopupProps {
     closeHandle: () => void;
@@ -14,8 +14,12 @@ interface PopupProps {
 }
 
 const Popup = ({ closeHandle, title, content, submit = true, cancel = true, submitHandle, cancelHandle }: PopupProps) => {
+    const [contentRender, setContentRender] = useState<ReactNode>();
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
+    useEffect(() => {
+        setContentRender(content);
+    }, [content]);
     return (
         <div
             id="static-modal"
@@ -23,7 +27,7 @@ const Popup = ({ closeHandle, title, content, submit = true, cancel = true, subm
             tabIndex={-1}
             aria-hidden="true"
             className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
-            <div className="relative left-[50%] top-[50%] max-h-full w-full max-w-2xl translate-x-[-50%] translate-y-[-50%] transform p-4">
+            <div className="relative left-[50%] top-[50%] max-h-full w-full max-w-[800px] translate-x-[-50%] translate-y-[-50%] transform p-4">
                 <div className="relative rounded-lg border-2 bg-white shadow dark:bg-gray-700 ">
                     <div className="flex items-center justify-between rounded-t border-b p-4 dark:border-gray-600 md:p-5">
                         <h3 className="text-xl font-semibold capitalize text-gray-900 dark:text-white">{title}</h3>
@@ -49,7 +53,7 @@ const Popup = ({ closeHandle, title, content, submit = true, cancel = true, subm
                             <span className="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <div className="max-h-[500px] space-y-4 overflow-y-auto p-4 md:p-5">{content}</div>
+                    <div className="max-h-[500px] space-y-4 overflow-y-auto p-4 md:p-5">{contentRender}</div>
                     <div className="flex items-center justify-end gap-4 rounded-b border-t border-gray-200 p-4 dark:border-gray-600 md:p-5">
                         {cancel && (
                             <button

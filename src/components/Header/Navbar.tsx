@@ -12,14 +12,14 @@ const Navbar = () => {
         {
             title: translate('new-comic-title'),
             link: {
-                pathname: APP_PATH.new,
+                pathname: APP_PATH.recent,
                 search: createSearchParams({
                     type: 'all',
                     page: '1',
                 }).toString(),
             },
             name: translate('new-comic'),
-            isCurrent: useMatch(APP_PATH.new),
+            isCurrent: useMatch(APP_PATH.recent),
         },
         {
             title: translate('top-comic-title'),

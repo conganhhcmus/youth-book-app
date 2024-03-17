@@ -27,6 +27,7 @@ export const COOKIE_KEYS = {
 
 export const ROLES = {
     admin: 1,
+    collaborators: 2,
 };
 
 export const ROLE_LIST = [
@@ -38,6 +39,10 @@ export const ROLE_LIST = [
         value: 1,
         name: 'admin',
     },
+    {
+        value: 2,
+        name: 'collaborators',
+    },
 ];
 
 export const COMIC_TYPES_LIST = [
@@ -48,6 +53,17 @@ export const COMIC_TYPES_LIST = [
     {
         value: 1,
         name: 'picture',
+    },
+];
+
+export const COMIC_STATUS_LIST = [
+    {
+        value: 0,
+        name: 'updating',
+    },
+    {
+        value: 1,
+        name: 'completed',
     },
 ];
 
@@ -75,15 +91,19 @@ export const FILTER_OPTIONS = [
         value: 0,
     },
     {
-        name: '1 Year',
-        value: 12,
-    },
-    {
         name: '3 Months',
-        value: 3,
+        value: 3 * 30,
     },
     {
         name: '1 Month',
+        value: 30,
+    },
+    {
+        name: '1 Week',
+        value: 7,
+    },
+    {
+        name: '1 Day',
         value: 1,
     },
 ];

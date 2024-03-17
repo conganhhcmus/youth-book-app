@@ -20,11 +20,11 @@ const DropDown = ({ text, data, value, onChange }: DropDownPros) => {
                 onClick={() => setIsHidden((prev) => !prev)}
                 id="dropdownBgHoverButton"
                 data-dropdown-toggle="dropdownBgHover"
-                className="inline-flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="inline-flex w-44 items-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 type="button">
                 {text}
                 <svg
-                    className="ms-3 h-2.5 w-2.5"
+                    className=" ms-3 h-2.5 w-2.5"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -40,9 +40,9 @@ const DropDown = ({ text, data, value, onChange }: DropDownPros) => {
             </button>
             <div
                 id="dropdownBgHover"
-                className={`${isHidden ? 'hidden' : ''} z-20 w-48 rounded-lg bg-white shadow dark:bg-gray-700`}>
+                className={`${isHidden ? 'hidden' : ''} z-20 w-44 rounded-lg bg-white shadow dark:bg-gray-700`}>
                 <ul
-                    className="space-y-1 p-3 text-sm text-gray-700 dark:text-gray-200"
+                    className="max-h-32 w-44 space-y-1 overflow-auto p-3 text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="dropdownBgHoverButton">
                     {data &&
                         data.map((e) => (

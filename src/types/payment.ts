@@ -9,7 +9,9 @@ export interface Transaction {
     status: number;
     createTime: Date;
     updateTime: Date;
+    updateBy: string;
     users: User[];
+    updateUsers: User[];
 }
 
 export interface TransactionData {
@@ -26,4 +28,5 @@ export interface TransactionModel {
     status: number;
     createTime: Date;
     updateTime: Date;
+    updateBy: string;
 }

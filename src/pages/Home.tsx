@@ -69,12 +69,12 @@ const Home: React.FC = () => {
                     img={iconRecommend}
                     title={translate('recommend')}
                     url={APP_PATH.recommend}
-                    isShowMore={true}
+                    isShowMore={false}
                 />
                 <Banner data={recommendData?.data} />
             </section>
             <div className="flex flex-row gap-4 pt-10">
-                <div className="">
+                <div className="flex-1">
                     <TitlePreview
                         img={iconRecent}
                         title={translate('recent-update')}
@@ -90,11 +90,11 @@ const Home: React.FC = () => {
                         />
                     )}
                 </div>
-                <div className="ml-4 hidden w-[350px] lg:block">
+                <div className="ml-4 hidden w-[300px] lg:block">
                     <div className="mb-2 border p-4">
                         <TitlePreview
                             title={translate('top-daily')}
-                            url={APP_PATH.recent}
+                            url={APP_PATH.top}
                             isShowMore={true}
                         />
                         {topDailyData && <TopPreview data={topDailyData?.data} />}
@@ -102,7 +102,7 @@ const Home: React.FC = () => {
                     <div className="mb-2 border p-4">
                         <TitlePreview
                             title={translate('top-weekly')}
-                            url={APP_PATH.recent}
+                            url={APP_PATH.top}
                             isShowMore={true}
                         />
                         {topWeeklyData && <TopPreview data={topWeeklyData?.data} />}
@@ -110,7 +110,7 @@ const Home: React.FC = () => {
                     <div className="mb-2 border p-4">
                         <TitlePreview
                             title={translate('top-monthly')}
-                            url={APP_PATH.recent}
+                            url={APP_PATH.top}
                             isShowMore={true}
                         />
                         {topMonthlyData && <TopPreview data={topMonthlyData?.data} />}

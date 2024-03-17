@@ -4,7 +4,7 @@ import DropDown from '@/components/Dropdown';
 import { Pagination } from '@/components/Pagination';
 import Popup from '@/components/Popup';
 import { APP_PATH } from '@/constants/path';
-import { COOKIE_KEYS } from '@/constants/settings';
+import { COMIC_STATUS_LIST, COOKIE_KEYS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useAlertMsg from '@/hooks/useAlertMsg';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
@@ -19,6 +19,7 @@ import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import imgLoading from '@/assets/icons/loading.gif';
 
 const ComicManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
@@ -33,6 +34,7 @@ const ComicManagement: React.FC = () => {
     const refThumbnail = useRef<HTMLInputElement>(null);
     const refAuthor = useRef<HTMLInputElement>(null);
     const refRecommend = useRef<HTMLInputElement>(null);
+    const refStatus = useRef<HTMLSelectElement>(null);
 
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
@@ -41,7 +43,7 @@ const ComicManagement: React.FC = () => {
     const navigate = useNavigate();
     const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert } = useAlertMsg();
 
-    const { data: resultData } = useQuery({
+    const { data: resultData, isLoading } = useQuery({
         queryKey: ['suggestSearch', { ...queryParams, q: searchText }],
         queryFn: () => comicApis.suggestSearch({ ...queryParams, q: searchText }),
         staleTime: 3 * 60 * 1000,
@@ -86,6 +88,7 @@ const ComicManagement: React.FC = () => {
             description: refDescription.current?.value,
             thumbnail: refThumbnail.current?.value,
             author: refAuthor.current?.value,
+            status: (refStatus.current && parseInt(refStatus.current?.value, 10)) || 0,
             genres: genresChecked,
             createBy: userInfoPayload?._id,
             createTime: moment().utc().toDate(),
@@ -104,7 +107,8 @@ const ComicManagement: React.FC = () => {
             refAuthor.current?.value &&
             refDescription.current?.value &&
             refName.current?.value &&
-            refThumbnail.current?.value
+            refThumbnail.current?.value &&
+            refStatus.current?.value
         );
     };
 
@@ -115,7 +119,8 @@ const ComicManagement: React.FC = () => {
             refDescription.current?.value ||
             refName.current?.value ||
             refThumbnail.current?.value ||
-            refRecommend.current?.checked !== comicInfo?.recommend
+            refRecommend.current?.checked !== comicInfo?.recommend ||
+            refStatus.current?.value != comicInfo?.status
         );
     };
     const handleEditSubmit = () => {
@@ -129,6 +134,7 @@ const ComicManagement: React.FC = () => {
             author: refAuthor.current?.value || comicInfo?.author,
             description: refName.current?.value || comicInfo?.description,
             name: refName.current?.value || comicInfo?.name,
+            status: refStatus.current?.value || comicInfo?.status,
             thumbnail: refThumbnail.current?.value || comicInfo?.thumbnail,
             recommend: refRecommend.current?.checked,
         } as ComicModel;
@@ -197,7 +203,7 @@ const ComicManagement: React.FC = () => {
                     className="mb-2 mt-2 w-20 text-sm font-medium text-gray-900 dark:text-white">
                     {translate('genres')}
                 </label>
-                <div className="min-w-60">
+                <div className="h-8 w-48">
                     <DropDown
                         text={translate('choose-genres')}
                         data={genres?.map((x) => ({ id: x._id, title: x.name, value: x._id }))}
@@ -216,6 +222,25 @@ const ComicManagement: React.FC = () => {
                     className="mb-2 mt-2 w-20 text-sm font-medium capitalize text-gray-900 dark:text-white">
                     {translate('recommend')}
                 </label>
+                <label
+                    htmlFor="status"
+                    className="mt-2 h-4 text-sm font-medium text-gray-900 dark:text-white">
+                    {translate('status')}
+                </label>
+                <select
+                    ref={refStatus}
+                    id="status"
+                    key={comicInfo?.status}
+                    defaultValue={comicInfo?.status}
+                    className="w-30 h-10 rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
+                    {COMIC_STATUS_LIST.map((status) => (
+                        <option
+                            key={status.value}
+                            value={status.value}>
+                            {translate(status.name)}
+                        </option>
+                    ))}
+                </select>
             </div>
             <div>
                 <label
@@ -266,6 +291,17 @@ const ComicManagement: React.FC = () => {
             </div>
         </form>
     );
+
+    if (isLoading && comicInfo)
+        return (
+            <div className="flex h-[100px] items-center justify-center gap-2">
+                <img
+                    src={imgLoading}
+                    alt="loading icon"
+                    loading="lazy"
+                />
+            </div>
+        );
 
     return (
         <div className="relative h-full w-full overflow-x-auto border-2 p-8 sm:rounded-lg">

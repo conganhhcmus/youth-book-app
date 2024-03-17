@@ -85,7 +85,7 @@ const AccountInfo = ({ userInfo }: AccountInfoProps) => {
                             <span className="mt-[2px] text-xs">{translate('account-page')}</span>
                         </Link>
                         <span className="my-1 h-[1px] w-[80%] border-b border-dashed" />
-                        {userInfo.role === ROLES.admin && (
+                        {(userInfo.role === ROLES.admin || userInfo.role === ROLES.collaborators) && (
                             <>
                                 <Link
                                     title={translate('management-page')}

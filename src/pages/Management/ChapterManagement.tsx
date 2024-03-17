@@ -14,16 +14,17 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import useAlertMsg from '@/hooks/useAlertMsg';
+import { formatCurrency } from '@/utils/format';
 
 const ChapterManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
     const [isShowNewAction, setIsShowNewAction] = useState<boolean>(false);
     const [chapterInfo, setChapterInfo] = useState<Chapter>();
+    const [searchText, setSearchText] = useState<string>('');
 
     const { comicId } = useParams();
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
-    const [searchText, setSearchText] = useState<string>('');
 
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
@@ -238,6 +239,11 @@ const ChapterManagement: React.FC = () => {
             <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-white pb-4 dark:bg-gray-700 md:flex-row md:space-y-0">
                 <div className="relative">
                     <button
+                        onClick={() => history.back()}
+                        className="mb-2 me-2 rounded-lg bg-gray-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        {translate('go-back')}
+                    </button>
+                    <button
                         onClick={handleNew}
                         className="mb-2 me-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         {translate('add')}
@@ -282,6 +288,11 @@ const ChapterManagement: React.FC = () => {
                             <th
                                 scope="col"
                                 className="px-6 py-3">
+                                {translate('price')}
+                            </th>
+                            <th
+                                scope="col"
+                                className="px-6 py-3">
                                 {translate('create-at')}
                             </th>
                             <th
@@ -302,7 +313,8 @@ const ChapterManagement: React.FC = () => {
                                 <tr
                                     key={chapter._id}
                                     className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
-                                    <td className="px-6 py-4 font-bold capitalize">{chapter.name}</td>
+                                    <td className="max-w-60 px-6 py-4 font-bold capitalize">{chapter.name}</td>
+                                    <td className="min-w-20 px-6 py-4 font-bold text-primary">{formatCurrency(chapter.price)}</td>
                                     <td className="px-6 py-4 capitalize">{moment(chapter.createTime).format('DD/MM/YYYY')}</td>
                                     <td className="px-6 py-4 capitalize">{moment(chapter.updateTime).format('DD/MM/YYYY')}</td>
                                     <td className="px-6 py-4">

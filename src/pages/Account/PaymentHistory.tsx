@@ -1,4 +1,5 @@
 import paymentApis from '@/apis/payment';
+import { Pagination } from '@/components/Pagination';
 import { COOKIE_KEYS, FILTER_OPTIONS, STATUS_OPTIONS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
 import useRequestParams from '@/hooks/useRequestParams';
@@ -156,6 +157,13 @@ const PaymentHistory: React.FC = () => {
                     </tbody>
                 </table>
             </div>
+            {resultData?.totalPage && (
+                <Pagination
+                    queryConfig={queryParams}
+                    page={resultData?.currentPage}
+                    totalPage={resultData?.totalPage}
+                />
+            )}
         </div>
     );
 };

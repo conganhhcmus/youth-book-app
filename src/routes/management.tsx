@@ -21,7 +21,7 @@ export default [
             {
                 index: true,
                 path: APP_PATH.management,
-                loader: () => redirect(APP_PATH.management_comics),
+                loader: () => redirect(APP_PATH.management_billing),
             },
             {
                 path: APP_PATH.management_comics,
