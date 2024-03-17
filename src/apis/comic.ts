@@ -1,5 +1,4 @@
 import { ComicModel } from '@/types/comic';
-import { TopComicType } from '@/types/request';
 import apiClients from '@/configs/apiClients';
 import { COMICS_PATH } from '@/constants/path';
 import { Comic, ComicBaseData, ComicData } from '@/types/comic';
@@ -19,14 +18,10 @@ const comicApis = {
         return apiClients.get<ComicData>(url, { params });
     },
 
-    topComics(type: TopComicType, params?: paramOption) {
+    topComics(params?: paramOption) {
         const url = COMICS_PATH.top;
-        const paramsRequest = {
-            ...params,
-            type: type,
-        };
 
-        return apiClients.get<ComicData>(url, { params: paramsRequest });
+        return apiClients.get<ComicData>(url, { params });
     },
 
     getComicInfo(id: string = '-1') {

@@ -2,7 +2,7 @@ import { TOP_COMICS } from '@/constants/path';
 
 export type paramOption = {
     type?: string;
-    // status?: 'all' | 'completed' | 'updating' | string;
+    status?: 'all' | 'completed' | 'updating' | string;
     page?: number;
     q?: string;
 };

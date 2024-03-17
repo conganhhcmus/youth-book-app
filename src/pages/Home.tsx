@@ -26,26 +26,26 @@ const Home: React.FC = () => {
     });
 
     const { data: recentList } = useQuery({
-        queryKey: ['recent-comics', queryParams],
-        queryFn: () => comicApis.recentComics(queryParams),
+        queryKey: ['recent-comics', { ...queryParams, status: 'all' }],
+        queryFn: () => comicApis.recentComics({ ...queryParams, status: 'all' }),
         staleTime: 3 * 60 * 1000,
     });
 
     const { data: topDailyList } = useQuery({
-        queryKey: ['top-daily-comics', defaultQueryParams],
-        queryFn: () => comicApis.topComics(TOP_COMICS.daily, defaultQueryParams),
+        queryKey: ['top-daily-comics', { ...defaultQueryParams, type: TOP_COMICS.daily }],
+        queryFn: () => comicApis.topComics({ ...defaultQueryParams, type: TOP_COMICS.daily }),
         staleTime: 3 * 60 * 1000,
     });
 
     const { data: topWeeklyList } = useQuery({
-        queryKey: ['top-weekly-comics', defaultQueryParams],
-        queryFn: () => comicApis.topComics(TOP_COMICS.weekly, defaultQueryParams),
+        queryKey: ['top-weekly-comics', { ...defaultQueryParams, type: TOP_COMICS.weekly }],
+        queryFn: () => comicApis.topComics({ ...defaultQueryParams, type: TOP_COMICS.weekly }),
         staleTime: 3 * 60 * 1000,
     });
 
     const { data: topMonthlyList } = useQuery({
-        queryKey: ['top-monthly-comics', defaultQueryParams],
-        queryFn: () => comicApis.topComics(TOP_COMICS.monthly, defaultQueryParams),
+        queryKey: ['top-monthly-comics', { ...defaultQueryParams, type: TOP_COMICS.monthly }],
+        queryFn: () => comicApis.topComics({ ...defaultQueryParams, type: TOP_COMICS.monthly }),
         staleTime: 3 * 60 * 1000,
     });
 

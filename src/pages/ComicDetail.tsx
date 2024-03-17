@@ -38,8 +38,8 @@ const ComicDetail: React.FC = () => {
     });
 
     const { data: topWeeklyList } = useQuery({
-        queryKey: ['top-weekly-comics', defaultQueryParams],
-        queryFn: () => comicApis.topComics(TOP_COMICS.weekly, defaultQueryParams),
+        queryKey: ['top-weekly-comics', { ...defaultQueryParams, type: TOP_COMICS.weekly }],
+        queryFn: () => comicApis.topComics({ ...defaultQueryParams, type: TOP_COMICS.weekly }),
         staleTime: 3 * 60 * 1000,
     });
 

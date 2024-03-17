@@ -79,6 +79,7 @@ export const APP_PATH = {
 } as const;
 
 export const TOP_COMICS = {
+    all: 'all',
     daily: 'daily',
     weekly: 'weekly',
     monthly: 'monthly',

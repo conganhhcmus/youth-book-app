@@ -14,7 +14,7 @@ const Navbar = () => {
             link: {
                 pathname: APP_PATH.recent,
                 search: createSearchParams({
-                    type: 'all',
+                    status: 'all',
                     page: '1',
                 }).toString(),
             },
@@ -28,6 +28,7 @@ const Navbar = () => {
                 search: createSearchParams({
                     type: 'all',
                     page: '1',
+                    status: 'all',
                 }).toString(),
             },
             name: translate('top-comic'),

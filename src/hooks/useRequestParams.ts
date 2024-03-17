@@ -21,6 +21,7 @@ const _getQueryParams = () => {
 const _getDefaultQueryParams = () => {
     return {
         page: 1,
+        status: 'all',
     } as paramOption;
 };
 
