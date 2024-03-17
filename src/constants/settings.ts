@@ -87,23 +87,23 @@ export const DEPOSIT_TYPE = [
 
 export const FILTER_OPTIONS = [
     {
-        name: 'All',
+        name: 'all',
         value: 0,
     },
     {
-        name: '3 Months',
+        name: '3-months',
         value: 3 * 30,
     },
     {
-        name: '1 Month',
+        name: '1-month',
         value: 30,
     },
     {
-        name: '1 Week',
+        name: '1-week',
         value: 7,
     },
     {
-        name: '1 Day',
+        name: '1-day',
         value: 1,
     },
 ];

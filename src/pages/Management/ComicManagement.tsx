@@ -18,7 +18,6 @@ import moment from 'moment';
 import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import imgLoading from '@/assets/icons/loading.gif';
 
 const ComicManagement: React.FC = () => {
@@ -41,7 +40,7 @@ const ComicManagement: React.FC = () => {
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
     const navigate = useNavigate();
-    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert } = useAlertMsg();
+    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert, confirmWarningAlert } = useAlertMsg();
 
     const { data: resultData, isLoading } = useQuery({
         queryKey: ['suggestSearch', { ...queryParams, q: searchText }],
@@ -160,22 +159,12 @@ const ComicManagement: React.FC = () => {
     };
 
     const handleDelete = (id: string) => {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                callRequest(comicApis.deleteComic(id), (res) => {
-                    console.log(res.data);
-                    deleteSuccessAlert(true);
-                });
-            }
-        });
+        confirmWarningAlert(() =>
+            callRequest(comicApis.deleteComic(id), (res) => {
+                console.log(res.data);
+                deleteSuccessAlert(true);
+            }),
+        );
     };
     const _comicInfoForm = () => (
         <form

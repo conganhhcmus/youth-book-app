@@ -14,7 +14,6 @@ import { decodeJWTToken } from '@/utils/token';
 import moment from 'moment';
 import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
-import Swal from 'sweetalert2';
 
 const GenresManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
@@ -28,7 +27,7 @@ const GenresManagement: React.FC = () => {
     const translate = useTranslation(lang);
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
-    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert } = useAlertMsg();
+    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert, confirmWarningAlert } = useAlertMsg();
 
     const { data: genresResultData } = useQuery({
         queryKey: ['allGenres', { ...queryParams, q: searchText }],
@@ -56,22 +55,12 @@ const GenresManagement: React.FC = () => {
     };
 
     const handleDelete = (id: string) => {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                callRequest(genresApi.deleteGenres(id), (res) => {
-                    console.log(res.data);
-                    deleteSuccessAlert(true);
-                });
-            }
-        });
+        confirmWarningAlert(() =>
+            callRequest(genresApi.deleteGenres(id), (res) => {
+                console.log(res.data);
+                deleteSuccessAlert(true);
+            }),
+        );
     };
 
     const handleEditSubmit = () => {

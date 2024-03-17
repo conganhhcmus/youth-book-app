@@ -12,7 +12,6 @@ import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
-import Swal from 'sweetalert2';
 import useAlertMsg from '@/hooks/useAlertMsg';
 import { formatCurrency } from '@/utils/format';
 
@@ -28,7 +27,7 @@ const ChapterManagement: React.FC = () => {
 
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
-    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert } = useAlertMsg();
+    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert, confirmWarningAlert } = useAlertMsg();
 
     // Ref
     const [chapterContent, setChapterContent] = useState<string>('');
@@ -60,22 +59,12 @@ const ChapterManagement: React.FC = () => {
     };
 
     const handleDelete = (id: string) => {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                callRequest(chapterApi.deleteChapter(id), (res) => {
-                    console.log(res.data);
-                    deleteSuccessAlert(true);
-                });
-            }
-        });
+        confirmWarningAlert(() =>
+            callRequest(chapterApi.deleteChapter(id), (res) => {
+                console.log(res.data);
+                deleteSuccessAlert(true);
+            }),
+        );
     };
 
     const isValidNew = () => {

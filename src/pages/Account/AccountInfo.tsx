@@ -19,7 +19,7 @@ const AccountInfo: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     const { callRequest } = useAxiosRequest();
-    const { updateSuccessAlert } = useAlertMsg();
+    const { updateSuccessAlert, confirmUpdateAlert } = useAlertMsg();
 
     const token = getCookie(COOKIE_KEYS.token);
     const userInfoPayload = decodeJWTToken(token);
@@ -62,7 +62,16 @@ const AccountInfo: React.FC = () => {
     };
 
     const handleUpdateAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
+        if (!e.target.files) return;
+        const uploadData = new FormData();
+        uploadData.append('file', e.target.files[0], 'file');
+
+        confirmUpdateAlert(() =>
+            callRequest(userApis.updateAvatar(userInfoPayload?._id, uploadData), (res) => {
+                console.log(res.data);
+                updateSuccessAlert(true);
+            }),
+        );
     };
 
     return (

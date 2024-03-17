@@ -33,7 +33,7 @@ const AccountInfo = ({ userInfo }: AccountInfoProps) => {
             className="relative flex w-20 cursor-pointer flex-col items-center px-2 py-1 hover:text-primary">
             {userInfo.avatarImg ? (
                 <img
-                    className="h-6 w-5"
+                    className="h-6 w-6"
                     src={userInfo.avatarImg}
                 />
             ) : (

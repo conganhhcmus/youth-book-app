@@ -16,6 +16,14 @@ const userApis = {
         const url = USERS_PATH.users + `/${id ?? '-1'}`;
         return apiClients.put<User>(url, { ...user });
     },
+    updateAvatar(id: string | undefined, data: FormData) {
+        const url = USERS_PATH.update_avatar + `/${id ?? '-1'}`;
+        return apiClients.post(url, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+    },
 };
 
 export default userApis;

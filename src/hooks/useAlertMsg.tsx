@@ -47,11 +47,47 @@ const useAlertMsg = () => {
         });
     };
 
+    const confirmWarningAlert = (callback: () => void) => {
+        Swal.fire({
+            title: translate('are-you-sure'),
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: translate('cancel'),
+            confirmButtonText: translate('yes-delete'),
+        }).then((result) => {
+            if (result.isConfirmed) {
+                callback && callback();
+            }
+        });
+    };
+
+    const confirmUpdateAlert = (callback: () => void) => {
+        Swal.fire({
+            title: translate('are-you-sure'),
+            text: translate('dont-revert-text'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: translate('cancel'),
+            confirmButtonText: translate('yes-update'),
+        }).then((result) => {
+            if (result.isConfirmed) {
+                callback && callback();
+            }
+        });
+    };
+
     return {
         dontSupportAlert,
         updateSuccessAlert,
         deleteSuccessAlert,
         addSuccessAlert,
+        confirmWarningAlert,
+        confirmUpdateAlert,
     };
 };
 
