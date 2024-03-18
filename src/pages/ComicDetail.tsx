@@ -278,13 +278,13 @@ const ComicDetail: React.FC = () => {
                                                         />
                                                     ))}
                                                 {!topWeeklyData && (
-                                                    <div className="flex h-[300px] items-center justify-center gap-2 text-black dark:text-white">
+                                                    <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
                                                         <img
                                                             src={imgLoading}
                                                             alt="loading icon"
                                                             loading="lazy"
                                                         />
-                                                        Loading...
+                                                        {translate('loading')}
                                                     </div>
                                                 )}
                                             </div>

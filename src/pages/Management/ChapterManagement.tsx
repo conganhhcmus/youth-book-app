@@ -14,6 +14,7 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import useAlertMsg from '@/hooks/useAlertMsg';
 import { formatCurrency } from '@/utils/format';
+import imgLoading from '@/assets/icons/loading.gif';
 
 const ChapterManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
@@ -36,7 +37,7 @@ const ChapterManagement: React.FC = () => {
     const refPrice = useRef<HTMLInputElement>(null);
     const refType = useRef<HTMLSelectElement>(null);
 
-    const { data: chapterResultData } = useQuery({
+    const { data: chapterResultData, isLoading } = useQuery({
         queryKey: ['getAllChapters', { ...queryParams, q: searchText }, { comicId }],
         queryFn: () => chapterApi.getAllChapters(comicId, { ...queryParams, q: searchText }),
         staleTime: 3 * 60 * 1000,
@@ -204,6 +205,18 @@ const ChapterManagement: React.FC = () => {
             </div>
         </form>
     );
+
+    if (isLoading)
+        return (
+            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                <img
+                    src={imgLoading}
+                    alt="loading icon"
+                    loading="lazy"
+                />
+                {translate('loading')}
+            </div>
+        );
 
     return (
         <div className="relative h-full w-full overflow-x-auto border-2 p-8 sm:rounded-lg">

@@ -8,6 +8,7 @@ import { selectAccessToken } from '@/redux/slices/token';
 import { formatCurrency } from '@/utils/format';
 import { decodeJWTToken } from '@/utils/token';
 import { useQuery } from 'react-query';
+import imgLoading from '@/assets/icons/loading.gif';
 
 const Dashboard: React.FC = () => {
     const token = useAppSelector((state) => selectAccessToken(state.token));
@@ -23,7 +24,7 @@ const Dashboard: React.FC = () => {
         window.location.href = APP_PATH.management_billing;
     }
 
-    const { data: dashBoardResponse } = useQuery({
+    const { data: dashBoardResponse, isLoading } = useQuery({
         queryKey: ['getDashboard'],
         queryFn: () => dashboardApis.getDashboard(),
         keepPreviousData: true,
@@ -31,6 +32,18 @@ const Dashboard: React.FC = () => {
     });
 
     const dashboardData = dashBoardResponse?.data;
+
+    if (isLoading)
+        return (
+            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                <img
+                    src={imgLoading}
+                    alt="loading icon"
+                    loading="lazy"
+                />
+                {translate('loading')}
+            </div>
+        );
 
     return (
         dashboardData && (

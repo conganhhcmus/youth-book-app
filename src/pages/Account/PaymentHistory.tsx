@@ -13,6 +13,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
+import imgLoading from '@/assets/icons/loading.gif';
 
 const PaymentHistory: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
@@ -24,7 +25,7 @@ const PaymentHistory: React.FC = () => {
     const token = useAppSelector((state) => selectAccessToken(state.token));
     const userInfoPayload = decodeJWTToken(token);
 
-    const { data: transactionDataResult } = useQuery({
+    const { data: transactionDataResult, isLoading } = useQuery({
         queryKey: ['getAllTransactionByUser', queryParams, filterOptions, statusOptions],
         queryFn: () => paymentApis.getAllTransactionByUser(userInfoPayload?._id, filterOptions, statusOptions, queryParams),
         staleTime: 60 * 1000,
@@ -47,6 +48,18 @@ const PaymentHistory: React.FC = () => {
 
         setStatusOptions(uniqueValue);
     };
+
+    if (isLoading)
+        return (
+            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                <img
+                    src={imgLoading}
+                    alt="loading icon"
+                    loading="lazy"
+                />
+                {translate('loading')}
+            </div>
+        );
 
     return (
         <div className="relative h-full w-full overflow-x-auto border-2 p-8 sm:rounded-lg">

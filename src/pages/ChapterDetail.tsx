@@ -16,6 +16,7 @@ import { addLocalDb } from '@/utils/indexedDB';
 import { INDEXED_DB } from '@/constants/settings';
 import comicApis from '@/apis/comic';
 import moment from 'moment';
+import imgLoading from '@/assets/icons/loading.gif';
 
 const ChapterDetail: React.FC = () => {
     const { chapterId } = useParams();
@@ -85,6 +86,18 @@ const ChapterDetail: React.FC = () => {
         }
         handleBuyEvent(chapter);
     };
+
+    if (isLoading)
+        return (
+            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                <img
+                    src={imgLoading}
+                    alt="loading icon"
+                    loading="lazy"
+                />
+                {translate('loading')}
+            </div>
+        );
 
     if (!isLoading && (!chapterDetail || !isEnabledRead(chapterDetail, transactionList))) return <NotFound />;
 

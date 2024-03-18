@@ -9,6 +9,7 @@ import { User } from '@/types/user';
 import { decodeJWTToken } from '@/utils/token';
 import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
+import imgLoading from '@/assets/icons/loading.gif';
 
 const AccountInfo: React.FC = () => {
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -23,14 +24,14 @@ const AccountInfo: React.FC = () => {
     const token = useAppSelector((state) => selectAccessToken(state.token));
     const userInfoPayload = decodeJWTToken(token);
 
-    const { data: userInfoRes } = useQuery({
+    const { data: userInfoResult, isLoading } = useQuery({
         queryKey: ['getUserInfo', userInfoPayload?._id],
         queryFn: () => userApis.getUserInfo(userInfoPayload?._id),
         staleTime: 3 * 60 * 1000,
         enabled: !!userInfoPayload,
     });
 
-    const userInfo = userInfoRes?.data;
+    const userInfo = userInfoResult?.data;
 
     const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
         event.preventDefault();
@@ -72,6 +73,18 @@ const AccountInfo: React.FC = () => {
             }),
         );
     };
+
+    if (isLoading)
+        return (
+            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                <img
+                    src={imgLoading}
+                    alt="loading icon"
+                    loading="lazy"
+                />
+                {translate('loading')}
+            </div>
+        );
 
     return (
         <div className="flex w-full justify-center rounded-lg border bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 md:mt-0 xl:p-0">

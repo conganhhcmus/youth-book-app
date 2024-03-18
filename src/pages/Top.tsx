@@ -11,13 +11,18 @@ import { Link, NavLink, createSearchParams } from 'react-router-dom';
 import { NotFound } from './NotFound';
 import { ListPreview } from '@/components/Preview';
 import { TOP_COMICS } from '@/constants/path';
+import imgLoading from '@/assets/icons/loading.gif';
 
 const Top: React.FC = () => {
     const { queryParams } = useRequestParams();
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
 
-    const { data: recentResultData, isError } = useQuery({
+    const {
+        data: recentResultData,
+        isError,
+        isLoading,
+    } = useQuery({
         queryKey: ['recent-comics', queryParams],
         queryFn: () => comicApis.topComics(queryParams),
         staleTime: 3 * 60 * 1000,
@@ -25,6 +30,18 @@ const Top: React.FC = () => {
 
     const resultData = recentResultData?.data;
     const comicList = resultData?.data;
+
+    if (isLoading)
+        return (
+            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                <img
+                    src={imgLoading}
+                    alt="loading icon"
+                    loading="lazy"
+                />
+                {translate('loading')}
+            </div>
+        );
 
     return (
         <>

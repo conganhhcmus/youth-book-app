@@ -14,6 +14,7 @@ import { ROLE_LIST } from '@/constants/settings';
 import moment from 'moment';
 import { formatCurrency } from '@/utils/format';
 import useAlertMsg from '@/hooks/useAlertMsg';
+import imgLoading from '@/assets/icons/loading.gif';
 
 const UserManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
@@ -31,7 +32,7 @@ const UserManagement: React.FC = () => {
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
 
-    const { data: resultData } = useQuery({
+    const { data: resultData, isLoading } = useQuery({
         queryKey: ['getAllUsers', { ...queryParams, q: searchText }],
         queryFn: () => userApis.getAllUsers({ ...queryParams, q: searchText }),
         staleTime: 3 * 60 * 1000,
@@ -65,6 +66,18 @@ const UserManagement: React.FC = () => {
             updateSuccessAlert(true);
         });
     };
+
+    if (isLoading)
+        return (
+            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                <img
+                    src={imgLoading}
+                    alt="loading icon"
+                    loading="lazy"
+                />
+                {translate('loading')}
+            </div>
+        );
 
     const _editUser = () => (
         <form

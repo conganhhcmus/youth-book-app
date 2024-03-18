@@ -88,7 +88,7 @@ const SearchBar = () => {
                                     </div>
                                 ))}
                             {isLoading && (
-                                <div className="flex h-[100px] items-center justify-center gap-2">
+                                <div className="flex h-[100px] w-full items-center justify-center gap-2">
                                     <img
                                         src={imgLoading}
                                         alt="loading icon"

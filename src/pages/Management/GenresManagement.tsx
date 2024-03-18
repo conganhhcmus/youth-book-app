@@ -13,6 +13,7 @@ import { decodeJWTToken } from '@/utils/token';
 import moment from 'moment';
 import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
+import imgLoading from '@/assets/icons/loading.gif';
 
 const GenresManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
@@ -28,7 +29,7 @@ const GenresManagement: React.FC = () => {
     const { callRequest } = useAxiosRequest();
     const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert, confirmWarningAlert } = useAlertMsg();
 
-    const { data: genresResultData } = useQuery({
+    const { data: genresResultData, isLoading } = useQuery({
         queryKey: ['allGenres', { ...queryParams, q: searchText }],
         queryFn: () => genresApi.getAllGenres({ ...queryParams, q: searchText }),
         staleTime: 3 * 60 * 1000,
@@ -119,6 +120,18 @@ const GenresManagement: React.FC = () => {
             </div>
         </form>
     );
+
+    if (isLoading)
+        return (
+            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                <img
+                    src={imgLoading}
+                    alt="loading icon"
+                    loading="lazy"
+                />
+                {translate('loading')}
+            </div>
+        );
 
     return (
         <div className="relative h-full w-full overflow-x-auto border-2 p-8 sm:rounded-lg">

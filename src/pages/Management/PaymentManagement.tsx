@@ -13,6 +13,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
+import imgLoading from '@/assets/icons/loading.gif';
 
 const PaymentManagement: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
@@ -25,7 +26,7 @@ const PaymentManagement: React.FC = () => {
     const [statusOptions, setStatusOptions] = useState<number[]>(STATUS_OPTIONS.map((x) => x.value));
     const [searchText, setSearchText] = useState<string>('');
 
-    const { data: transactionDataResult } = useQuery({
+    const { data: transactionDataResult, isLoading } = useQuery({
         queryKey: ['getAllTransaction', { ...queryParams, q: searchText }, filterOptions, statusOptions],
         queryFn: () => paymentApis.getAllTransaction(filterOptions, statusOptions, { ...queryParams, q: searchText }),
         staleTime: 60 * 1000,
@@ -55,6 +56,18 @@ const PaymentManagement: React.FC = () => {
             updateSuccessAlert(true);
         });
     };
+
+    if (isLoading)
+        return (
+            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                <img
+                    src={imgLoading}
+                    alt="loading icon"
+                    loading="lazy"
+                />
+                {translate('loading')}
+            </div>
+        );
 
     return (
         <div className="relative h-full w-full overflow-x-auto border-2 p-8 sm:rounded-lg">
