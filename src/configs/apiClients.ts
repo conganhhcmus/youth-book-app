@@ -1,4 +1,4 @@
-import { AUTH_PATH } from '@/constants/path';
+import { APP_PATH, AUTH_PATH } from '@/constants/path';
 import { COOKIE_KEYS } from '@/constants/settings';
 import { getCookie, removeCookie, setCookie } from '@/utils/cookies';
 import axios, { AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
@@ -46,6 +46,7 @@ apiClients.interceptors.response.use(
         } else if (status === 401 && originalRequest && originalRequest?.url === AUTH_PATH.reset_token) {
             removeCookie(COOKIE_KEYS.token);
             removeCookie(COOKIE_KEYS.refreshToken);
+            window.location.href = APP_PATH.home;
         }
         return Promise.reject(error);
     },

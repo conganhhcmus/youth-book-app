@@ -197,7 +197,7 @@ const GenresManagement: React.FC = () => {
                             <th
                                 scope="col"
                                 className="px-6 py-3">
-                                {translate('create-by')}
+                                {translate('action')}
                             </th>
                         </tr>
                     </thead>
