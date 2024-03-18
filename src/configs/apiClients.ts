@@ -41,7 +41,7 @@ apiClients.interceptors.response.use(
     function (error: AxiosError) {
         const status = error.response ? error.response.status : null;
         const originalRequest = error.config;
-        if (status === 401 && originalRequest && originalRequest?.url !== AUTH_PATH.reset_token) {
+        if (status === 401 && originalRequest && originalRequest?.url !== AUTH_PATH.reset_token && originalRequest?.url !== AUTH_PATH.login) {
             return refreshTokenAndResend(originalRequest);
         } else if (status === 401 && originalRequest && originalRequest?.url === AUTH_PATH.reset_token) {
             removeCookie(COOKIE_KEYS.token);

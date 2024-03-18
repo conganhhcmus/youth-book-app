@@ -15,11 +15,12 @@ import moment from 'moment';
 import { formatCurrency } from '@/utils/format';
 import useAlertMsg from '@/hooks/useAlertMsg';
 import imgLoading from '@/assets/icons/loading.gif';
+import classNames from 'classnames';
 
 const UserManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
     const [searchText, setSearchText] = useState<string>('');
-    const { updateSuccessAlert } = useAlertMsg();
+    const { updateSuccessAlert, confirmUpdateAlert, showInfoMsgAlert } = useAlertMsg();
 
     const [userInfo, setUserInfo] = useState<User>();
 
@@ -48,9 +49,19 @@ const UserManagement: React.FC = () => {
         });
     };
 
+    const handleUpdateStatus = (id: string) => {
+        confirmUpdateAlert(() =>
+            callRequest(userApis.updateStatus(id), (res) => {
+                console.log(res.data);
+                updateSuccessAlert(true);
+            }),
+        );
+    };
+
     const handleSubmit = () => {
         if (!refFullName.current?.value && !refEmail.current?.value && refRole.current?.value == userInfo?.role) {
-            alert(translate('NoChange'));
+            showInfoMsgAlert(translate('no-change'), '', false);
+
             return;
         }
 
@@ -277,6 +288,14 @@ const UserManagement: React.FC = () => {
                                             onClick={() => handleEdit(user._id)}
                                             className="font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
                                             {translate('edit')}
+                                        </button>
+                                        <button
+                                            onClick={() => handleUpdateStatus(user._id)}
+                                            className={classNames('ml-3 font-medium capitalize hover:underline ', {
+                                                'text-red-600 dark:text-blue-500': user.isActive,
+                                                'text-green-600 dark:text-green-500': !user.isActive,
+                                            })}>
+                                            {translate(user.isActive ? 'deactivate' : 'activate')}
                                         </button>
                                     </td>
                                 </tr>

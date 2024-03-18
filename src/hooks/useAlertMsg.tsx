@@ -7,6 +7,26 @@ const useAlertMsg = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
 
+    const showInfoMsgAlert = (text: string, title: string = '', reload: boolean) => {
+        Swal.fire({
+            title: title || translate('info'),
+            text: text,
+            icon: 'info',
+        }).then(() => {
+            reload && window.location.reload();
+        });
+    };
+
+    const showErrorMsgAlert = (text: string, title: string = '', reload: boolean) => {
+        Swal.fire({
+            title: title || translate('error'),
+            text: text,
+            icon: 'error',
+        }).then(() => {
+            reload && window.location.reload();
+        });
+    };
+
     const dontSupportAlert = (reload: boolean = false) => {
         Swal.fire({
             title: translate('dont-support'),
@@ -88,6 +108,8 @@ const useAlertMsg = () => {
         addSuccessAlert,
         confirmWarningAlert,
         confirmUpdateAlert,
+        showInfoMsgAlert,
+        showErrorMsgAlert,
     };
 };
 

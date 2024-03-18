@@ -2,6 +2,7 @@ import paymentApis from '@/apis/payment';
 import { APP_PATH } from '@/constants/path';
 import { DEPOSIT_TYPE } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
+import useAlertMsg from '@/hooks/useAlertMsg';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
@@ -16,6 +17,7 @@ const Deposit: React.FC = () => {
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
     const navigate = useNavigate();
     const { callRequest } = useAxiosRequest();
+    const { showErrorMsgAlert } = useAlertMsg();
 
     const onCompleted = () => {
         setIsSubmitted(true);
@@ -26,7 +28,7 @@ const Deposit: React.FC = () => {
                 navigate(APP_PATH.account_billing);
             },
             (err) => {
-                alert(err.response?.data);
+                showErrorMsgAlert(err.response?.data as string, '', true);
                 window.location.reload();
             },
         );

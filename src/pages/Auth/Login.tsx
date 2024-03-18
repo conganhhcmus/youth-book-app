@@ -10,6 +10,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { changeAccessToken, changeRefreshToken } from '@/redux/slices/token';
 import { useDispatch } from 'react-redux';
+import useAlertMsg from '@/hooks/useAlertMsg';
 
 const Login: React.FC = () => {
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -21,6 +22,7 @@ const Login: React.FC = () => {
     const { callRequest } = useAxiosRequest();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { showErrorMsgAlert } = useAlertMsg();
 
     const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
         event.preventDefault();
@@ -39,7 +41,7 @@ const Login: React.FC = () => {
                 navigate(APP_PATH.home);
             },
             (err) => {
-                alert(err.response?.data);
+                showErrorMsgAlert(err.response?.data as string, '', true);
                 setIsSubmitted(false);
             },
         );

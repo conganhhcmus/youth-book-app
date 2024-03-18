@@ -1,6 +1,7 @@
 import authApis from '@/apis/auth';
 import { APP_PATH } from '@/constants/path';
 import { useAppSelector } from '@/hooks/reduxHook';
+import useAlertMsg from '@/hooks/useAlertMsg';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
@@ -19,13 +20,14 @@ const Register: React.FC = () => {
     const translate = useTranslation(lang);
     const { callRequest } = useAxiosRequest();
     const navigate = useNavigate();
+    const { showErrorMsgAlert, showInfoMsgAlert } = useAlertMsg();
 
     const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
         event.preventDefault();
         setIsSubmitted(true);
 
         if (refConfirmPassword.current?.value !== refPassword.current?.value) {
-            alert(`Confirm Password not match!`);
+            showInfoMsgAlert(translate('confirm-password-not-match'), '', false);
             setIsSubmitted(false);
             return;
         }
@@ -40,7 +42,7 @@ const Register: React.FC = () => {
             authApis.register(data),
             () => navigate(APP_PATH.login),
             (err) => {
-                alert(err.response?.data);
+                showErrorMsgAlert(err.response?.data as string, '', true);
                 setIsSubmitted(false);
             },
         );

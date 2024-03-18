@@ -49,10 +49,12 @@ export const COMIC_TYPES_LIST = [
     {
         value: 0,
         name: 'text',
+        disabled: false,
     },
     {
         value: 1,
         name: 'picture',
+        disabled: true,
     },
 ];
 

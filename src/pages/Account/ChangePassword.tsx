@@ -19,7 +19,7 @@ const ChangePassword: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     const { callRequest } = useAxiosRequest();
-    const { updateSuccessAlert } = useAlertMsg();
+    const { updateSuccessAlert, showInfoMsgAlert } = useAlertMsg();
     const dispatch = useDispatch();
 
     const token = useAppSelector((state) => selectAccessToken(state.token));
@@ -29,13 +29,14 @@ const ChangePassword: React.FC = () => {
         event.preventDefault();
         setIsSubmitted(true);
         if (refConfirmPassword.current?.value !== refNewPassword.current?.value) {
-            alert(translate('Confirm Password not match!'));
+            showInfoMsgAlert(translate('confirm-password-not-match'), '', false);
             setIsSubmitted(false);
             return;
         }
 
         if (refNewPassword.current?.value === refPassword.current?.value) {
-            alert(translate('NoChange'));
+            showInfoMsgAlert(translate('no-change'), '', false);
+
             setIsSubmitted(false);
             return;
         }

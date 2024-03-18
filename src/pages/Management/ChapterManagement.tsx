@@ -28,7 +28,7 @@ const ChapterManagement: React.FC = () => {
 
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
-    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert, confirmWarningAlert } = useAlertMsg();
+    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert, confirmWarningAlert, showInfoMsgAlert } = useAlertMsg();
 
     // Ref
     const [chapterContent, setChapterContent] = useState<string>('');
@@ -78,7 +78,8 @@ const ChapterManagement: React.FC = () => {
 
     const handleEditSubmit = () => {
         if (!isValidEdit()) {
-            alert(translate('NoChange'));
+            showInfoMsgAlert(translate('no-change'), '', false);
+
             return;
         }
 
@@ -99,7 +100,8 @@ const ChapterManagement: React.FC = () => {
 
     const handleNewSubmit = () => {
         if (!isValidNew()) {
-            alert(translate('Invalid Data'));
+            showInfoMsgAlert(translate('invalid-data'), '', false);
+
             return;
         }
 
@@ -155,42 +157,45 @@ const ChapterManagement: React.FC = () => {
                     required={true}
                 />
             </div>
-            <div>
-                <label
-                    htmlFor="price"
-                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                    {translate('price')}
-                </label>
-                <input
-                    ref={refPrice}
-                    type="number"
-                    name="price"
-                    id="price"
-                    min={0}
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                    defaultValue={chapterInfo?.price || 0}
-                    required={true}
-                />
-            </div>
-            <div>
-                <label
-                    htmlFor="type"
-                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                    {translate('type')}
-                </label>
-                <select
-                    ref={refType}
-                    id="type"
-                    defaultValue={chapterInfo?.type}
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
-                    {COMIC_TYPES_LIST.map((type) => (
-                        <option
-                            key={type.value}
-                            value={type.value}>
-                            {translate(type.name)}
-                        </option>
-                    ))}
-                </select>
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    <label
+                        htmlFor="price"
+                        className="mb-2 block max-w-32 text-sm font-medium text-gray-900 dark:text-white">
+                        {translate('price')}
+                    </label>
+                    <input
+                        ref={refPrice}
+                        type="number"
+                        name="price"
+                        id="price"
+                        min={0}
+                        className="block w-64 rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                        defaultValue={chapterInfo?.price || 0}
+                        required={true}
+                    />
+                </div>
+                <div className="flex items-center gap-4">
+                    <label
+                        htmlFor="type"
+                        className="mb-2 block max-w-32 text-sm font-medium text-gray-900 dark:text-white">
+                        {translate('type')}
+                    </label>
+                    <select
+                        ref={refType}
+                        id="type"
+                        defaultValue={chapterInfo?.type}
+                        className="block w-64 rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
+                        {COMIC_TYPES_LIST.map((type) => (
+                            <option
+                                key={type.value}
+                                disabled={type.disabled}
+                                value={type.value}>
+                                {translate(type.name)}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
             <div>
                 <label

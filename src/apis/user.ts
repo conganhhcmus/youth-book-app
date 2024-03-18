@@ -24,6 +24,10 @@ const userApis = {
             },
         });
     },
+    updateStatus(id: string | undefined) {
+        const url = USERS_PATH.update_status + `/${id ?? '-1'}`;
+        return apiClients.post(url);
+    },
 };
 
 export default userApis;

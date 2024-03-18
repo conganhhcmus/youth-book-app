@@ -168,5 +168,15 @@
     "loading": "Đang tải ...",
     "go-back-home": "Quay lại trang chủ",
     "error-occurred": "Có lỗi xãy ra",
+    "text": "Truyện Chữ",
+    "picture": "Truyện Tranh",
+    "deactivate": "Vô hiệu",
+    "activate": "Khôi phục",
+    "confirm-password-not-match": "Mật khẩu nhập lại không chính xác",
+    "no-change": "Data không đổi",
+    "invalid-data": "Dữ liệu không hợp lệ",
+    "error": "Lỗi",
+    "info": "Thông tin",
+    "inactive": "Bị vô hiệu",
     "description_0": "Web đọc truyện tranh online lớn nhất được cập nhật liên tục mỗi ngày - Cùng tham gia đọc truyện và thảo luận với hơn 10 triệu thành viên 🎉 tại YouthBook ❤️💛💚"
 }

@@ -19,7 +19,7 @@ const AccountInfo: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     const { callRequest } = useAxiosRequest();
-    const { updateSuccessAlert, confirmUpdateAlert } = useAlertMsg();
+    const { updateSuccessAlert, confirmUpdateAlert, showInfoMsgAlert } = useAlertMsg();
 
     const token = useAppSelector((state) => selectAccessToken(state.token));
     const userInfoPayload = decodeJWTToken(token);
@@ -37,7 +37,7 @@ const AccountInfo: React.FC = () => {
         event.preventDefault();
         setIsSubmitted(true);
         if (!refFullName.current?.value && !refEmail.current?.value) {
-            alert(translate('NoChange'));
+            showInfoMsgAlert(translate('no-change'), '', false);
             setIsSubmitted(false);
             return;
         }

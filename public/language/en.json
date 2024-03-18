@@ -167,5 +167,13 @@
     "loading": "Loading ...",
     "go-back-home": "Go back home",
     "error-occurred": "Error Occurred",
+    "text": "Word Story",
+    "picture": "Comic",
+    "deactivate": "Deactivate",
+    "activate": "Activate",
+    "confirm-password-not-match": "Confirm Password is not match",
+    "no-change": "Data not changed",
+    "invalid-data": "Invalid data",
+    "inactive": "Inactive",
     "description_0": "The largest online comic reading website updated continuously every day - Join reading and discussing with more than 10 million members 🎉 at YouthBook ❤️💛💚"
 }

@@ -40,7 +40,7 @@ const ComicManagement: React.FC = () => {
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
     const navigate = useNavigate();
-    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert, confirmWarningAlert } = useAlertMsg();
+    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert, confirmWarningAlert, showInfoMsgAlert } = useAlertMsg();
 
     const { data: resultData, isLoading } = useQuery({
         queryKey: ['suggestSearch', { ...queryParams, q: searchText }],
@@ -79,7 +79,8 @@ const ComicManagement: React.FC = () => {
 
     const handleNewSubmit = () => {
         if (!isValidNew()) {
-            alert(translate('Invalid Data'));
+            showInfoMsgAlert(translate('invalid-data'), '', false);
+
             return;
         }
         const data = {
@@ -124,7 +125,8 @@ const ComicManagement: React.FC = () => {
     };
     const handleEditSubmit = () => {
         if (!isValidEdit()) {
-            alert(translate('NoChange'));
+            showInfoMsgAlert(translate('no-change'), '', false);
+
             return;
         }
         const data = {

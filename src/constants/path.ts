@@ -34,6 +34,7 @@ export const DASHBOARD_PATH = {
 export const USERS_PATH = {
     users: '/users',
     update_avatar: '/update-avatar',
+    update_status: '/update-status',
 } as const;
 
 export const PAYMENT_PATH = {

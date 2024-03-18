@@ -27,7 +27,7 @@ const GenresManagement: React.FC = () => {
     const translate = useTranslation(lang);
     const { queryParams } = useRequestParams();
     const { callRequest } = useAxiosRequest();
-    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert, confirmWarningAlert } = useAlertMsg();
+    const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert, confirmWarningAlert, showInfoMsgAlert } = useAlertMsg();
 
     const { data: genresResultData, isLoading } = useQuery({
         queryKey: ['allGenres', { ...queryParams, q: searchText }],
@@ -65,7 +65,8 @@ const GenresManagement: React.FC = () => {
 
     const handleEditSubmit = () => {
         if (!refName.current?.value) {
-            alert(translate('No Change'));
+            showInfoMsgAlert(translate('no-change'), '', false);
+
             return;
         }
 
@@ -82,7 +83,8 @@ const GenresManagement: React.FC = () => {
 
     const handleNewSubmit = () => {
         if (!refName.current?.value) {
-            alert(translate('Invalid Data'));
+            showInfoMsgAlert(translate('invalid-data'), '', false);
+
             return;
         }
 
