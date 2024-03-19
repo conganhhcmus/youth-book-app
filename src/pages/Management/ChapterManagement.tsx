@@ -15,6 +15,7 @@ import moment from 'moment';
 import useAlertMsg from '@/hooks/useAlertMsg';
 import { formatCurrency } from '@/utils/format';
 import imgLoading from '@/assets/icons/loading.gif';
+import { Pagination } from '@/components/Pagination';
 
 const ChapterManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
@@ -69,7 +70,14 @@ const ChapterManagement: React.FC = () => {
     };
 
     const isValidNew = () => {
-        return refName.current?.value && refShortName.current?.value && chapterContent && refPrice.current?.value && refType.current?.value;
+        return (
+            refName.current?.value &&
+            refShortName.current?.value &&
+            !!chapterContent &&
+            refPrice.current?.value &&
+            refType.current?.value &&
+            chapterContent
+        );
     };
 
     const isValidEdit = () => {
@@ -341,6 +349,13 @@ const ChapterManagement: React.FC = () => {
                     </tbody>
                 </table>
             </div>
+            {chapterResult?.totalPage && (
+                <Pagination
+                    queryConfig={queryParams}
+                    page={chapterResult?.currentPage}
+                    totalPage={chapterResult?.totalPage}
+                />
+            )}
         </div>
     );
 };
