@@ -43,8 +43,8 @@ const ComicManagement: React.FC = () => {
     const { deleteSuccessAlert, updateSuccessAlert, addSuccessAlert, confirmWarningAlert, showInfoMsgAlert } = useAlertMsg();
 
     const { data: resultData, isLoading } = useQuery({
-        queryKey: ['suggestSearch', { ...queryParams, q: searchText }],
-        queryFn: () => comicApis.suggestSearch({ ...queryParams, q: searchText }),
+        queryKey: ['getAllComics', { ...queryParams, q: searchText }],
+        queryFn: () => comicApis.getAllComics({ ...queryParams, q: searchText }),
         staleTime: 3 * 60 * 1000,
     });
 

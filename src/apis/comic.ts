@@ -5,6 +5,11 @@ import { Comic, ComicBaseData, ComicData } from '@/types/comic';
 import { paramOption } from '@/types/request';
 
 const comicApis = {
+    getAllComics(params?: paramOption) {
+        const url = COMICS_PATH.comics;
+        return apiClients.get<ComicData>(url, { params });
+    },
+
     suggestSearch(params?: paramOption) {
         const url = COMICS_PATH.search;
         return apiClients.get<ComicData>(url, { params });
