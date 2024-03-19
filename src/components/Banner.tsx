@@ -57,44 +57,6 @@ const Banner = ({ data }: BannerProps) => {
                     className="swiper-pagination bottom-[2px_!important] right-0"
                 />
             </div>
-            {/* <div className="hidden flex-1 flex-shrink-0 grid-cols-6 gap-[10px] md:grid">
-                <div className="col-span-6 flex flex-col items-center gap-[10px] lg:flex-row">
-                    {data &&
-                        data.length > 5 &&
-                        data.slice(3, 5).map((item) => (
-                            <Link
-                                key={item._id}
-                                to={`${APP_PATH.comics}/${item._id}`}
-                                title={item.name}
-                                className="h-[185px] w-full overflow-hidden">
-                                <p
-                                    className="h-full w-full bg-cover bg-center bg-no-repeat"
-                                    style={{
-                                        backgroundImage: `url(${item.thumbnail})`,
-                                    }}
-                                />
-                            </Link>
-                        ))}
-                </div>
-                <div className="col-span-6 items-center gap-[10px] md:hidden lg:flex">
-                    {data &&
-                        data.length > 8 &&
-                        data.slice(5, 8).map((item) => (
-                            <Link
-                                key={item._id}
-                                title={item.name}
-                                to={`${APP_PATH.comics}/${item._id}`}
-                                className="h-[185px] w-[221px] overflow-hidden">
-                                <p
-                                    className="h-full w-full bg-cover bg-no-repeat"
-                                    style={{
-                                        backgroundImage: `url(${item.thumbnail})`,
-                                    }}
-                                />
-                            </Link>
-                        ))}
-                </div>
-            </div> */}
         </section>
     );
 };

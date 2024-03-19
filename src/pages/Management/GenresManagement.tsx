@@ -241,13 +241,18 @@ const GenresManagement: React.FC = () => {
                                     ))}
                             </tbody>
                         </table>
+                        {Array.isArray(genresList) && !genresList.length && (
+                            <div className="flex h-[100px] items-center justify-center">{translate('NotFound')}</div>
+                        )}
                     </div>
-                    {genresResult?.totalPage && (
+                    {genresResult?.totalPage && genresResult.totalPage > 0 ? (
                         <Pagination
                             queryConfig={queryParams}
                             page={genresResult?.currentPage}
                             totalPage={genresResult?.totalPage}
                         />
+                    ) : (
+                        <div className="h-20"></div>
                     )}
                 </>
             )}

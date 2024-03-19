@@ -7,7 +7,7 @@ import { paramOption } from '@/types/request';
 const comicApis = {
     suggestSearch(params?: paramOption) {
         const url = COMICS_PATH.search;
-        return apiClients.get<ComicBaseData>(url, { params });
+        return apiClients.get<ComicData>(url, { params });
     },
     recommendComics(params?: paramOption) {
         const url = COMICS_PATH.recommend;

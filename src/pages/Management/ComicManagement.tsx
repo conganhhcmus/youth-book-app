@@ -416,7 +416,7 @@ const ComicManagement: React.FC = () => {
                                             <td className="max-w-[200px] px-6 py-4 capitalize italic">
                                                 {comic.genres.map((_) => _.name).join(', ')}
                                             </td>
-                                            <td className="px-6 py-4 capitalize">{comic.author}</td>
+                                            <td className="max-w-[150px] px-6 py-4 capitalize">{comic.author}</td>
                                             <td className="px-6 py-4 font-bold capitalize">{comic.chapters.length}</td>
                                             <td className="px-6 py-4">
                                                 <button
@@ -439,13 +439,18 @@ const ComicManagement: React.FC = () => {
                                     ))}
                             </tbody>
                         </table>
+                        {Array.isArray(comicList) && !comicList.length && (
+                            <div className="flex h-[100px] items-center justify-center">{translate('NotFound')}</div>
+                        )}
                     </div>
-                    {result?.totalPage && (
+                    {result?.totalPage && result.totalPage > 0 ? (
                         <Pagination
                             queryConfig={queryParams}
                             page={result?.currentPage}
                             totalPage={result?.totalPage}
                         />
+                    ) : (
+                        <div className="h-20"></div>
                     )}
                 </>
             )}

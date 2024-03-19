@@ -115,3 +115,9 @@ export const STATUS_OPTIONS = [
     { name: 'success', value: 1 },
     { name: 'cancel', value: -1 },
 ];
+
+export const PAYMENT_OPTIONS = [
+    { name: 'all', value: '0' },
+    { name: 'deposited', value: '1' },
+    { name: 'none-deposited', value: '-1' },
+];

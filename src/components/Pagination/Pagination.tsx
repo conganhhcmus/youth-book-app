@@ -84,8 +84,10 @@ const Pagination = ({ page, totalPage, queryConfig }: PaginationProps) => {
                 );
             });
     };
+
+    console.log(totalPage, page);
     return (
-        <div className="mt-8 flex flex-wrap justify-center gap-1 gap-y-2">
+        <div className="mt-4 flex h-20 flex-wrap justify-center gap-1 gap-y-2">
             {page === 1 ? (
                 <span className="flex h-[34px] cursor-default items-center justify-center rounded border px-3 text-black opacity-60 shadow-sm dark:border-gray-500 dark:bg-gray-900 dark:text-gray-400">
                     <svg

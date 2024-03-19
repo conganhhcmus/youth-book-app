@@ -49,7 +49,6 @@ export const APP_PATH = {
     // comics
     comics: '/comics',
     comics_chapters: '/comics/chapters',
-    comics_search: '/comics/search',
 
     // account
     account: '/account',
@@ -72,6 +71,7 @@ export const APP_PATH = {
     top: '/top',
     recommend: '/recommend',
     recent: '/recent',
+    search: '/search',
 
     // management
     management_dashboard: '/management/dashboard',

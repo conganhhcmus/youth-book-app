@@ -72,6 +72,9 @@ const Home: React.FC = () => {
                     isShowMore={false}
                 />
                 <Banner data={recommendData?.data} />
+                {Array.isArray(recommendData?.data) && !recommendData?.data.length && (
+                    <div className="flex h-[100px] items-center justify-center">{translate('NotFound')}</div>
+                )}
             </section>
             <div className="flex flex-row gap-4 pt-10">
                 <div className="flex-1">
@@ -82,12 +85,15 @@ const Home: React.FC = () => {
                         isShowMore={true}
                     />
                     <ListPreview data={recentData?.data} />
-                    {recentData?.totalPage && (
+                    {recentData?.totalPage && recentData.totalPage > 0 && (
                         <Pagination
                             queryConfig={queryParams}
                             page={recentData?.currentPage}
                             totalPage={recentData?.totalPage}
                         />
+                    )}
+                    {Array.isArray(recentData?.data) && !recentData?.data.length && (
+                        <div className="flex h-[100px] items-center justify-center">{translate('NotFound')}</div>
                     )}
                 </div>
                 <div className="ml-4 hidden w-[300px] lg:block">

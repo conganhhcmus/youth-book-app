@@ -102,7 +102,7 @@ const Genres: React.FC = () => {
                             <strong className="text-primary">{`${genresFullList?.find((item) => item._id === type)?.name}`}</strong>
                             <span className="ml-2 hidden md:inline-block">{`- ${translate('page')} ${queryParams.page}`}</span>
                         </h2>
-                        {resultData?.totalPage && (
+                        {resultData.totalPage > 0 && (
                             <MiniPagination
                                 queryConfig={queryParams}
                                 page={resultData?.currentPage}
@@ -115,12 +115,16 @@ const Genres: React.FC = () => {
                         className="mt-5 grid grid-cols-2 gap-3 gap-y-5 sm:grid-cols-4 md:grid-cols-6"
                         data={resultData?.data}
                     />
-                    {resultData?.totalPage && (
+                    {resultData.totalPage > 0 && (
                         <Pagination
                             queryConfig={queryParams}
                             page={resultData?.currentPage}
                             totalPage={resultData?.totalPage}
                         />
+                    )}
+
+                    {Array.isArray(resultData?.data) && !resultData?.data.length && (
+                        <div className="flex h-[100px] items-center justify-center">{translate('NotFound')}</div>
                     )}
                 </div>
             )}

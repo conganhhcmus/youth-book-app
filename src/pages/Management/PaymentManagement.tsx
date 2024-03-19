@@ -87,7 +87,9 @@ const PaymentManagement: React.FC = () => {
                     </div>
                     <div className="inline-flex items-center rounded-lg bg-white px-3 py-1.5 text-sm font-medium text-gray-500 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:focus:ring-gray-700">
                         {STATUS_OPTIONS.map((option) => (
-                            <div key={option.name}>
+                            <div
+                                className="inline-flex items-center"
+                                key={option.name}>
                                 <input
                                     onChange={(e) => onStatusChange(e, option.value)}
                                     id={option.name}
@@ -141,7 +143,7 @@ const PaymentManagement: React.FC = () => {
                 </div>
             ) : (
                 <>
-                    <div className="relative min-h-[335px] w-full overflow-y-auto sm:rounded-lg">
+                    <div className="relative h-96 w-full overflow-y-auto sm:rounded-lg">
                         <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
                             <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
@@ -227,13 +229,18 @@ const PaymentManagement: React.FC = () => {
                                     ))}
                             </tbody>
                         </table>
+                        {Array.isArray(transactionList) && !transactionList.length && (
+                            <div className="flex h-[100px] items-center justify-center">{translate('NotFound')}</div>
+                        )}
                     </div>
-                    {resultData?.totalPage && (
+                    {resultData?.totalPage && resultData.totalPage > 0 ? (
                         <Pagination
                             queryConfig={queryParams}
                             page={resultData?.currentPage}
                             totalPage={resultData?.totalPage}
                         />
+                    ) : (
+                        <div className="h-20"></div>
                     )}
                 </>
             )}

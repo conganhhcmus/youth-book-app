@@ -267,7 +267,7 @@ const Top: React.FC = () => {
                                     {translate('updating')}
                                 </Link>
                             </div>
-                            {resultData?.totalPage && (
+                            {resultData?.totalPage && resultData.totalPage > 0 && (
                                 <MiniPagination
                                     queryConfig={queryParams}
                                     page={resultData?.currentPage}
@@ -283,8 +283,9 @@ const Top: React.FC = () => {
                                 />
                             </div>
                         )}
+
                         <div className="mt-6">
-                            {resultData?.totalPage && (
+                            {resultData?.totalPage && resultData.totalPage > 0 && (
                                 <Pagination
                                     queryConfig={queryParams}
                                     page={Number(queryParams.page)}
@@ -292,6 +293,10 @@ const Top: React.FC = () => {
                                 />
                             )}
                         </div>
+
+                        {Array.isArray(comicList) && !comicList.length && (
+                            <div className="flex h-[100px] items-center justify-center">{translate('NotFound')}</div>
+                        )}
                     </>
                 )}
             </div>

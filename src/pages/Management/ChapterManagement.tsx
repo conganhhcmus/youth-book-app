@@ -348,13 +348,18 @@ const ChapterManagement: React.FC = () => {
                                     ))}
                             </tbody>
                         </table>
+                        {Array.isArray(chapterList) && !chapterList.length && (
+                            <div className="flex h-[100px] items-center justify-center">{translate('NotFound')}</div>
+                        )}
                     </div>
-                    {chapterResult?.totalPage && (
+                    {chapterResult?.totalPage && chapterResult.totalPage > 0 ? (
                         <Pagination
                             queryConfig={queryParams}
                             page={chapterResult?.currentPage}
                             totalPage={chapterResult?.totalPage}
                         />
+                    ) : (
+                        <div className="h-20"></div>
                     )}
                 </>
             )}

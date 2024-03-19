@@ -23,7 +23,8 @@ const SearchBar = () => {
         staleTime: 3 * 60 * 1000,
     });
 
-    const data = comicList?.data?.data;
+    const maxLength = 10;
+    const data = comicList?.data?.data.slice(-Math.min(maxLength, comicList?.data?.data.length));
 
     const viewDetailComic = (id: string) => {
         navigate(`${APP_PATH.comics}/${id}`);
@@ -35,7 +36,7 @@ const SearchBar = () => {
 
         if (searchText !== '') {
             navigate({
-                pathname: APP_PATH.comics_search,
+                pathname: APP_PATH.search,
                 search: createSearchParams({
                     q: searchText.trim(),
                     page: '1',

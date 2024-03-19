@@ -19,7 +19,7 @@ const useAxiosRequest = () => {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Something went wrong!',
+                        text: err.response.data || 'Something went wrong!',
                     }).then(() => {
                         window.location.reload();
                     });

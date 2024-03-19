@@ -9,6 +9,7 @@ const Genres = lazy(() => import('@/pages/Genres'));
 const History = lazy(() => import('@/pages/History'));
 const New = lazy(() => import('@/pages/New'));
 const Top = lazy(() => import('@/pages/Top'));
+const Search = lazy(() => import('@/pages/Search'));
 
 export default [
     {
@@ -56,6 +57,14 @@ export default [
         element: (
             <Suspense fallback={<LoadingPage />}>
                 <Top />
+            </Suspense>
+        ),
+    },
+    {
+        path: APP_PATH.search,
+        element: (
+            <Suspense fallback={<LoadingPage />}>
+                <Search />
             </Suspense>
         ),
     },

@@ -168,12 +168,14 @@ const PaymentHistory: React.FC = () => {
                     )}
                 </table>
             </div>
-            {resultData?.totalPage && (
+            {resultData?.totalPage && resultData.totalPage > 0 ? (
                 <Pagination
                     queryConfig={queryParams}
                     page={resultData?.currentPage}
                     totalPage={resultData?.totalPage}
                 />
+            ) : (
+                <div className="h-20"></div>
             )}
         </div>
     );
