@@ -178,75 +178,78 @@ const GenresManagement: React.FC = () => {
                     />
                 </div>
             </div>
-            <div className="relative h-96 w-full overflow-y-auto sm:rounded-lg">
-                <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
-                    <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('name')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('create-at')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('update-at')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('action')}
-                            </th>
-                        </tr>
-                    </thead>
-                    {isLoading ? (
-                        <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
-                            <img
-                                src={imgLoading}
-                                alt="loading icon"
-                                loading="lazy"
-                            />
-                            {translate('loading')}
-                        </div>
-                    ) : (
-                        <tbody>
-                            {genresList &&
-                                genresList.map((genres) => (
-                                    <tr
-                                        key={genres._id}
-                                        className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
-                                        <td className="px-6 py-4 font-bold capitalize">{genres.name}</td>
-                                        <td className="px-6 py-4 capitalize">{moment(genres.createTime).format('DD/MM/YYYY')}</td>
-                                        <td className="px-6 py-4 capitalize">{moment(genres.updateTime).format('DD/MM/YYYY')}</td>
-                                        <td className="px-6 py-4">
-                                            <button
-                                                onClick={() => handleEdit(genres._id)}
-                                                className="ml-2 font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
-                                                {translate('edit')}
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(genres._id)}
-                                                className="ml-2 font-medium capitalize text-red-600 hover:underline dark:text-red-500">
-                                                {translate('delete')}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                        </tbody>
+            {isLoading ? (
+                <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                    <img
+                        src={imgLoading}
+                        alt="loading icon"
+                        loading="lazy"
+                    />
+                    {translate('loading')}
+                </div>
+            ) : (
+                <>
+                    <div className="relative h-96 w-full overflow-y-auto sm:rounded-lg">
+                        <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
+                            <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('name')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('create-at')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('update-at')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('action')}
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {genresList &&
+                                    genresList.map((genres) => (
+                                        <tr
+                                            key={genres._id}
+                                            className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
+                                            <td className="px-6 py-4 font-bold capitalize">{genres.name}</td>
+                                            <td className="px-6 py-4 capitalize">{moment(genres.createTime).format('DD/MM/YYYY')}</td>
+                                            <td className="px-6 py-4 capitalize">{moment(genres.updateTime).format('DD/MM/YYYY')}</td>
+                                            <td className="px-6 py-4">
+                                                <button
+                                                    onClick={() => handleEdit(genres._id)}
+                                                    className="ml-2 font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
+                                                    {translate('edit')}
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(genres._id)}
+                                                    className="ml-2 font-medium capitalize text-red-600 hover:underline dark:text-red-500">
+                                                    {translate('delete')}
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    {genresResult?.totalPage && (
+                        <Pagination
+                            queryConfig={queryParams}
+                            page={genresResult?.currentPage}
+                            totalPage={genresResult?.totalPage}
+                        />
                     )}
-                </table>
-            </div>
-            {genresResult?.totalPage && (
-                <Pagination
-                    queryConfig={queryParams}
-                    page={genresResult?.currentPage}
-                    totalPage={genresResult?.totalPage}
-                />
+                </>
             )}
         </div>
     );

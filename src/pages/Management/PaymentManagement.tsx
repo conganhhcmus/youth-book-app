@@ -130,110 +130,112 @@ const PaymentManagement: React.FC = () => {
                     />
                 </div>
             </div>
-            <div className="relative min-h-[335px] w-full overflow-y-auto sm:rounded-lg">
-                <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
-                    <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('username')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('type')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('amount')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('status')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('update-at')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('update-by')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('action')}
-                            </th>
-                        </tr>
-                    </thead>
-                    {isLoading ? (
-                        <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
-                            <img
-                                src={imgLoading}
-                                alt="loading icon"
-                                loading="lazy"
-                            />
-                            {translate('loading')}
-                        </div>
-                    ) : (
-                        <tbody>
-                            {transactionList &&
-                                transactionList.map((transaction) => (
-                                    <tr
-                                        key={transaction._id}
-                                        className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
-                                        <td className="px-6 py-4">{transaction.users[0].username}</td>
-                                        <td className="px-6 py-4">{translate(getTransactionTypeName(transaction.type))}</td>
-                                        <td
-                                            className={classNames('px-6 py-4 font-bold ', {
-                                                'text-primary': transaction.amount >= 0,
-                                                'text-red-500': transaction.amount < 0,
-                                            })}>
-                                            {formatCurrency(transaction.amount)}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <p
-                                                className={classNames('capitalize', {
-                                                    'text-gray-700': transaction.status == 0,
-                                                    'text-red-700': transaction.status == -1,
-                                                    'text-primary': transaction.status == 1,
+            {isLoading ? (
+                <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                    <img
+                        src={imgLoading}
+                        alt="loading icon"
+                        loading="lazy"
+                    />
+                    {translate('loading')}
+                </div>
+            ) : (
+                <>
+                    <div className="relative min-h-[335px] w-full overflow-y-auto sm:rounded-lg">
+                        <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
+                            <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('username')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('type')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('amount')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('status')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('update-at')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('update-by')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('action')}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {transactionList &&
+                                    transactionList.map((transaction) => (
+                                        <tr
+                                            key={transaction._id}
+                                            className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
+                                            <td className="px-6 py-4">{transaction.users[0].username}</td>
+                                            <td className="px-6 py-4">{translate(getTransactionTypeName(transaction.type))}</td>
+                                            <td
+                                                className={classNames('px-6 py-4 font-bold ', {
+                                                    'text-primary': transaction.amount >= 0,
+                                                    'text-red-500': transaction.amount < 0,
                                                 })}>
-                                                {translate(getTransactionStatusName(transaction.status))}
-                                            </p>
-                                        </td>
-                                        <td className="px-6 py-4">{moment(transaction.updateTime).format('hh:mm:ss DD/MM/YYYY')}</td>
-                                        <td className="px-6 py-4">
-                                            {transaction.updateUsers.length == 0 ? '-' : transaction.updateUsers[0].username}
-                                        </td>
-                                        <td className={`px-6 py-4 ${transaction.status !== 0 ? 'hidden' : ''}`}>
-                                            <button
-                                                onClick={() => onActionHandle(transaction._id, 1)}
-                                                className="ml-2 font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
-                                                {translate('accept')}
-                                            </button>
-                                            <button
-                                                onClick={() => onActionHandle(transaction._id, -1)}
-                                                className="ml-2 font-medium capitalize text-red-600 hover:underline dark:text-red-500">
-                                                {translate('cancel')}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                        </tbody>
+                                                {formatCurrency(transaction.amount)}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <p
+                                                    className={classNames('capitalize', {
+                                                        'text-gray-700': transaction.status == 0,
+                                                        'text-red-700': transaction.status == -1,
+                                                        'text-primary': transaction.status == 1,
+                                                    })}>
+                                                    {translate(getTransactionStatusName(transaction.status))}
+                                                </p>
+                                            </td>
+                                            <td className="px-6 py-4">{moment(transaction.updateTime).format('hh:mm:ss DD/MM/YYYY')}</td>
+                                            <td className="px-6 py-4">
+                                                {transaction.updateUsers.length == 0 ? '-' : transaction.updateUsers[0].username}
+                                            </td>
+                                            <td className={`px-6 py-4 ${transaction.status !== 0 ? 'hidden' : ''}`}>
+                                                <button
+                                                    onClick={() => onActionHandle(transaction._id, 1)}
+                                                    className="ml-2 font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
+                                                    {translate('accept')}
+                                                </button>
+                                                <button
+                                                    onClick={() => onActionHandle(transaction._id, -1)}
+                                                    className="ml-2 font-medium capitalize text-red-600 hover:underline dark:text-red-500">
+                                                    {translate('cancel')}
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    {resultData?.totalPage && (
+                        <Pagination
+                            queryConfig={queryParams}
+                            page={resultData?.currentPage}
+                            totalPage={resultData?.totalPage}
+                        />
                     )}
-                </table>
-            </div>
-            {resultData?.totalPage && (
-                <Pagination
-                    queryConfig={queryParams}
-                    page={resultData?.currentPage}
-                    totalPage={resultData?.totalPage}
-                />
+                </>
             )}
         </div>
     );

@@ -279,81 +279,84 @@ const ChapterManagement: React.FC = () => {
                     />
                 </div>
             </div>
-            <div className="relative h-96 w-full overflow-y-auto sm:rounded-lg">
-                <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
-                    <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('name')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('price')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('create-at')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('update-at')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('create-by')}
-                            </th>
-                        </tr>
-                    </thead>
-                    {isLoading ? (
-                        <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
-                            <img
-                                src={imgLoading}
-                                alt="loading icon"
-                                loading="lazy"
-                            />
-                            {translate('loading')}
-                        </div>
-                    ) : (
-                        <tbody>
-                            {chapterList &&
-                                chapterList.map((chapter) => (
-                                    <tr
-                                        key={chapter._id}
-                                        className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
-                                        <td className="max-w-60 px-6 py-4 font-bold capitalize">{chapter.name}</td>
-                                        <td className="min-w-20 px-6 py-4 font-bold text-primary">{formatCurrency(chapter.price)}</td>
-                                        <td className="px-6 py-4 capitalize">{moment(chapter.createTime).format('DD/MM/YYYY')}</td>
-                                        <td className="px-6 py-4 capitalize">{moment(chapter.updateTime).format('DD/MM/YYYY')}</td>
-                                        <td className="px-6 py-4">
-                                            <button
-                                                onClick={() => handleEdit(chapter._id)}
-                                                className="ml-2 font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
-                                                {translate('edit')}
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(chapter._id)}
-                                                className="ml-2 font-medium capitalize text-red-600 hover:underline dark:text-red-500">
-                                                {translate('delete')}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                        </tbody>
+            {isLoading ? (
+                <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                    <img
+                        src={imgLoading}
+                        alt="loading icon"
+                        loading="lazy"
+                    />
+                    {translate('loading')}
+                </div>
+            ) : (
+                <>
+                    <div className="relative h-96 w-full overflow-y-auto sm:rounded-lg">
+                        <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
+                            <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('name')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('price')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('create-at')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('update-at')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('create-by')}
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {chapterList &&
+                                    chapterList.map((chapter) => (
+                                        <tr
+                                            key={chapter._id}
+                                            className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
+                                            <td className="max-w-60 px-6 py-4 font-bold capitalize">{chapter.name}</td>
+                                            <td className="min-w-20 px-6 py-4 font-bold text-primary">{formatCurrency(chapter.price)}</td>
+                                            <td className="px-6 py-4 capitalize">{moment(chapter.createTime).format('DD/MM/YYYY')}</td>
+                                            <td className="px-6 py-4 capitalize">{moment(chapter.updateTime).format('DD/MM/YYYY')}</td>
+                                            <td className="px-6 py-4">
+                                                <button
+                                                    onClick={() => handleEdit(chapter._id)}
+                                                    className="ml-2 font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
+                                                    {translate('edit')}
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(chapter._id)}
+                                                    className="ml-2 font-medium capitalize text-red-600 hover:underline dark:text-red-500">
+                                                    {translate('delete')}
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    {chapterResult?.totalPage && (
+                        <Pagination
+                            queryConfig={queryParams}
+                            page={chapterResult?.currentPage}
+                            totalPage={chapterResult?.totalPage}
+                        />
                     )}
-                </table>
-            </div>
-            {chapterResult?.totalPage && (
-                <Pagination
-                    queryConfig={queryParams}
-                    page={chapterResult?.currentPage}
-                    totalPage={chapterResult?.totalPage}
-                />
+                </>
             )}
         </div>
     );

@@ -190,125 +190,130 @@ const UserManagement: React.FC = () => {
                     />
                 </div>
             </div>
-            <div className="relative h-96 w-full overflow-y-auto sm:rounded-lg">
-                <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
-                    <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('username')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('role')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('wallet')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('status')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('create-at')}
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-6 py-3">
-                                {translate('action')}
-                            </th>
-                        </tr>
-                    </thead>
-                    {isLoading ? (
-                        <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
-                            <img
-                                src={imgLoading}
-                                alt="loading icon"
-                                loading="lazy"
-                            />
-                            {translate('loading')}
-                        </div>
-                    ) : (
-                        <tbody>
-                            {userList &&
-                                userList.map((user) => (
-                                    <tr
-                                        key={user._id}
-                                        className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
-                                        <th
-                                            scope="row"
-                                            className="flex items-center whitespace-nowrap px-6 py-4 text-gray-900 dark:text-white">
-                                            {user.avatarImg ? (
-                                                <img
-                                                    className="h-10 w-10 rounded-full"
-                                                    src={user.avatarImg}
-                                                    alt={user.fullName}
-                                                />
-                                            ) : (
-                                                <svg
-                                                    className="h-10 w-10 rounded-full"
-                                                    viewBox="0 0 1024 1024"
-                                                    version="1.1"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M508.3136 498.2784A221.4912 221.4912 0 1 0 286.72 276.48a221.7984 221.7984 0 0 0 221.5936 221.7984z m0-393.8304A172.3392 172.3392 0 1 1 336.0768 276.48a172.4416 172.4416 0 0 1 172.2368-172.032zM680.5504 536.7808a44.7488 44.7488 0 0 0-37.5808 3.2768 276.48 276.48 0 0 1-266.752 1.4336 44.6464 44.6464 0 0 0-37.6832-2.8672A481.28 481.28 0 0 0 30.0032 942.08a24.576 24.576 0 0 0 22.016 26.9312h2.4576a24.576 24.576 0 0 0 24.4736-22.1184 432.5376 432.5376 0 0 1 275.0464-361.472A326.5536 326.5536 0 0 0 665.6 583.68a437.4528 437.4528 0 0 1 279.4496 362.9056 24.576 24.576 0 1 0 48.9472-4.5056 487.0144 487.0144 0 0 0-313.4464-405.2992z"
-                                                        fill=""
-                                                    />
-                                                </svg>
-                                            )}
-                                            <div className="ps-3">
-                                                <div className="text-base font-semibold">{user.username}</div>
-                                                <div className="font-normal text-gray-500">{user.email}</div>
-                                            </div>
-                                        </th>
-                                        <td className="px-6 py-4 capitalize">{translate(getRoleName(user.role))}</td>
-                                        <td className="px-6 py-4 ">
-                                            <div className="font-bold text-primary">{formatCurrency(user.wallet)}</div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center capitalize">
-                                                <div className={`me-2 h-2.5 w-2.5 rounded-full ${user.isActive ? 'bg-green-500' : 'bg-red-500'} `} />{' '}
-                                                {translate(getStatusName(user.isActive))}
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            {user.createTime ? moment(user.createTime).format('DD/MM/YYYY') : moment().format('DD/MM/YYYY')}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <button
-                                                onClick={() => handleEdit(user._id)}
-                                                className="font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
-                                                {translate('edit')}
-                                            </button>
-                                            <button
-                                                onClick={() => handleUpdateStatus(user._id)}
-                                                className={classNames('ml-3 font-medium capitalize hover:underline ', {
-                                                    'text-red-600 dark:text-blue-500': user.isActive,
-                                                    'text-green-600 dark:text-green-500': !user.isActive,
-                                                })}>
-                                                {translate(user.isActive ? 'deactivate' : 'activate')}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                        </tbody>
-                    )}
-                </table>
-            </div>
+            {isLoading ? (
+                <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                    <img
+                        src={imgLoading}
+                        alt="loading icon"
+                        loading="lazy"
+                    />
+                    {translate('loading')}
+                </div>
+            ) : (
+                <>
+                    <div className="relative h-96 w-full overflow-y-auto sm:rounded-lg">
+                        <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
+                            <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('username')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('role')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('wallet')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('status')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('create-at')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
+                                        {translate('action')}
+                                    </th>
+                                </tr>
+                            </thead>
 
-            {result?.totalPage && (
-                <Pagination
-                    queryConfig={queryParams}
-                    page={result?.currentPage}
-                    totalPage={result?.totalPage}
-                />
+                            <tbody>
+                                {userList &&
+                                    userList.map((user) => (
+                                        <tr
+                                            key={user._id}
+                                            className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
+                                            <th
+                                                scope="row"
+                                                className="flex items-center whitespace-nowrap px-6 py-4 text-gray-900 dark:text-white">
+                                                {user.avatarImg ? (
+                                                    <img
+                                                        className="h-10 w-10 rounded-full"
+                                                        src={user.avatarImg}
+                                                        alt={user.fullName}
+                                                    />
+                                                ) : (
+                                                    <svg
+                                                        className="h-10 w-10 rounded-full"
+                                                        viewBox="0 0 1024 1024"
+                                                        version="1.1"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M508.3136 498.2784A221.4912 221.4912 0 1 0 286.72 276.48a221.7984 221.7984 0 0 0 221.5936 221.7984z m0-393.8304A172.3392 172.3392 0 1 1 336.0768 276.48a172.4416 172.4416 0 0 1 172.2368-172.032zM680.5504 536.7808a44.7488 44.7488 0 0 0-37.5808 3.2768 276.48 276.48 0 0 1-266.752 1.4336 44.6464 44.6464 0 0 0-37.6832-2.8672A481.28 481.28 0 0 0 30.0032 942.08a24.576 24.576 0 0 0 22.016 26.9312h2.4576a24.576 24.576 0 0 0 24.4736-22.1184 432.5376 432.5376 0 0 1 275.0464-361.472A326.5536 326.5536 0 0 0 665.6 583.68a437.4528 437.4528 0 0 1 279.4496 362.9056 24.576 24.576 0 1 0 48.9472-4.5056 487.0144 487.0144 0 0 0-313.4464-405.2992z"
+                                                            fill=""
+                                                        />
+                                                    </svg>
+                                                )}
+                                                <div className="ps-3">
+                                                    <div className="text-base font-semibold">{user.username}</div>
+                                                    <div className="font-normal text-gray-500">{user.email}</div>
+                                                </div>
+                                            </th>
+                                            <td className="px-6 py-4 capitalize">{translate(getRoleName(user.role))}</td>
+                                            <td className="px-6 py-4 ">
+                                                <div className="font-bold text-primary">{formatCurrency(user.wallet)}</div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center capitalize">
+                                                    <div
+                                                        className={`me-2 h-2.5 w-2.5 rounded-full ${user.isActive ? 'bg-green-500' : 'bg-red-500'} `}
+                                                    />{' '}
+                                                    {translate(getStatusName(user.isActive))}
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {user.createTime ? moment(user.createTime).format('DD/MM/YYYY') : moment().format('DD/MM/YYYY')}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <button
+                                                    onClick={() => handleEdit(user._id)}
+                                                    className="font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
+                                                    {translate('edit')}
+                                                </button>
+                                                <button
+                                                    onClick={() => handleUpdateStatus(user._id)}
+                                                    className={classNames('ml-3 font-medium capitalize hover:underline ', {
+                                                        'text-red-600 dark:text-blue-500': user.isActive,
+                                                        'text-green-600 dark:text-green-500': !user.isActive,
+                                                    })}>
+                                                    {translate(user.isActive ? 'deactivate' : 'activate')}
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {result?.totalPage && (
+                        <Pagination
+                            queryConfig={queryParams}
+                            page={result?.currentPage}
+                            totalPage={result?.totalPage}
+                        />
+                    )}
+                </>
             )}
         </div>
     );
