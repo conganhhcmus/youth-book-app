@@ -12,6 +12,13 @@ const chapterApi = {
         return apiClients.get<ChapterData>(url, { params: { ...params, comicId } });
     },
 
+    getFullChapters(comicId: string | undefined) {
+        if (!comicId) return;
+
+        const url = CHAPTER_PATH.get_full;
+        return apiClients.get<Chapter[]>(url, { params: { comicId } });
+    },
+
     addChapter(data: ChapterModel) {
         const url = CHAPTER_PATH.add;
         return apiClients.post<Chapter>(url, { ...data });

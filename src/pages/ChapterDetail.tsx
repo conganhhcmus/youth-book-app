@@ -35,12 +35,12 @@ const ChapterDetail: React.FC = () => {
     const chapterDetail = chapterDetailResultData?.data;
 
     const { data: chapterResultData } = useQuery({
-        queryKey: ['getAllChapters', { comicId: chapterDetail?.comicId }],
-        queryFn: () => chapterApi.getAllChapters(chapterDetail?.comicId),
+        queryKey: ['getFullChapters', { comicId: chapterDetail?.comicId }],
+        queryFn: () => chapterApi.getFullChapters(chapterDetail?.comicId),
         staleTime: 3 * 60 * 1000,
     });
 
-    const dataChapter = chapterResultData?.data.data || [];
+    const dataChapter = chapterResultData?.data || [];
 
     const { data: comicResultData } = useQuery({
         queryKey: ['getComicInfo', { comicId: chapterDetail?.comicId }],
@@ -169,7 +169,7 @@ const ChapterDetail: React.FC = () => {
                 </button>
             </div>
             <div
-                className="flex select-none flex-col gap-y-8 bg-yellow-50 px-16 py-8 text-2xl"
+                className="flex min-h-[600px] select-none flex-col gap-y-8 bg-yellow-50 px-16 py-8 text-2xl"
                 dangerouslySetInnerHTML={{ __html: chapterDetail?.content || '' }}
             />
         </div>

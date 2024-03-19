@@ -49,15 +49,15 @@ const ComicManagement: React.FC = () => {
     });
 
     const { data: genresResultData } = useQuery({
-        queryKey: ['allGenres'],
-        queryFn: () => genresApi.getAllGenres(),
+        queryKey: ['getFullGenres'],
+        queryFn: () => genresApi.getFullGenres(),
         staleTime: 3 * 60 * 1000,
     });
 
     const result = resultData?.data;
     const comicList = result?.data;
 
-    const genres = genresResultData?.data?.data;
+    const genres = genresResultData?.data;
 
     const token = useAppSelector((state) => selectAccessToken(state.token));
     const userInfoPayload = decodeJWTToken(token);
@@ -346,7 +346,7 @@ const ComicManagement: React.FC = () => {
                         onChange={(e) => setSearchText(e.target.value)}
                         id="table-search-comic"
                         className="block w-80 rounded-lg border border-gray-300 bg-gray-50 p-2 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                        placeholder="Search for comic"
+                        placeholder={translate('search-for-comic')}
                     />
                 </div>
             </div>

@@ -17,6 +17,7 @@ export const GENRES_PATH = {
 export const CHAPTER_PATH = {
     chapters: '/chapters',
     add: '/chapters/add',
+    get_full: '/chapters/get-full',
 };
 
 export const AUTH_PATH = {
