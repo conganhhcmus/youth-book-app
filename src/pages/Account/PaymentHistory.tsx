@@ -49,18 +49,6 @@ const PaymentHistory: React.FC = () => {
         setStatusOptions(uniqueValue);
     };
 
-    if (isLoading)
-        return (
-            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
-                <img
-                    src={imgLoading}
-                    alt="loading icon"
-                    loading="lazy"
-                />
-                {translate('loading')}
-            </div>
-        );
-
     return (
         <div className="relative h-full w-full overflow-x-auto border-2 p-8 sm:rounded-lg">
             <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-white pb-4 dark:bg-gray-700 md:flex-row md:space-y-0">
@@ -138,35 +126,46 @@ const PaymentHistory: React.FC = () => {
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {transactionList &&
-                            transactionList.map((transaction) => (
-                                <tr
-                                    key={transaction._id}
-                                    className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
-                                    <td className="px-6 py-4">{translate(getTransactionTypeName(transaction.type))}</td>
-                                    <td
-                                        className={classNames('px-6 py-4 font-bold ', {
-                                            'text-primary': transaction.amount >= 0,
-                                            'text-red-500': transaction.amount < 0,
-                                        })}>
-                                        {formatCurrency(transaction.amount)}
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <p
-                                            className={classNames('capitalize', {
-                                                'text-gray-700': transaction.status == 0,
-                                                'text-red-700': transaction.status == -1,
-                                                'text-primary': transaction.status == 1,
+                    {isLoading ? (
+                        <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                            <img
+                                src={imgLoading}
+                                alt="loading icon"
+                                loading="lazy"
+                            />
+                            {translate('loading')}
+                        </div>
+                    ) : (
+                        <tbody>
+                            {transactionList &&
+                                transactionList.map((transaction) => (
+                                    <tr
+                                        key={transaction._id}
+                                        className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
+                                        <td className="px-6 py-4">{translate(getTransactionTypeName(transaction.type))}</td>
+                                        <td
+                                            className={classNames('px-6 py-4 font-bold ', {
+                                                'text-primary': transaction.amount >= 0,
+                                                'text-red-500': transaction.amount < 0,
                                             })}>
-                                            {translate(getTransactionStatusName(transaction.status))}
-                                        </p>
-                                    </td>
-                                    <td className="px-6 py-4">{moment(transaction.createTime).format('hh:mm:ss DD/MM/YYYY')}</td>
-                                    <td className="px-6 py-4">{moment(transaction.updateTime).format('hh:mm:ss DD/MM/YYYY')}</td>
-                                </tr>
-                            ))}
-                    </tbody>
+                                            {formatCurrency(transaction.amount)}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <p
+                                                className={classNames('capitalize', {
+                                                    'text-gray-700': transaction.status == 0,
+                                                    'text-red-700': transaction.status == -1,
+                                                    'text-primary': transaction.status == 1,
+                                                })}>
+                                                {translate(getTransactionStatusName(transaction.status))}
+                                            </p>
+                                        </td>
+                                        <td className="px-6 py-4">{moment(transaction.createTime).format('hh:mm:ss DD/MM/YYYY')}</td>
+                                        <td className="px-6 py-4">{moment(transaction.updateTime).format('hh:mm:ss DD/MM/YYYY')}</td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    )}
                 </table>
             </div>
             {resultData?.totalPage && (

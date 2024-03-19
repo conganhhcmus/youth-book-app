@@ -219,18 +219,6 @@ const ChapterManagement: React.FC = () => {
         </form>
     );
 
-    if (isLoading)
-        return (
-            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
-                <img
-                    src={imgLoading}
-                    alt="loading icon"
-                    loading="lazy"
-                />
-                {translate('loading')}
-            </div>
-        );
-
     return (
         <div className="relative h-full w-full overflow-x-auto border-2 p-8 sm:rounded-lg">
             {isShowEditAction && (
@@ -287,7 +275,7 @@ const ChapterManagement: React.FC = () => {
                         onChange={(e) => setSearchText(e.target.value)}
                         id="table-search-comic"
                         className="block w-80 rounded-lg border border-gray-300 bg-gray-50 p-2 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                        placeholder="Search for comic"
+                        placeholder={translate('search-for-chapter')}
                     />
                 </div>
             </div>
@@ -322,31 +310,42 @@ const ChapterManagement: React.FC = () => {
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {chapterList &&
-                            chapterList.map((chapter) => (
-                                <tr
-                                    key={chapter._id}
-                                    className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
-                                    <td className="max-w-60 px-6 py-4 font-bold capitalize">{chapter.name}</td>
-                                    <td className="min-w-20 px-6 py-4 font-bold text-primary">{formatCurrency(chapter.price)}</td>
-                                    <td className="px-6 py-4 capitalize">{moment(chapter.createTime).format('DD/MM/YYYY')}</td>
-                                    <td className="px-6 py-4 capitalize">{moment(chapter.updateTime).format('DD/MM/YYYY')}</td>
-                                    <td className="px-6 py-4">
-                                        <button
-                                            onClick={() => handleEdit(chapter._id)}
-                                            className="ml-2 font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
-                                            {translate('edit')}
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(chapter._id)}
-                                            className="ml-2 font-medium capitalize text-red-600 hover:underline dark:text-red-500">
-                                            {translate('delete')}
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                    </tbody>
+                    {isLoading ? (
+                        <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                            <img
+                                src={imgLoading}
+                                alt="loading icon"
+                                loading="lazy"
+                            />
+                            {translate('loading')}
+                        </div>
+                    ) : (
+                        <tbody>
+                            {chapterList &&
+                                chapterList.map((chapter) => (
+                                    <tr
+                                        key={chapter._id}
+                                        className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
+                                        <td className="max-w-60 px-6 py-4 font-bold capitalize">{chapter.name}</td>
+                                        <td className="min-w-20 px-6 py-4 font-bold text-primary">{formatCurrency(chapter.price)}</td>
+                                        <td className="px-6 py-4 capitalize">{moment(chapter.createTime).format('DD/MM/YYYY')}</td>
+                                        <td className="px-6 py-4 capitalize">{moment(chapter.updateTime).format('DD/MM/YYYY')}</td>
+                                        <td className="px-6 py-4">
+                                            <button
+                                                onClick={() => handleEdit(chapter._id)}
+                                                className="ml-2 font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
+                                                {translate('edit')}
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(chapter._id)}
+                                                className="ml-2 font-medium capitalize text-red-600 hover:underline dark:text-red-500">
+                                                {translate('delete')}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    )}
                 </table>
             </div>
             {chapterResult?.totalPage && (
