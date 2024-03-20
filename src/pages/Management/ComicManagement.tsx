@@ -130,7 +130,6 @@ const ComicManagement: React.FC = () => {
             return;
         }
         const data = {
-            ...comicInfo,
             genres: genresChecked,
             author: refAuthor.current?.value || comicInfo?.author,
             description: refName.current?.value || comicInfo?.description,

@@ -85,7 +85,6 @@ const Pagination = ({ page, totalPage, queryConfig }: PaginationProps) => {
             });
     };
 
-    console.log(totalPage, page);
     return (
         <div className="mt-4 flex h-20 flex-wrap justify-center gap-1 gap-y-2">
             {page === 1 ? (
