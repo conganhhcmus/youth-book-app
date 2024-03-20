@@ -12,6 +12,7 @@ import { APP_PATH } from '@/constants/path';
 import { formatCurrency } from '@/utils/format';
 import { selectAccessToken } from '@/redux/slices/token';
 import { decodeJWTToken } from '@/utils/token';
+import moment from 'moment';
 
 const useReadChapter = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
@@ -23,9 +24,8 @@ const useReadChapter = () => {
     const navigate = useNavigate();
 
     const { data: transactionDataResult } = useQuery({
-        queryKey: ['getAllBuyTransactionByUser'],
+        queryKey: ['getAllBuyTransactionByUser', moment().toLocaleString],
         queryFn: () => paymentApis.getAllBuyTransactionByUser(userInfoPayload?._id),
-        // staleTime: 60 * 1000,
         enabled: !!userInfoPayload,
     });
 
@@ -39,7 +39,7 @@ const useReadChapter = () => {
                 text: translate('chapter-bought'),
                 icon: 'success',
             }).then(() => {
-                navigate(`${APP_PATH.comics_chapters}/${chapterId}`);
+                window.location.href = `${APP_PATH.comics_chapters}/${chapterId}`;
             });
         });
     };
