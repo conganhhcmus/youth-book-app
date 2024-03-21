@@ -47,10 +47,10 @@ const GenresManagement: React.FC = () => {
     };
 
     const handleEdit = (id: string) => {
-        setIsShowEditAction(true);
         callRequest(genresApi.getGenresById(id), (res) => {
             console.log(res.data);
             setGenresInfo(res.data);
+            setIsShowEditAction(true);
         });
     };
 
@@ -117,6 +117,7 @@ const GenresManagement: React.FC = () => {
                     id="name"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                     placeholder={genresInfo?.name}
+                    defaultValue={genresInfo?.name}
                     required={true}
                 />
             </div>

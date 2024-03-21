@@ -26,11 +26,11 @@ const ComicManagement: React.FC = () => {
     const [searchText, setSearchText] = useState<string>('');
     const [comicInfo, setComicInfo] = useState<Comic>();
     const [genresChecked, setGenresChecked] = useState<string[]>([]);
+    const [thumbnailImg, setThumbnailImg] = useState<File>();
 
     // Ref
     const refName = useRef<HTMLInputElement>(null);
     const refDescription = useRef<HTMLTextAreaElement>(null);
-    const refThumbnail = useRef<HTMLInputElement>(null);
     const refAuthor = useRef<HTMLInputElement>(null);
     const refRecommend = useRef<HTMLInputElement>(null);
     const refStatus = useRef<HTMLSelectElement>(null);
@@ -69,11 +69,11 @@ const ComicManagement: React.FC = () => {
     };
 
     const handleEdit = (id: string) => {
-        setIsShowEditAction(true);
         callRequest(comicApis.getComicInfo(id), (res) => {
             const data = res.data as Comic;
             setComicInfo(data);
             setGenresChecked(data.genres.map((x) => x._id));
+            setIsShowEditAction(true);
         });
     };
 
@@ -86,7 +86,6 @@ const ComicManagement: React.FC = () => {
         const data = {
             name: refName.current?.value,
             description: refDescription.current?.value,
-            thumbnail: refThumbnail.current?.value,
             author: refAuthor.current?.value,
             status: (refStatus.current && parseInt(refStatus.current?.value, 10)) || 0,
             genres: genresChecked,
@@ -94,9 +93,21 @@ const ComicManagement: React.FC = () => {
             createTime: moment().utc().toDate(),
         } as ComicModel;
 
+        console.log(thumbnailImg);
+
         callRequest(comicApis.addComic(data), (res) => {
             console.log(res.data);
-            addSuccessAlert(true);
+            const id = (res.data as Comic)._id;
+            if (thumbnailImg) {
+                const formData = new FormData();
+                formData.append('file', thumbnailImg, 'file');
+                callRequest(comicApis.updateThumbnail(id, formData), (resThumbnail) => {
+                    console.log(resThumbnail.data);
+                    addSuccessAlert(true);
+                });
+            } else {
+                addSuccessAlert(true);
+            }
         });
     };
 
@@ -107,7 +118,7 @@ const ComicManagement: React.FC = () => {
             refAuthor.current?.value &&
             refDescription.current?.value &&
             refName.current?.value &&
-            refThumbnail.current?.value &&
+            thumbnailImg &&
             refStatus.current?.value
         );
     };
@@ -118,7 +129,7 @@ const ComicManagement: React.FC = () => {
             refAuthor.current?.value ||
             refDescription.current?.value ||
             refName.current?.value ||
-            refThumbnail.current?.value ||
+            thumbnailImg ||
             refRecommend.current?.checked !== comicInfo?.recommend ||
             refStatus.current?.value != comicInfo?.status
         );
@@ -135,13 +146,21 @@ const ComicManagement: React.FC = () => {
             description: refDescription.current?.value || comicInfo?.description,
             name: refName.current?.value || comicInfo?.name,
             status: refStatus.current?.value || comicInfo?.status,
-            thumbnail: refThumbnail.current?.value || comicInfo?.thumbnail,
             recommend: refRecommend.current?.checked,
         } as ComicModel;
 
         callRequest(comicApis.updateComic(comicInfo?._id, data), (res) => {
             console.log(res.data);
-            updateSuccessAlert(true);
+            if (thumbnailImg) {
+                const formData = new FormData();
+                formData.append('file', thumbnailImg, 'file');
+                callRequest(comicApis.updateThumbnail(comicInfo?._id, formData), (resThumbnail) => {
+                    console.log(resThumbnail.data);
+                    updateSuccessAlert(true);
+                });
+            } else {
+                updateSuccessAlert(true);
+            }
         });
     };
 
@@ -157,6 +176,12 @@ const ComicManagement: React.FC = () => {
         });
 
         setGenresChecked(uniqueValue);
+    };
+
+    const chooseImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files) return;
+
+        setThumbnailImg(e.target.files[0]);
     };
 
     const handleDelete = (id: string) => {
@@ -184,6 +209,7 @@ const ComicManagement: React.FC = () => {
                     id="title"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                     placeholder={comicInfo?.name}
+                    defaultValue={comicInfo?.name}
                     required={true}
                 />
             </div>
@@ -243,25 +269,25 @@ const ComicManagement: React.FC = () => {
                     className="w-full rounded-lg border-2"
                     id="description"
                     placeholder={comicInfo?.description}
+                    defaultValue={comicInfo?.description}
                     rows={4}
                     cols={50}
                 />
             </div>
-            <div>
+            <div className="flex items-center">
                 <label
                     htmlFor="thumbnail"
-                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    className="mb-2 block w-20 text-sm font-medium text-gray-900 dark:text-white">
                     {translate('thumbnail')}
                 </label>
-                <input
-                    ref={refThumbnail}
-                    type="thumbnail"
-                    name="thumbnail"
-                    id="thumbnail"
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                    placeholder={comicInfo?.thumbnail}
-                    required={true}
-                />
+                <div className="w- flex flex-row items-center justify-center gap-4">
+                    <input
+                        id="files"
+                        onChange={(e) => chooseImage(e)}
+                        accept=".jpg,.jpeg,.png"
+                        type="file"
+                    />
+                </div>
             </div>
             <div>
                 <label
@@ -276,6 +302,7 @@ const ComicManagement: React.FC = () => {
                     id="author"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                     placeholder={comicInfo?.author}
+                    defaultValue={comicInfo?.author}
                     required={true}
                 />
             </div>

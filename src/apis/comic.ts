@@ -44,6 +44,15 @@ const comicApis = {
         return apiClients.post<Comic>(url, { ...comic });
     },
 
+    updateThumbnail(id: string | undefined, data: FormData) {
+        const url = COMICS_PATH.update_thumbnail + `/${id ?? '-1'}`;
+        return apiClients.post(url, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+    },
+
     deleteComic(id: string) {
         const url = COMICS_PATH.comics + `/${id ?? '-1'}`;
         return apiClients.delete<Comic>(url);

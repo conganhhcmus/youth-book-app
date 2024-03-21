@@ -45,9 +45,9 @@ const UserManagement: React.FC = () => {
     const userList = result?.data;
 
     const handleEdit = (id: string) => {
-        setIsShowEditAction(true);
         callRequest(userApis.getUserInfo(id), (res) => {
             setUserInfo(res.data);
+            setIsShowEditAction(true);
         });
     };
 
@@ -96,6 +96,7 @@ const UserManagement: React.FC = () => {
                     id="username"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                     placeholder={userInfo?.username}
+                    defaultValue={userInfo?.username}
                     required={true}
                     disabled={true}
                 />
@@ -133,6 +134,7 @@ const UserManagement: React.FC = () => {
                     id="fullName"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                     placeholder={userInfo?.fullName}
+                    defaultValue={userInfo?.fullName}
                 />
             </div>
             <div>
@@ -148,6 +150,7 @@ const UserManagement: React.FC = () => {
                     id="email"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                     placeholder={userInfo?.email}
+                    defaultValue={userInfo?.email}
                 />
             </div>
         </form>

@@ -5,6 +5,7 @@ export const COMICS_PATH = {
     recommend: '/comics/recommend',
     search: '/comics/search',
     add: '/comics/add',
+    update_thumbnail: '/update-thumbnail',
     genres: '/comics/genres',
 } as const;
 
