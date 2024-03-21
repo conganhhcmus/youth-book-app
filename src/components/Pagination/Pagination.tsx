@@ -25,7 +25,7 @@ const Pagination = ({ page, totalPage, queryConfig }: PaginationProps) => {
                 return (
                     <span
                         key={index}
-                        className="bg-white px-1 pt-2 text-black dark:bg-gray-900 dark:text-white">
+                        className="h-[34px] bg-white px-1 pt-2 text-black dark:bg-gray-700 dark:text-white">
                         ...
                     </span>
                 );
@@ -38,7 +38,7 @@ const Pagination = ({ page, totalPage, queryConfig }: PaginationProps) => {
                 return (
                     <span
                         key={index}
-                        className="bg-white px-1 pt-2 text-black dark:bg-gray-900 dark:text-white">
+                        className="h-[34px] bg-white px-1 pt-2 text-black dark:bg-gray-700 dark:text-white">
                         ...
                     </span>
                 );
