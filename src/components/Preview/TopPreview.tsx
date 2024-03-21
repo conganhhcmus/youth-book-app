@@ -12,7 +12,7 @@ interface TopPreviewProps {
     top?: number;
 }
 
-const TopPreview = ({ data, top = 7 }: TopPreviewProps) => {
+const TopPreview = ({ data, top = 5 }: TopPreviewProps) => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     return (
