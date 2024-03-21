@@ -13,6 +13,7 @@ import comicApis from '@/apis/comic';
 import { ComicBaseData, ComicData } from '@/types/comic';
 import { Pagination } from '@/components/Pagination';
 import useRequestParams from '@/hooks/useRequestParams';
+import imgLoading from '@/assets/icons/loading.gif';
 
 const Home: React.FC = () => {
     const { queryParams, defaultQueryParams } = useRequestParams();
@@ -25,7 +26,7 @@ const Home: React.FC = () => {
         staleTime: 3 * 60 * 1000,
     });
 
-    const { data: recentList } = useQuery({
+    const { data: recentList, isLoading: isLoadingRecent } = useQuery({
         queryKey: ['recent-comics', { ...queryParams, status: 'all' }],
         queryFn: () => comicApis.recentComics({ ...queryParams, status: 'all' }),
         staleTime: 3 * 60 * 1000,
@@ -84,7 +85,18 @@ const Home: React.FC = () => {
                         url={APP_PATH.recent}
                         isShowMore={true}
                     />
-                    <ListPreview data={recentData?.data} />
+                    {isLoadingRecent ? (
+                        <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                            <img
+                                src={imgLoading}
+                                alt="loading icon"
+                                loading="lazy"
+                            />
+                            {translate('loading')}
+                        </div>
+                    ) : (
+                        <ListPreview data={recentData?.data} />
+                    )}
                     {recentData?.totalPage && recentData.totalPage > 0 && (
                         <Pagination
                             queryConfig={queryParams}
