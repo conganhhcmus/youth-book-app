@@ -16,11 +16,13 @@ import { formatCurrency } from '@/utils/format';
 import useAlertMsg from '@/hooks/useAlertMsg';
 import imgLoading from '@/assets/icons/loading.gif';
 import classNames from 'classnames';
+import { createSearchParams, useSearchParams } from 'react-router-dom';
 
 const UserManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
     const [searchText, setSearchText] = useState<string>('');
     const [filterOptions, setFilterOptions] = useState<string>('0');
+    const [, setSearchParams] = useSearchParams();
 
     const { updateSuccessAlert, confirmUpdateAlert, showInfoMsgAlert } = useAlertMsg();
 
@@ -213,7 +215,15 @@ const UserManagement: React.FC = () => {
                     </div>
                     <input
                         type="text"
-                        onChange={(e) => setSearchText(e.target.value)}
+                        onChange={(e) => {
+                            setSearchText(e.target.value);
+                            setSearchParams(
+                                createSearchParams({
+                                    ...queryParams,
+                                    page: '1',
+                                }),
+                            );
+                        }}
                         id="table-search-users"
                         className="block w-80 rounded-lg border border-gray-300 bg-gray-50 p-2 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                         placeholder={translate('search-for-users')}

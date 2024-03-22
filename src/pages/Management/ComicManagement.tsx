@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import imgLoading from '@/assets/icons/loading.gif';
 import { selectAccessToken } from '@/redux/slices/token';
 import { decodeJWTToken } from '@/utils/token';
+import { createSearchParams, useSearchParams } from 'react-router-dom';
 
 const ComicManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
@@ -27,6 +28,7 @@ const ComicManagement: React.FC = () => {
     const [comicInfo, setComicInfo] = useState<Comic>();
     const [genresChecked, setGenresChecked] = useState<string[]>([]);
     const [thumbnailImg, setThumbnailImg] = useState<File>();
+    const [, setSearchParams] = useSearchParams();
 
     // Ref
     const refName = useRef<HTMLInputElement>(null);
@@ -357,7 +359,15 @@ const ComicManagement: React.FC = () => {
                     </div>
                     <input
                         type="text"
-                        onChange={(e) => setSearchText(e.target.value)}
+                        onChange={(e) => {
+                            setSearchText(e.target.value);
+                            setSearchParams(
+                                createSearchParams({
+                                    ...queryParams,
+                                    page: '1',
+                                }),
+                            );
+                        }}
                         id="table-search-comic"
                         className="block w-80 rounded-lg border border-gray-300 bg-gray-50 p-2 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                         placeholder={translate('search-for-comic')}
