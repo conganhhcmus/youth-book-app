@@ -117,7 +117,7 @@ const ChapterDetail: React.FC = () => {
                 <button
                     type="button"
                     onClick={() => navigate(`${APP_PATH.comics}/${chapterDetail?.comicId}`)}
-                    className={`mr-1 inline-flex h-10 items-center rounded-full border-2 border-gray-400 bg-yellow-100 px-3 py-2 font-bold text-gray-700 ${currentIndex > 0 ? 'hover:bg-yellow-50' : 'opacity-70'}`}>
+                    className={`mr-1 inline-flex h-10 items-center rounded-full border-2 border-gray-400 bg-yellow-100 px-3 py-2 font-bold text-gray-700 hover:bg-yellow-50`}>
                     <div className="flex flex-row align-middle">
                         <svg
                             className="w-5"

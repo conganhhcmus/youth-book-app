@@ -31,7 +31,11 @@ const ComicDetail: React.FC = () => {
     const { dontSupportAlert } = useAlertMsg();
     const { defaultQueryParams } = useRequestParams();
 
-    const { data: comicResultData, isError } = useQuery({
+    const {
+        data: comicResultData,
+        isError,
+        isLoading,
+    } = useQuery({
         queryKey: ['getComicInfo', { comicId }],
         queryFn: () => comicApis.getComicInfo(comicId),
         staleTime: 3 * 60 * 1000,
@@ -54,6 +58,18 @@ const ComicDetail: React.FC = () => {
     }, [dataComics]);
 
     if (isError) return <NotFound />;
+
+    if (isLoading)
+        return (
+            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                <img
+                    src={imgLoading}
+                    alt="loading icon"
+                    loading="lazy"
+                />
+                {translate('loading')}
+            </div>
+        );
 
     return (
         <div className="">
