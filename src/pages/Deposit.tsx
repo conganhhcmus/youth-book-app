@@ -6,6 +6,8 @@ import useAlertMsg from '@/hooks/useAlertMsg';
 import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
+import { selectAccessToken } from '@/redux/slices/token';
+import { decodeJWTToken } from '@/utils/token';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +20,8 @@ const Deposit: React.FC = () => {
     const navigate = useNavigate();
     const { callRequest } = useAxiosRequest();
     const { showErrorMsgAlert } = useAlertMsg();
+    const token = useAppSelector((state) => selectAccessToken(state.token));
+    const userInfoPayload = decodeJWTToken(token);
 
     const onCompleted = () => {
         setIsSubmitted(true);
@@ -47,9 +51,38 @@ const Deposit: React.FC = () => {
                     content={translate('description_0')}
                 />
             </Helmet>
-            <div className="w-full rounded-lg border bg-white shadow dark:border sm:max-w-xl md:mt-0 xl:p-0">
+            <div className="w-full rounded-lg border bg-white shadow dark:border sm:max-w-2xl md:mt-0 xl:p-0">
                 <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
-                    <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">{translate('deposit-account')}</h1>
+                    <div className="flex justify-between">
+                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">{translate('deposit-account')}</h1>
+                        <div className="flex h-12 max-w-56 justify-center">
+                            <button
+                                type="button"
+                                onClick={onCancel}
+                                className="mb-2 me-2 rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 ">
+                                {translate('cancel')}
+                            </button>
+                            <button
+                                type="button"
+                                disabled={isSubmitted}
+                                onClick={onCompleted}
+                                className="mb-2 me-2 rounded-full bg-primary px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-2 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                                {translate('completed')}
+                            </button>
+                        </div>
+                    </div>
+                    <ul className="list-disc rounded-lg border-2 border-dashed border-red-500 p-2 font-bold">
+                        {translate('note')}
+                        <li className="ml-10 font-normal">
+                            {translate('payment-note-1')} <span className="font-bold"> {userInfoPayload?.username}</span>
+                        </li>
+                        <li className="ml-10 font-normal">
+                            {translate('payment-note-2')}
+                            <span className="font-bold">Fanpage</span>
+                            {` ${translate('or')} `}
+                            <span className="font-bold">Group</span>
+                        </li>
+                    </ul>
                     <div className="flex justify-center">
                         {DEPOSIT_TYPE.map((type) => (
                             <>
@@ -79,21 +112,6 @@ const Deposit: React.FC = () => {
                             className="h-[500px]"
                             src={depositType?.img}
                         />
-                    </div>
-                    <div className="flex w-full justify-center">
-                        <button
-                            type="button"
-                            onClick={onCancel}
-                            className="mb-2 me-2 rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 ">
-                            {translate('cancel')}
-                        </button>
-                        <button
-                            type="button"
-                            disabled={isSubmitted}
-                            onClick={onCompleted}
-                            className="mb-2 me-2 rounded-full bg-primary px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-2 focus:outline-none focus:ring-4 focus:ring-blue-300">
-                            {translate('completed')}
-                        </button>
                     </div>
                 </div>
             </div>

@@ -107,8 +107,8 @@
     "show-less": "show less",
     "total-views": "Total views",
     "total-followers": "Total followers",
-    "deposit-account": "Deposit Account",
-    "completed": "completed",
+    "deposit-account": "Deposit into account",
+    "completed": "Completed",
     "amount": "amount",
     "type": "type",
     "pending": "pending",
@@ -181,5 +181,9 @@
     "deposited": "Deposited",
     "none-deposited": "None Deposited",
     "search-comic-title": "Search comic",
+    "note": "Notes:",
+    "payment-note-1": "Transfer message:",
+    "payment-note-2": "If you have any problems, please contact us via ",
+    "or": "or",
     "description_0": "The largest online comic reading website updated continuously every day - Join reading and discussing with more than 10 million members 🎉 at YouthBook ❤️💛💚"
 }
