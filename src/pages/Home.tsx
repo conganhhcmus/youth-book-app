@@ -20,7 +20,7 @@ const Home: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
 
-    const { data: recommendList } = useQuery({
+    const { data: recommendList, isLoading: isLoadingRecommend } = useQuery({
         queryKey: ['recommend-comics', defaultQueryParams],
         queryFn: () => comicApis.recommendComics(defaultQueryParams),
         staleTime: 3 * 60 * 1000,
@@ -32,19 +32,19 @@ const Home: React.FC = () => {
         staleTime: 3 * 60 * 1000,
     });
 
-    const { data: topDailyList } = useQuery({
+    const { data: topDailyList, isLoading: isLoadingTopDaily } = useQuery({
         queryKey: ['top-daily-comics', { ...defaultQueryParams, type: TOP_COMICS.daily }],
         queryFn: () => comicApis.topComics({ ...defaultQueryParams, type: TOP_COMICS.daily }),
         staleTime: 3 * 60 * 1000,
     });
 
-    const { data: topWeeklyList } = useQuery({
+    const { data: topWeeklyList, isLoading: isLoadingWeekly } = useQuery({
         queryKey: ['top-weekly-comics', { ...defaultQueryParams, type: TOP_COMICS.weekly }],
         queryFn: () => comicApis.topComics({ ...defaultQueryParams, type: TOP_COMICS.weekly }),
         staleTime: 3 * 60 * 1000,
     });
 
-    const { data: topMonthlyList } = useQuery({
+    const { data: topMonthlyList, isLoading: isLoadingMonthly } = useQuery({
         queryKey: ['top-monthly-comics', { ...defaultQueryParams, type: TOP_COMICS.monthly }],
         queryFn: () => comicApis.topComics({ ...defaultQueryParams, type: TOP_COMICS.monthly }),
         staleTime: 3 * 60 * 1000,
@@ -72,7 +72,18 @@ const Home: React.FC = () => {
                     url={APP_PATH.recommend}
                     isShowMore={false}
                 />
-                <Banner data={recommendData?.data} />
+                {isLoadingRecommend ? (
+                    <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                        <img
+                            src={imgLoading}
+                            alt="loading icon"
+                            loading="lazy"
+                        />
+                        {translate('loading')}
+                    </div>
+                ) : (
+                    <Banner data={recommendData?.data} />
+                )}
                 {Array.isArray(recommendData?.data) && !recommendData?.data.length && (
                     <div className="flex h-[100px] items-center justify-center">{translate('NotFound')}</div>
                 )}
@@ -115,7 +126,18 @@ const Home: React.FC = () => {
                             url={APP_PATH.top}
                             isShowMore={true}
                         />
-                        {topDailyData && <TopPreview data={topDailyData?.data} />}
+                        {isLoadingTopDaily ? (
+                            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                                <img
+                                    src={imgLoading}
+                                    alt="loading icon"
+                                    loading="lazy"
+                                />
+                                {translate('loading')}
+                            </div>
+                        ) : (
+                            <TopPreview data={topDailyData.data} />
+                        )}
                     </div>
                     <div className="mb-2 border p-4">
                         <TitlePreview
@@ -123,7 +145,18 @@ const Home: React.FC = () => {
                             url={APP_PATH.top}
                             isShowMore={true}
                         />
-                        {topWeeklyData && <TopPreview data={topWeeklyData?.data} />}
+                        {isLoadingWeekly ? (
+                            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                                <img
+                                    src={imgLoading}
+                                    alt="loading icon"
+                                    loading="lazy"
+                                />
+                                {translate('loading')}
+                            </div>
+                        ) : (
+                            <TopPreview data={topWeeklyData.data} />
+                        )}
                     </div>
                     <div className="mb-2 border p-4">
                         <TitlePreview
@@ -131,7 +164,18 @@ const Home: React.FC = () => {
                             url={APP_PATH.top}
                             isShowMore={true}
                         />
-                        {topMonthlyData && <TopPreview data={topMonthlyData?.data} />}
+                        {isLoadingMonthly ? (
+                            <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
+                                <img
+                                    src={imgLoading}
+                                    alt="loading icon"
+                                    loading="lazy"
+                                />
+                                {translate('loading')}
+                            </div>
+                        ) : (
+                            <TopPreview data={topMonthlyData.data} />
+                        )}
                     </div>
                 </div>
             </div>

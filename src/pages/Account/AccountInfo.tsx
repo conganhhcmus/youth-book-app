@@ -110,7 +110,7 @@ const AccountInfo: React.FC = () => {
                     <label
                         htmlFor="files"
                         className="mr-4 rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100">
-                        Update Avatar
+                        {translate('update-avatar')}
                     </label>
                     <input
                         id="files"
