@@ -3,8 +3,20 @@ import { COOKIE_KEYS } from '@/constants/settings';
 import { getCookie, removeCookie, setCookie } from '@/utils/cookies';
 import axios, { AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 
+const getBaseApiUrl = async () => {
+    let url = import.meta.env.VITE_API_URL;
+
+    try {
+        await axios.get(url, { timeout: 1000 });
+    } catch (error) {
+        url = import.meta.env.VITE_API_BK_URL;
+    }
+
+    return url + '/api/v1/';
+};
+
 const apiConfig: AxiosRequestConfig = {
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: await getBaseApiUrl(),
     headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',

@@ -5,7 +5,13 @@ import * as path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
     optimizeDeps: {
-        exclude: ['js-big-decimal']
+        exclude: ['js-big-decimal'],
+        esbuildOptions: {
+            target: "esnext",
+        },
+    },
+    build: {
+        target: 'esnext'
     },
     plugins: [react()],
     resolve: {
