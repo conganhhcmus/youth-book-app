@@ -28,8 +28,8 @@ const apiClients = axios.create(apiConfig);
 
 apiClients.interceptors.request.use(
     function (config) {
-        config.headers['refresh_token'] = getCookie(COOKIE_KEYS.refreshToken);
-        config.headers['token'] = getCookie(COOKIE_KEYS.token);
+        config.headers['X-Refresh-Token'] = getCookie(COOKIE_KEYS.refreshToken);
+        config.headers['X-Token'] = getCookie(COOKIE_KEYS.token);
         return config;
     },
     function (error) {
@@ -41,7 +41,7 @@ const refreshTokenAndResend = async (config: InternalAxiosRequestConfig) => {
     const url = AUTH_PATH.reset_token;
     const newToken = await apiClients.get<string>(url);
     setCookie(COOKIE_KEYS.token, newToken.data);
-    config.headers['token'] = newToken.data;
+    config.headers['X-Token'] = newToken.data;
 
     return apiClients.request(config);
 };

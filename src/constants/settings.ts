@@ -21,8 +21,8 @@ export const INDEXED_DB = {
 } as const;
 
 export const COOKIE_KEYS = {
-    token: 'token',
-    refreshToken: 'refresh_token',
+    token: 'X-Token',
+    refreshToken: 'X-Refresh-Token',
 };
 
 export const ROLES = {
