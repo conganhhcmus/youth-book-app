@@ -285,7 +285,7 @@ const ComicDetail: React.FC = () => {
                                             </h4>
                                             <div className="-mt-6 flex min-h-[600px] flex-col border border-t-0 dark:border-gray-500">
                                                 {topWeeklyData &&
-                                                    topWeeklyData.slice(0, 10).map((item, i) => (
+                                                    topWeeklyData.slice(0, 5).map((item, i) => (
                                                         <ComicHorizontal
                                                             key={item._id}
                                                             index={i}

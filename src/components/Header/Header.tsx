@@ -88,14 +88,14 @@ const Header = () => {
                                     <button
                                         title={translate('vi')}
                                         onClick={() => chooseLanguageHandler('vi')}
-                                        className={`flex min-w-[100px] items-center justify-start gap-2 px-2 py-1 hover:bg-[rgba(0,0,0,0.05)] active:scale-90 dark:hover:bg-[rgba(255,255,255,0.1)] ${lang == 'vi' && 'text-primary'}`}>
+                                        className={`flex min-w-[100px] items-center justify-start gap-2 px-2 py-1 hover:bg-[rgba(0,0,0,0.05)] active:scale-90 ${lang == 'vi' && 'text-primary'}`}>
                                         {translate('vi')}
                                     </button>
                                     <span className="my-1 h-[1px] w-[80%] border-b border-dashed" />
                                     <button
                                         title={translate('en')}
                                         onClick={() => chooseLanguageHandler('en')}
-                                        className={`flex min-w-[100px] items-center justify-start gap-2 px-2 py-1 hover:bg-[rgba(0,0,0,0.05)] active:scale-90 dark:hover:bg-[rgba(255,255,255,0.1)] ${lang == 'en' && 'text-primary'}`}>
+                                        className={`flex min-w-[100px] items-center justify-start gap-2 px-2 py-1 hover:bg-[rgba(0,0,0,0.05)] active:scale-90 ${lang == 'en' && 'text-primary'}`}>
                                         {translate('en')}
                                     </button>
                                 </div>
@@ -166,7 +166,7 @@ const Header = () => {
                     <button
                         title={translate('search')}
                         onClick={() => setIsOpenMiniMenu((prev) => !prev)}
-                        className="h-[18px] w-[18px] bg-search-icon bg-center bg-no-repeat p-4"
+                        className="hidden h-[18px] w-[18px] bg-search-icon bg-center bg-no-repeat p-4"
                     />
                     <button
                         title={translate('menu-title')}
