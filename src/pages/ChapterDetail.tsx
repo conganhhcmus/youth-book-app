@@ -59,7 +59,7 @@ const ChapterDetail: React.FC = () => {
                 name: comicDetail.name,
                 thumbnail: comicDetail.thumbnail,
                 description: comicDetail.description,
-                time: moment().format('hh:mm - DD/MM/YYY'),
+                time: moment().format('HH:mm - DD/MM/YYY'),
                 chapter_id: chapterDetail._id,
                 reading_at: new Date().getTime(),
                 last_reading: chapterDetail.name,

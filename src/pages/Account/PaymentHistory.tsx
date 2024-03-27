@@ -176,8 +176,8 @@ const PaymentHistory: React.FC = () => {
                                                 {translate(getTransactionStatusName(transaction.status))}
                                             </p>
                                         </td>
-                                        <td className="px-6 py-4">{moment(transaction.createTime).format('hh:mm:ss DD/MM/YYYY')}</td>
-                                        <td className="px-6 py-4">{moment(transaction.updateTime).format('hh:mm:ss DD/MM/YYYY')}</td>
+                                        <td className="px-6 py-4">{moment(transaction.createTime).format('HH:mm:ss DD/MM/YYYY')}</td>
+                                        <td className="px-6 py-4">{moment(transaction.updateTime).format('HH:mm:ss DD/MM/YYYY')}</td>
                                     </tr>
                                 ))}
                         </tbody>
