@@ -201,7 +201,7 @@ const Navbar = () => {
                         <Link
                             target="_blank"
                             rel="noopener noreferrer"
-                            to="https://www.facebook.com/profile.php?id=61555957911950&mibextid=uzlsIk"
+                            to="https://www.instagram.com/youthbookvietnam?igsh=MWV2dGtnc3pzb2sxZA=="
                             className="px-1 py-4 text-sm font-semibold uppercase hover:text-primary">
                             {translate('fanpage')}
                         </Link>

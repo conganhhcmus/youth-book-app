@@ -184,7 +184,15 @@ const UserManagement: React.FC = () => {
                                     id={option.name}
                                     value={option.value}
                                     checked={option.value == filterOptions}
-                                    onChange={() => setFilterOptions(option.value)}
+                                    onChange={() => {
+                                        setFilterOptions(option.value);
+                                        setSearchParams(
+                                            createSearchParams({
+                                                ...queryParams,
+                                                page: '1',
+                                            }),
+                                        );
+                                    }}
                                 />
                                 <label
                                     className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"

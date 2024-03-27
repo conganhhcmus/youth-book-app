@@ -14,11 +14,13 @@ import moment from 'moment';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import imgLoading from '@/assets/icons/loading.gif';
+import { createSearchParams, useSearchParams } from 'react-router-dom';
 
 const PaymentHistory: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     const { queryParams } = useRequestParams();
+    const [, setSearchParams] = useSearchParams();
 
     const [filterOptions, setFilterOptions] = useState<number>(0);
     const [statusOptions, setStatusOptions] = useState<number[]>(STATUS_OPTIONS.map((x) => x.value));
@@ -47,6 +49,12 @@ const PaymentHistory: React.FC = () => {
         });
 
         setStatusOptions(uniqueValue);
+        setSearchParams(
+            createSearchParams({
+                ...queryParams,
+                page: '1',
+            }),
+        );
     };
 
     return (
@@ -65,7 +73,15 @@ const PaymentHistory: React.FC = () => {
                                     id={option.name}
                                     value={option.value}
                                     checked={option.value == filterOptions}
-                                    onChange={() => setFilterOptions(option.value)}
+                                    onChange={() => {
+                                        setFilterOptions(option.value);
+                                        setSearchParams(
+                                            createSearchParams({
+                                                ...queryParams,
+                                                page: '1',
+                                            }),
+                                        );
+                                    }}
                                 />
                                 <label
                                     className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
