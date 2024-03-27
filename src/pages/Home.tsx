@@ -125,6 +125,7 @@ const Home: React.FC = () => {
                             title={translate('top-daily')}
                             url={APP_PATH.top}
                             isShowMore={true}
+                            queryParams={{ type: TOP_COMICS.daily }}
                         />
                         {isLoadingTopDaily ? (
                             <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
@@ -144,6 +145,7 @@ const Home: React.FC = () => {
                             title={translate('top-weekly')}
                             url={APP_PATH.top}
                             isShowMore={true}
+                            queryParams={{ type: TOP_COMICS.weekly }}
                         />
                         {isLoadingWeekly ? (
                             <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">
@@ -163,6 +165,7 @@ const Home: React.FC = () => {
                             title={translate('top-monthly')}
                             url={APP_PATH.top}
                             isShowMore={true}
+                            queryParams={{ type: TOP_COMICS.monthly }}
                         />
                         {isLoadingMonthly ? (
                             <div className="flex h-[300px] w-full items-center justify-center gap-2 text-black dark:text-white">

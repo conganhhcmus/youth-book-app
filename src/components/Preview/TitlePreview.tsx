@@ -1,6 +1,7 @@
 import { useAppSelector } from '@/hooks/reduxHook';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
+import { paramOption } from '@/types/request';
 import { Link, createSearchParams } from 'react-router-dom';
 
 interface TittlePreviewProps {
@@ -8,9 +9,10 @@ interface TittlePreviewProps {
     title: string;
     url?: string;
     isShowMore?: boolean;
+    queryParams?: paramOption;
 }
 
-const TitlePreview = ({ img, title, url = '', isShowMore = false }: TittlePreviewProps) => {
+const TitlePreview = ({ img, title, url = '', isShowMore = false, queryParams = {} }: TittlePreviewProps) => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
 
@@ -34,9 +36,9 @@ const TitlePreview = ({ img, title, url = '', isShowMore = false }: TittlePrevie
                         to={{
                             pathname: url,
                             search: createSearchParams({
-                                page: '1',
-                                status: 'all',
-                                type: 'all',
+                                page: queryParams.page?.toString() || '1',
+                                status: queryParams.status?.toString() || 'all',
+                                type: queryParams.type?.toString() || 'all',
                             }).toString(),
                         }}
                         className="flex flex-1 items-center justify-end gap-1 text-sm text-black hover:text-primary dark:text-white dark:hover:text-primary">
