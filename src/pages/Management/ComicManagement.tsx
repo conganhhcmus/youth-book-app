@@ -20,6 +20,7 @@ import imgLoading from '@/assets/icons/loading.gif';
 import { selectAccessToken } from '@/redux/slices/token';
 import { decodeJWTToken } from '@/utils/token';
 import { createSearchParams, useSearchParams } from 'react-router-dom';
+import { formatCurrency } from '@/utils/format';
 
 const ComicManagement: React.FC = () => {
     const [isShowEditAction, setIsShowEditAction] = useState<boolean>(false);
@@ -402,7 +403,7 @@ const ComicManagement: React.FC = () => {
                                     <th
                                         scope="col"
                                         className="px-6 py-3">
-                                        {translate('author')}
+                                        {translate('total-views')}
                                     </th>
                                     <th
                                         scope="col"
@@ -452,8 +453,8 @@ const ComicManagement: React.FC = () => {
                                             <td className="max-w-[200px] px-6 py-4 capitalize italic">
                                                 {comic.genres.map((_) => _.name).join(', ')}
                                             </td>
-                                            <td className="max-w-[150px] px-6 py-4 capitalize">{comic.author}</td>
-                                            <td className="px-6 py-4 font-bold capitalize">{comic.chapters.length}</td>
+                                            <td className="max-w-[150px] px-6 py-4 font-bold capitalize">{formatCurrency(comic.totalViews)}</td>
+                                            <td className="px-6 py-4 font-bold capitalize">{formatCurrency(comic.chapters.length)}</td>
                                             <td className="px-6 py-4">
                                                 <button
                                                     onClick={() => navigate(APP_PATH.management_chapters + `/${comic._id}`)}

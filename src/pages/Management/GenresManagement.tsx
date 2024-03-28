@@ -75,6 +75,7 @@ const GenresManagement: React.FC = () => {
         const data = {
             ...genresInfo,
             name: refName.current.value,
+            updateTime: moment().utc().toDate(),
         } as GenresModel;
 
         callRequest(genresApi.updateGenres(genresInfo?._id, data), (res) => {

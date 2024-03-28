@@ -56,6 +56,7 @@ export interface Chapter {
     price: number;
     updateTime: Date;
     createTime: Date;
+    totalViews: number;
 }
 
 export interface ChapterData {

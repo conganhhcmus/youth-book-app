@@ -100,6 +100,7 @@ const ChapterManagement: React.FC = () => {
             type: (refType.current?.value && parseInt(refType.current?.value)) || chapterInfo?.type,
             content: chapterContent || chapterInfo?.content,
             price: (refPrice.current?.value && parseInt(refPrice.current?.value)) || chapterInfo?.price,
+            updateTime: moment().utc().toDate(),
         } as ChapterModel;
 
         callRequest(chapterApi.updateChapter(chapterInfo?._id, data), (res) => {
@@ -319,6 +320,11 @@ const ChapterManagement: React.FC = () => {
                                     <th
                                         scope="col"
                                         className="px-6 py-3">
+                                        {translate('total-views')}
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3">
                                         {translate('create-at')}
                                     </th>
                                     <th
@@ -342,6 +348,7 @@ const ChapterManagement: React.FC = () => {
                                             className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
                                             <td className="max-w-60 px-6 py-4 font-bold capitalize">{chapter.name}</td>
                                             <td className="min-w-20 px-6 py-4 font-bold text-primary">{formatCurrency(chapter.price)}</td>
+                                            <td className="min-w-20 px-6 py-4 font-bold ">{formatCurrency(chapter.totalViews)}</td>
                                             <td className="px-6 py-4 capitalize">{moment(chapter.createTime).format('DD/MM/YYYY')}</td>
                                             <td className="px-6 py-4 capitalize">{moment(chapter.updateTime).format('DD/MM/YYYY')}</td>
                                             <td className="px-6 py-4">
