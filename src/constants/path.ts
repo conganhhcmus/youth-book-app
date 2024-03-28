@@ -33,6 +33,10 @@ export const DASHBOARD_PATH = {
     dashboard: 'dashboard',
 } as const;
 
+export const ANALYTICS_PATH = {
+    analytics: 'analytics',
+} as const;
+
 export const USERS_PATH = {
     users: '/users',
     update_avatar: '/update-avatar',
