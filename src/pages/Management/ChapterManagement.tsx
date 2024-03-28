@@ -225,7 +225,7 @@ const ChapterManagement: React.FC = () => {
     );
 
     return (
-        <div className="relative h-full w-full overflow-x-auto border-2 p-8 sm:rounded-lg">
+        <div className="relative h-full min-h-[680px] w-full overflow-x-auto border-2 p-8 sm:rounded-lg">
             {isShowEditAction && (
                 <Popup
                     closeHandle={() => setIsShowEditAction(false)}
@@ -303,7 +303,7 @@ const ChapterManagement: React.FC = () => {
                 </div>
             ) : (
                 <>
-                    <div className="relative h-96 w-full overflow-y-auto sm:rounded-lg">
+                    <div className="relative h-[450px] w-full overflow-y-auto sm:rounded-lg">
                         <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
                             <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>

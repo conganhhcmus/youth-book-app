@@ -75,8 +75,9 @@ export const APP_PATH = {
     search: '/search',
 
     // management
-    management_dashboard: '/management/dashboard',
     management: '/management',
+    management_dashboard: '/management/dashboard',
+    management_analytics: '/management/analytics',
     management_comics: '/management/comics',
     management_users: '/management/users',
     management_billing: '/management/billing',

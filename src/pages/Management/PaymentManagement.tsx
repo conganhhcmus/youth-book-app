@@ -66,7 +66,7 @@ const PaymentManagement: React.FC = () => {
     };
 
     return (
-        <div className="relative h-full w-full overflow-x-auto border-2 p-8 sm:rounded-lg">
+        <div className="relative h-full min-h-[680px] w-full overflow-x-auto border-2 p-8 sm:rounded-lg">
             <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-white pb-4 dark:bg-gray-700 md:flex-row md:space-y-0">
                 <div className="flex flex-col">
                     <div

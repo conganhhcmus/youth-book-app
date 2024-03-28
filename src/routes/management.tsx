@@ -12,6 +12,7 @@ const GenresManagement = lazy(() => import('@/pages/Management/GenresManagement'
 const UserManagement = lazy(() => import('@/pages/Management/UserManagement'));
 const BillingManagement = lazy(() => import('@/pages/Management/PaymentManagement'));
 const Dashboard = lazy(() => import('@/pages/Management/Dashboard'));
+const Analytics = lazy(() => import('@/pages/Management/Analytics'));
 
 export default [
     {
@@ -29,6 +30,14 @@ export default [
                 element: (
                     <Suspense fallback={<LoadingPage />}>
                         <Dashboard />
+                    </Suspense>
+                ),
+            },
+            {
+                path: APP_PATH.management_analytics,
+                element: (
+                    <Suspense fallback={<LoadingPage />}>
+                        <Analytics />
                     </Suspense>
                 ),
             },

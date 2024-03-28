@@ -47,10 +47,10 @@ const Dashboard: React.FC = () => {
 
     return (
         dashboardData && (
-            <div className="w-full rounded-lg border-2 border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+            <div className="w-full rounded-lg border-2 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
                 <div
                     id="fullWidthTabContent"
-                    className="border-t border-gray-200 dark:border-gray-600">
+                    className="">
                     <div
                         className="rounded-lg bg-white p-4 dark:bg-gray-800 md:p-8"
                         id="stats"
