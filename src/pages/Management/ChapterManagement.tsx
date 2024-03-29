@@ -56,7 +56,8 @@ const ChapterManagement: React.FC = () => {
     };
 
     const handleEdit = (id: string) => {
-        callRequest(chapterApi.getChapterById(id), (res) => {
+        const skipCount = true;
+        callRequest(chapterApi.getChapterById(id, skipCount), (res) => {
             setChapterInfo(res.data);
             setIsShowEditAction(true);
         });

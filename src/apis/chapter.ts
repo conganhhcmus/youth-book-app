@@ -29,9 +29,9 @@ const chapterApi = {
         return apiClients.delete<Chapter>(url);
     },
 
-    getChapterById(id: string | undefined) {
+    getChapterById(id: string | undefined, skipCount: boolean = false) {
         const url = CHAPTER_PATH.chapters + `/${id ?? '-1'}`;
-        return apiClients.get<Chapter>(url);
+        return apiClients.get<Chapter>(url, { params: { skipCount: skipCount } });
     },
 
     updateChapter(id: string | undefined, data: ChapterModel) {
