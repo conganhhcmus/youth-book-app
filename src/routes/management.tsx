@@ -13,6 +13,7 @@ const UserManagement = lazy(() => import('@/pages/Management/UserManagement'));
 const BillingManagement = lazy(() => import('@/pages/Management/PaymentManagement'));
 const Dashboard = lazy(() => import('@/pages/Management/Dashboard'));
 const Analytics = lazy(() => import('@/pages/Management/Analytics'));
+const AnalyticsDetail = lazy(() => import('@/pages/Management/AnalyticsDetail'));
 
 export default [
     {
@@ -34,6 +35,14 @@ export default [
                 ),
             },
             {
+                path: APP_PATH.management_analytics + '/:userId',
+                element: (
+                    <Suspense fallback={<LoadingPage />}>
+                        <AnalyticsDetail />
+                    </Suspense>
+                ),
+            },
+            {
                 path: APP_PATH.management_analytics,
                 element: (
                     <Suspense fallback={<LoadingPage />}>
@@ -42,18 +51,18 @@ export default [
                 ),
             },
             {
-                path: APP_PATH.management_comics,
+                path: APP_PATH.management_comics + '/:comicId',
                 element: (
                     <Suspense fallback={<LoadingPage />}>
-                        <ComicManagement />
+                        <ChapterManagement />
                     </Suspense>
                 ),
             },
             {
-                path: APP_PATH.management_chapters + '/:comicId',
+                path: APP_PATH.management_comics,
                 element: (
                     <Suspense fallback={<LoadingPage />}>
-                        <ChapterManagement />
+                        <ComicManagement />
                     </Suspense>
                 ),
             },

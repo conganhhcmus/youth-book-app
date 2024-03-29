@@ -135,6 +135,7 @@
     "history-reading": "History Reading",
     "reading": "Reading",
     "continue-reading": "Continue Reading",
+    "not-found-history": "Not found history",
     "delete-all": "Delete All",
     "price": "Price",
     "content": "Content",
@@ -174,6 +175,8 @@
     "confirm-password-not-match": "Confirm Password is not match",
     "no-change": "Data not changed",
     "invalid-data": "Invalid data",
+    "error": "Error",
+    "info": "Info",
     "inactive": "Inactive",
     "search-for-comic": "Search for comic name",
     "search-for-genres": "Search for genres name",
@@ -189,5 +192,11 @@
     "detail": "View Detail",
     "total-view-chapters": "Number of chapters read",
     "total-view-comics": "Number of stories read",
-    "description_0": "The largest online comic reading website updated continuously every day - Join reading and discussing with more than 10 million members 🎉 at YouthBook ❤️💛💚"
+    "description_0": "The largest online comic reading website updated continuously every day - Join reading and discussing with more than 10 million members 🎉 at YouthBook ❤️💛💚",
+    "view-at": "View at",
+    "chapter-name": "Chapter name",
+    "comic-name": "Comic name",
+    "export-excel": "Export Excel",
+    "view-detail": "view detail",
+    "view-detail-all": "view detail all"
 }

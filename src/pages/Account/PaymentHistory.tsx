@@ -58,7 +58,7 @@ const PaymentHistory: React.FC = () => {
     };
 
     return (
-        <div className="relative h-full w-full overflow-x-auto border-2 p-8 sm:rounded-lg">
+        <div className="relative h-full min-h-[680px] w-full overflow-x-auto border-2 p-8 sm:rounded-lg">
             <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-white pb-4 dark:bg-gray-700 md:flex-row md:space-y-0">
                 <div className="inline-flex items-center rounded-lg bg-white px-3 py-1.5 text-sm font-medium text-gray-500 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:focus:ring-gray-700">
                     {FILTER_OPTIONS.map((option) => (
@@ -111,7 +111,7 @@ const PaymentHistory: React.FC = () => {
                     ))}
                 </div>
             </div>
-            <div className="relative h-96 w-full overflow-y-auto sm:rounded-lg">
+            <div className="relative h-[450px] w-full overflow-y-auto sm:rounded-lg">
                 <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
                     <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                         <tr>

@@ -84,25 +84,25 @@ const ManagementLayout = () => {
                                             xmlns="http://www.w3.org/2000/svg">
                                             <g
                                                 id="SVGRepo_bgCarrier"
-                                                stroke-width="0"></g>
+                                                strokeWidth="0"></g>
                                             <g
                                                 id="SVGRepo_tracerCarrier"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"></g>
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"></g>
                                             <g id="SVGRepo_iconCarrier">
                                                 <g
-                                                    fill-rule="evenodd"
-                                                    clip-rule="evenodd"
+                                                    fillRule="evenodd"
+                                                    clipRule="evenodd"
                                                     stroke="none"
-                                                    stroke-width="1">
+                                                    strokeWidth="1">
                                                     <path
-                                                        fill-rule="evenodd"
-                                                        clip-rule="evenodd"
+                                                        fillRule="evenodd"
+                                                        clipRule="evenodd"
                                                         d="M746.667 106.667V1493.33H1173.33V106.667H746.667ZM1056 224H864V1376H1056V224ZM106.667 533.333H533.333V1493.33H106.667V533.333ZM224 650.667H416V1376H224V650.667Z"></path>
                                                     <path d="M1920 1706.67H0V1824H1920V1706.67Z"></path>
                                                     <path
-                                                        fill-rule="evenodd"
-                                                        clip-rule="evenodd"
+                                                        fillRule="evenodd"
+                                                        clipRule="evenodd"
                                                         d="M1386.67 746.667H1813.33V1493.33H1386.67V746.667ZM1504 864H1696V1376H1504V864Z"></path>
                                                 </g>
                                             </g>
@@ -117,16 +117,14 @@ const ManagementLayout = () => {
                                         className={classNames(
                                             'group flex items-center rounded-lg fill-gray-700 p-2 text-gray-900 hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700',
                                             {
-                                                'bg-gray-300 dark:bg-gray-700':
-                                                    path.includes(APP_PATH.management_comics) || path.includes(APP_PATH.management_chapters),
+                                                'bg-gray-300 dark:bg-gray-700': path.includes(APP_PATH.management_comics),
                                             },
                                         )}>
                                         <svg
                                             className={classNames(
                                                 'h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white',
                                                 {
-                                                    'text-gray-900 dark:text-white':
-                                                        path.includes(APP_PATH.management_comics) || path.includes(APP_PATH.management_chapters),
+                                                    'text-gray-900 dark:text-white': path.includes(APP_PATH.management_comics),
                                                 },
                                             )}
                                             viewBox="0 0 24 24"
@@ -140,13 +138,12 @@ const ManagementLayout = () => {
                                                 strokeLinecap="round"
                                                 strokeLinejoin="round"></g>
                                             <g id="SVGRepo_iconCarrier">
-                                                {' '}
                                                 <path
                                                     d="M4 19V6.2C4 5.0799 4 4.51984 4.21799 4.09202C4.40973 3.71569 4.71569 3.40973 5.09202 3.21799C5.51984 3 6.0799 3 7.2 3H16.8C17.9201 3 18.4802 3 18.908 3.21799C19.2843 3.40973 19.5903 3.71569 19.782 4.09202C20 4.51984 20 5.0799 20 6.2V17H6C4.89543 17 4 17.8954 4 19ZM4 19C4 20.1046 4.89543 21 6 21H20M9 7H15M9 11H15M19 17V21"
                                                     stroke="#000000"
                                                     strokeWidth="2"
                                                     strokeLinecap="round"
-                                                    strokeLinejoin="round"></path>{' '}
+                                                    strokeLinejoin="round"></path>
                                             </g>
                                         </svg>
                                         <span className="ms-3 flex-1 whitespace-nowrap capitalize">{translate('comic-management')}</span>
@@ -172,15 +169,15 @@ const ManagementLayout = () => {
                                             viewBox="0 0 100 100"
                                             fill="currentColor"
                                             xmlns="http://www.w3.org/2000/svg"
-                                            enable-background="new 0 0 100 100"
+                                            enableBackground="new 0 0 100 100"
                                             xmlSpace="preserve">
                                             <g
                                                 id="SVGRepo_bgCarrier"
-                                                stroke-width="0"></g>
+                                                strokeWidth="0"></g>
                                             <g
                                                 id="SVGRepo_tracerCarrier"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"></g>
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"></g>
                                             <g id="SVGRepo_iconCarrier">
                                                 <g>
                                                     <path d="M61.8,29.4l8.9,8.9l0,0c2,1.9,2,5.1,0,7l0,0L47.5,68.4V47.3V36.6l7.2-7.3C56.6,27.4,59.9,27.4,61.8,29.4z"></path>

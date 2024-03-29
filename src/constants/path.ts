@@ -85,7 +85,6 @@ export const APP_PATH = {
     management_comics: '/management/comics',
     management_users: '/management/users',
     management_billing: '/management/billing',
-    management_chapters: '/management/chapters',
     management_genres: '/management/genres',
 
     // payment

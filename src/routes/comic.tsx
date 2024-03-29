@@ -3,13 +3,13 @@ import { APP_PATH } from '@/constants/path';
 import { lazy, Suspense } from 'react';
 import LoadingPage from '@/components/Loading';
 
-const ComicDetail = lazy(() => import('@/pages/ComicDetail'));
-const ChapterDetail = lazy(() => import('@/pages/ChapterDetail'));
-const Genres = lazy(() => import('@/pages/Genres'));
-const History = lazy(() => import('@/pages/History'));
-const New = lazy(() => import('@/pages/New'));
-const Top = lazy(() => import('@/pages/Top'));
-const Search = lazy(() => import('@/pages/Search'));
+const ComicDetail = lazy(() => import('@/pages/Comic/ComicDetail'));
+const ChapterDetail = lazy(() => import('@/pages/Comic/ChapterDetail'));
+const Genres = lazy(() => import('@/pages/Comic/Genres'));
+const History = lazy(() => import('@/pages/Comic/History'));
+const New = lazy(() => import('@/pages/Comic/New'));
+const Top = lazy(() => import('@/pages/Comic/Top'));
+const Search = lazy(() => import('@/pages/Comic/Search'));
 
 export default [
     {

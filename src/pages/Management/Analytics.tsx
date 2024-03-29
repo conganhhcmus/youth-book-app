@@ -7,14 +7,16 @@ import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { createSearchParams, useSearchParams } from 'react-router-dom';
+import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import imgLoading from '@/assets/icons/loading.gif';
+import { APP_PATH } from '@/constants/path';
 
 const Analytics: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     const { queryParams } = useRequestParams();
     const [, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
 
     const [searchText, setSearchText] = useState<string>('');
     const [filterOptions, setFilterOptions] = useState<number>(0);
@@ -27,10 +29,6 @@ const Analytics: React.FC = () => {
 
     const analyticsResult = resultData?.data;
     const analyticsData = analyticsResult?.data;
-
-    const onActionHandle = (userId: string) => {
-        console.log(userId);
-    };
 
     return (
         <div className="relative h-full min-h-[680px] w-full overflow-x-auto border-2 p-8 sm:rounded-lg">
@@ -67,6 +65,13 @@ const Analytics: React.FC = () => {
                                 </label>
                             </div>
                         ))}
+                    </div>
+                    <div className="inline-flex items-center rounded-lg bg-white px-3 py-1.5 text-sm font-medium text-gray-500 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:focus:ring-gray-700">
+                        <button
+                            onClick={() => navigate(APP_PATH.management_analytics + `/get-all?type=${filterOptions}`)}
+                            className="me-2 rounded-lg bg-blue-700 px-5 py-2 text-sm font-medium capitalize text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            {translate('view-detail-all')}
+                        </button>
                     </div>
                 </div>
                 <div className="relative">
@@ -114,7 +119,7 @@ const Analytics: React.FC = () => {
                 </div>
             ) : (
                 <>
-                    <div className="relative h-96 w-full overflow-y-auto sm:rounded-lg">
+                    <div className="relative h-[450px] w-full overflow-y-auto sm:rounded-lg">
                         <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
                             <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
@@ -151,9 +156,11 @@ const Analytics: React.FC = () => {
                                             <td className="px-6 py-4">{analytics.totalViewChapter}</td>
                                             <td className={`px-6 py-4 ${analytics.userId ? '' : 'hidden'}`}>
                                                 <button
-                                                    onClick={() => onActionHandle(analytics.userId)}
+                                                    onClick={() =>
+                                                        navigate(APP_PATH.management_analytics + `/${analytics.userId}?type=${filterOptions}`)
+                                                    }
                                                     className="ml-2 font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
-                                                    {translate('detail')}
+                                                    {translate('view-detail')}
                                                 </button>
                                             </td>
                                         </tr>
