@@ -5,7 +5,7 @@ import { selectLanguage } from '@/redux/slices/settings';
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
-import { NotFound } from './NotFound';
+import { NotFound } from '../NotFound';
 import { Link, createSearchParams } from 'react-router-dom';
 import { APP_PATH, TOP_COMICS } from '@/constants/path';
 import imgError from '@/assets/icons/error.webp';

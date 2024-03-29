@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router';
-import { NotFound } from './NotFound';
+import { NotFound } from '../NotFound';
 import { useEffect } from 'react';
 import { addLocalDb } from '@/utils/indexedDB';
 import { INDEXED_DB } from '@/constants/settings';

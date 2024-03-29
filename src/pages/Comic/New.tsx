@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from 'react-query';
 import { Link, createSearchParams } from 'react-router-dom';
-import { NotFound } from './NotFound';
+import { NotFound } from '../NotFound';
 import { ListPreview } from '@/components/Preview';
 import imgLoading from '@/assets/icons/loading.gif';
 

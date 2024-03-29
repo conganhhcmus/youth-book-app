@@ -31,7 +31,7 @@ const ManagementLayout = () => {
                     content={translate('description_0')}
                 />
             </Helmet>
-            <div className="flex min-h-[600px] justify-start gap-4 px-4 pt-4 xl:px-0">
+            <div className="flex min-h-[700px] justify-start gap-4 px-4 pt-4 xl:px-0">
                 <div className="min-w-fit overflow-y-auto bg-gray-100 px-3 py-4 dark:bg-gray-800">
                     <ul className="space-y-2 font-medium">
                         {userInfoPayload?.role === ROLES.admin && (
@@ -64,21 +64,67 @@ const ManagementLayout = () => {
                                 </li>
                                 <li>
                                     <Link
-                                        title={translate('comic-management')}
-                                        to={APP_PATH.management_comics}
+                                        title={translate('analytics')}
+                                        to={APP_PATH.management_analytics}
                                         className={classNames(
                                             'group flex items-center rounded-lg fill-gray-700 p-2 text-gray-900 hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700',
                                             {
-                                                'bg-gray-300 dark:bg-gray-700':
-                                                    path.includes(APP_PATH.management_comics) || path.includes(APP_PATH.management_chapters),
+                                                'bg-gray-300 dark:bg-gray-700': path.includes(APP_PATH.management_analytics),
                                             },
                                         )}>
                                         <svg
                                             className={classNames(
                                                 'h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white',
                                                 {
-                                                    'text-gray-900 dark:text-white':
-                                                        path.includes(APP_PATH.management_comics) || path.includes(APP_PATH.management_chapters),
+                                                    'text-gray-900 dark:text-white': path.includes(APP_PATH.management_analytics),
+                                                },
+                                            )}
+                                            fill="currentColor"
+                                            viewBox="0 0 1920 1920"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <g
+                                                id="SVGRepo_bgCarrier"
+                                                strokeWidth="0"></g>
+                                            <g
+                                                id="SVGRepo_tracerCarrier"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <g
+                                                    fillRule="evenodd"
+                                                    clipRule="evenodd"
+                                                    stroke="none"
+                                                    strokeWidth="1">
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        clipRule="evenodd"
+                                                        d="M746.667 106.667V1493.33H1173.33V106.667H746.667ZM1056 224H864V1376H1056V224ZM106.667 533.333H533.333V1493.33H106.667V533.333ZM224 650.667H416V1376H224V650.667Z"></path>
+                                                    <path d="M1920 1706.67H0V1824H1920V1706.67Z"></path>
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        clipRule="evenodd"
+                                                        d="M1386.67 746.667H1813.33V1493.33H1386.67V746.667ZM1504 864H1696V1376H1504V864Z"></path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                        <span className="ms-3 flex-1 whitespace-nowrap capitalize">{translate('analytics')}</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        title={translate('comic-management')}
+                                        to={APP_PATH.management_comics}
+                                        className={classNames(
+                                            'group flex items-center rounded-lg fill-gray-700 p-2 text-gray-900 hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700',
+                                            {
+                                                'bg-gray-300 dark:bg-gray-700': path.includes(APP_PATH.management_comics),
+                                            },
+                                        )}>
+                                        <svg
+                                            className={classNames(
+                                                'h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white',
+                                                {
+                                                    'text-gray-900 dark:text-white': path.includes(APP_PATH.management_comics),
                                                 },
                                             )}
                                             viewBox="0 0 24 24"
@@ -92,13 +138,12 @@ const ManagementLayout = () => {
                                                 strokeLinecap="round"
                                                 strokeLinejoin="round"></g>
                                             <g id="SVGRepo_iconCarrier">
-                                                {' '}
                                                 <path
                                                     d="M4 19V6.2C4 5.0799 4 4.51984 4.21799 4.09202C4.40973 3.71569 4.71569 3.40973 5.09202 3.21799C5.51984 3 6.0799 3 7.2 3H16.8C17.9201 3 18.4802 3 18.908 3.21799C19.2843 3.40973 19.5903 3.71569 19.782 4.09202C20 4.51984 20 5.0799 20 6.2V17H6C4.89543 17 4 17.8954 4 19ZM4 19C4 20.1046 4.89543 21 6 21H20M9 7H15M9 11H15M19 17V21"
                                                     stroke="#000000"
                                                     strokeWidth="2"
                                                     strokeLinecap="round"
-                                                    strokeLinejoin="round"></path>{' '}
+                                                    strokeLinejoin="round"></path>
                                             </g>
                                         </svg>
                                         <span className="ms-3 flex-1 whitespace-nowrap capitalize">{translate('comic-management')}</span>
@@ -116,14 +161,16 @@ const ManagementLayout = () => {
                                         )}>
                                         <svg
                                             className={classNames(
-                                                'h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white',
+                                                'h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white',
                                                 {
                                                     'text-gray-900 dark:text-white': path.includes(APP_PATH.management_genres),
                                                 },
                                             )}
-                                            viewBox="0 0 24 24"
+                                            viewBox="0 0 100 100"
                                             fill="currentColor"
-                                            xmlns="http://www.w3.org/2000/svg">
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            enableBackground="new 0 0 100 100"
+                                            xmlSpace="preserve">
                                             <g
                                                 id="SVGRepo_bgCarrier"
                                                 strokeWidth="0"></g>
@@ -132,13 +179,13 @@ const ManagementLayout = () => {
                                                 strokeLinecap="round"
                                                 strokeLinejoin="round"></g>
                                             <g id="SVGRepo_iconCarrier">
-                                                {' '}
-                                                <path
-                                                    d="M4 19V6.2C4 5.0799 4 4.51984 4.21799 4.09202C4.40973 3.71569 4.71569 3.40973 5.09202 3.21799C5.51984 3 6.0799 3 7.2 3H16.8C17.9201 3 18.4802 3 18.908 3.21799C19.2843 3.40973 19.5903 3.71569 19.782 4.09202C20 4.51984 20 5.0799 20 6.2V17H6C4.89543 17 4 17.8954 4 19ZM4 19C4 20.1046 4.89543 21 6 21H20M9 7H15M9 11H15M19 17V21"
-                                                    stroke="#000000"
-                                                    strokeWidth="2"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"></path>{' '}
+                                                <g>
+                                                    <path d="M61.8,29.4l8.9,8.9l0,0c2,1.9,2,5.1,0,7l0,0L47.5,68.4V47.3V36.6l7.2-7.3C56.6,27.4,59.9,27.4,61.8,29.4z"></path>
+                                                </g>
+                                                <path d="M37.5,20H25c-2.8,0-5,2.2-5,5v43.8C20,75,25,80,31.2,80s11.2-5,11.2-11.2V25C42.5,22.2,40.2,20,37.5,20z M31.2,73.8c-2.8,0-5-2.2-5-5s2.2-5,5-5s5,2.2,5,5S34,73.8,31.2,73.8z"></path>
+                                                <g>
+                                                    <path d="M75,57.5h-8.8l-6,6H74L73.9,74H49.8l-6,6H75c2.8,0,5-2.2,5-5V62.5C80,59.8,77.8,57.5,75,57.5L75,57.5z"></path>
+                                                </g>
                                             </g>
                                         </svg>
                                         <span className="ms-3 flex-1 whitespace-nowrap capitalize">{translate('genres-management')}</span>

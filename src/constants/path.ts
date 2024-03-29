@@ -33,6 +33,11 @@ export const DASHBOARD_PATH = {
     dashboard: 'dashboard',
 } as const;
 
+export const ANALYTICS_PATH = {
+    analytics: 'analytics',
+    analytics_export: 'analytics/export',
+} as const;
+
 export const USERS_PATH = {
     users: '/users',
     update_avatar: '/update-avatar',
@@ -75,12 +80,12 @@ export const APP_PATH = {
     search: '/search',
 
     // management
-    management_dashboard: '/management/dashboard',
     management: '/management',
+    management_dashboard: '/management/dashboard',
+    management_analytics: '/management/analytics',
     management_comics: '/management/comics',
     management_users: '/management/users',
     management_billing: '/management/billing',
-    management_chapters: '/management/chapters',
     management_genres: '/management/genres',
 
     // payment

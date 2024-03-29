@@ -1,69 +1,34 @@
-import paymentApis from '@/apis/payment';
+import analyticsApis from '@/apis/analytics';
 import { Pagination } from '@/components/Pagination';
-import { FILTER_OPTIONS, STATUS_OPTIONS } from '@/constants/settings';
+import { FILTER_OPTIONS } from '@/constants/settings';
 import { useAppSelector } from '@/hooks/reduxHook';
-import useAlertMsg from '@/hooks/useAlertMsg';
-import useAxiosRequest from '@/hooks/useAxiosRequest';
 import useRequestParams from '@/hooks/useRequestParams';
 import useTranslation from '@/hooks/useTranslation';
 import { selectLanguage } from '@/redux/slices/settings';
-import { formatCurrency } from '@/utils/format';
-import { getTransactionStatusName, getTransactionTypeName } from '@/utils/transaction';
-import classNames from 'classnames';
-import moment from 'moment';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
+import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import imgLoading from '@/assets/icons/loading.gif';
-import { createSearchParams, useSearchParams } from 'react-router-dom';
+import { APP_PATH } from '@/constants/path';
 
-const PaymentManagement: React.FC = () => {
+const Analytics: React.FC = () => {
     const lang = useAppSelector((state) => selectLanguage(state.settings));
     const translate = useTranslation(lang);
     const { queryParams } = useRequestParams();
-    const { callRequest } = useAxiosRequest();
-    const { updateSuccessAlert } = useAlertMsg();
     const [, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
 
-    const [filterOptions, setFilterOptions] = useState<number>(0);
-    const [statusOptions, setStatusOptions] = useState<number[]>(STATUS_OPTIONS.map((x) => x.value));
     const [searchText, setSearchText] = useState<string>('');
+    const [filterOptions, setFilterOptions] = useState<number>(0);
 
-    const { data: transactionDataResult, isLoading } = useQuery({
-        queryKey: ['getAllTransaction', { ...queryParams, q: searchText }, filterOptions, statusOptions],
-        queryFn: () => paymentApis.getAllTransaction(filterOptions, statusOptions, { ...queryParams, q: searchText }),
-        staleTime: 60 * 1000,
-        // enabled:
+    const { data: resultData, isLoading } = useQuery({
+        queryKey: ['getAnalytics', { ...queryParams, q: searchText, type: filterOptions }],
+        queryFn: () => analyticsApis.getAnalytics({ ...queryParams, q: searchText, type: filterOptions.toString() }),
+        staleTime: 3 * 60 * 1000,
     });
 
-    const resultData = transactionDataResult?.data;
-    const transactionList = resultData?.data;
-
-    const onStatusChange = (event: React.ChangeEvent<HTMLInputElement>, value: number) => {
-        let temp = [...statusOptions, value];
-
-        if (!event.currentTarget.checked) {
-            temp = temp.filter((v) => v !== value);
-        }
-
-        const uniqueValue = temp.filter(function (item, pos) {
-            return temp.indexOf(item) == pos;
-        });
-
-        setStatusOptions(uniqueValue);
-        setSearchParams(
-            createSearchParams({
-                ...queryParams,
-                page: '1',
-            }),
-        );
-    };
-
-    const onActionHandle = (id: string, status: number) => {
-        callRequest(paymentApis.updateTransaction(id, status), (res) => {
-            console.log(res.data);
-            updateSuccessAlert(true);
-        });
-    };
+    const analyticsResult = resultData?.data;
+    const analyticsData = analyticsResult?.data;
 
     return (
         <div className="relative h-full min-h-[680px] w-full overflow-x-auto border-2 p-8 sm:rounded-lg">
@@ -102,24 +67,11 @@ const PaymentManagement: React.FC = () => {
                         ))}
                     </div>
                     <div className="inline-flex items-center rounded-lg bg-white px-3 py-1.5 text-sm font-medium text-gray-500 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:focus:ring-gray-700">
-                        {STATUS_OPTIONS.map((option) => (
-                            <div
-                                className="inline-flex items-center"
-                                key={option.name}>
-                                <input
-                                    onChange={(e) => onStatusChange(e, option.value)}
-                                    id={option.name}
-                                    type="checkbox"
-                                    checked={statusOptions.includes(option.value)}
-                                    className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary"
-                                />
-                                <label
-                                    htmlFor={option.name}
-                                    className="w-30 mb-2 ml-2 mr-6 mt-2 text-sm font-medium capitalize text-gray-900 dark:text-white">
-                                    {translate(option.name)}
-                                </label>
-                            </div>
-                        ))}
+                        <button
+                            onClick={() => navigate(APP_PATH.management_analytics + `/get-all?type=${filterOptions}`)}
+                            className="me-2 rounded-lg bg-blue-700 px-5 py-2 text-sm font-medium capitalize text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            {translate('view-detail-all')}
+                        </button>
                     </div>
                 </div>
                 <div className="relative">
@@ -167,7 +119,7 @@ const PaymentManagement: React.FC = () => {
                 </div>
             ) : (
                 <>
-                    <div className="relative h-96 w-full overflow-y-auto sm:rounded-lg">
+                    <div className="relative h-[450px] w-full overflow-y-auto sm:rounded-lg">
                         <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
                             <thead className="sticky top-0 bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
@@ -179,27 +131,12 @@ const PaymentManagement: React.FC = () => {
                                     <th
                                         scope="col"
                                         className="px-6 py-3">
-                                        {translate('type')}
+                                        {translate('total-view-comics')}
                                     </th>
                                     <th
                                         scope="col"
                                         className="px-6 py-3">
-                                        {translate('amount')}
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3">
-                                        {translate('status')}
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3">
-                                        {translate('update-at')}
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3">
-                                        {translate('update-by')}
+                                        {translate('total-view-chapters')}
                                     </th>
                                     <th
                                         scope="col"
@@ -209,59 +146,36 @@ const PaymentManagement: React.FC = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {transactionList &&
-                                    transactionList.map((transaction) => (
+                                {analyticsData &&
+                                    analyticsData.map((analytics) => (
                                         <tr
-                                            key={transaction._id}
+                                            key={analytics.userId}
                                             className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
-                                            <td className="px-6 py-4">{transaction.users[0].username}</td>
-                                            <td className="px-6 py-4">{translate(getTransactionTypeName(transaction.type))}</td>
-                                            <td
-                                                className={classNames('px-6 py-4 font-bold ', {
-                                                    'text-primary': transaction.amount >= 0,
-                                                    'text-red-500': transaction.amount < 0,
-                                                })}>
-                                                {formatCurrency(transaction.amount)}
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <p
-                                                    className={classNames('capitalize', {
-                                                        'text-gray-700': transaction.status == 0,
-                                                        'text-red-700': transaction.status == -1,
-                                                        'text-primary': transaction.status == 1,
-                                                    })}>
-                                                    {translate(getTransactionStatusName(transaction.status))}
-                                                </p>
-                                            </td>
-                                            <td className="px-6 py-4">{moment(transaction.updateTime).format('HH:mm:ss DD/MM/YYYY')}</td>
-                                            <td className="px-6 py-4">
-                                                {transaction.updateUsers.length == 0 ? '-' : transaction.updateUsers[0].username}
-                                            </td>
-                                            <td className={`px-6 py-4 ${transaction.status !== 0 ? 'hidden' : ''}`}>
+                                            <td className="px-6 py-4">{analytics.username}</td>
+                                            <td className="px-6 py-4">{analytics.totalViewComic}</td>
+                                            <td className="px-6 py-4">{analytics.totalViewChapter}</td>
+                                            <td className={`px-6 py-4 ${analytics.userId ? '' : 'hidden'}`}>
                                                 <button
-                                                    onClick={() => onActionHandle(transaction._id, 1)}
+                                                    onClick={() =>
+                                                        navigate(APP_PATH.management_analytics + `/${analytics.userId}?type=${filterOptions}`)
+                                                    }
                                                     className="ml-2 font-medium capitalize text-blue-600 hover:underline dark:text-blue-500">
-                                                    {translate('accept')}
-                                                </button>
-                                                <button
-                                                    onClick={() => onActionHandle(transaction._id, -1)}
-                                                    className="ml-2 font-medium capitalize text-red-600 hover:underline dark:text-red-500">
-                                                    {translate('cancel')}
+                                                    {translate('view-detail')}
                                                 </button>
                                             </td>
                                         </tr>
                                     ))}
                             </tbody>
                         </table>
-                        {Array.isArray(transactionList) && !transactionList.length && (
+                        {Array.isArray(analyticsData) && !analyticsData.length && (
                             <div className="flex h-[100px] items-center justify-center">{translate('NotFound')}</div>
                         )}
                     </div>
-                    {resultData?.totalPage && resultData.totalPage > 0 ? (
+                    {analyticsResult?.totalPage && analyticsResult.totalPage > 0 ? (
                         <Pagination
                             queryConfig={queryParams}
-                            page={resultData?.currentPage}
-                            totalPage={resultData?.totalPage}
+                            page={analyticsResult?.currentPage}
+                            totalPage={analyticsResult?.totalPage}
                         />
                     ) : (
                         <div className="h-20"></div>
@@ -272,4 +186,4 @@ const PaymentManagement: React.FC = () => {
     );
 };
 
-export default PaymentManagement;
+export default Analytics;
