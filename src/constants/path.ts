@@ -35,6 +35,7 @@ export const DASHBOARD_PATH = {
 
 export const ANALYTICS_PATH = {
     analytics: 'analytics',
+    analytics_export: 'analytics/export',
 } as const;
 
 export const USERS_PATH = {

@@ -13,6 +13,11 @@ const analyticsApis = {
         const url = ANALYTICS_PATH.analytics + `/${userId ?? '-1'}`;
         return apiClients.get<AnalyticsDetailData>(url, { params });
     },
+
+    exportAnalyticsDetail(userId: string | undefined, params: paramOption) {
+        const url = ANALYTICS_PATH.analytics_export + `/${userId ?? '-1'}`;
+        return apiClients.get(url, { params: params, responseType: 'arraybuffer', headers: { 'Content-Type': 'blob' } });
+    },
 };
 
 export default analyticsApis;

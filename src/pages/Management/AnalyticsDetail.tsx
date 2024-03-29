@@ -9,6 +9,7 @@ import { useQuery } from 'react-query';
 import analyticsApis from '@/apis/analytics';
 import { Pagination } from '@/components/Pagination';
 import moment from 'moment';
+import useAxiosRequest from '@/hooks/useAxiosRequest';
 
 const AnalyticsDetail: React.FC = () => {
     const { userId } = useParams();
@@ -16,6 +17,7 @@ const AnalyticsDetail: React.FC = () => {
     const translate = useTranslation(lang);
     const { queryParams } = useRequestParams();
     const [, setSearchParams] = useSearchParams();
+    const { callRequest } = useAxiosRequest();
 
     const [searchText, setSearchText] = useState<string>('');
 
@@ -30,7 +32,21 @@ const AnalyticsDetail: React.FC = () => {
     const analyticsDetailData = analyticsDetailResult?.data;
 
     const exportExcel = () => {
-        alert('exportExcel');
+        callRequest(
+            analyticsApis.exportAnalyticsDetail(userId, { ...queryParams }),
+            (res) => {
+                const filename = res.headers ? res.headers['content-disposition'].split('=')[1] : 'download.xlsx';
+                const url = window.URL.createObjectURL(new Blob([res.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', filename);
+                document.body.appendChild(link);
+                link.click();
+            },
+            (err) => {
+                console.log(err);
+            },
+        );
     };
 
     return (
