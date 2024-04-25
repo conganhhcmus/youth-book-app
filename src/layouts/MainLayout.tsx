@@ -40,7 +40,7 @@ const MainLayout = () => {
             top: 0,
             behavior: 'smooth',
         });
-    }, []);
+    }, [location]);
 
     return (
         <div className="grid h-full min-h-screen grid-cols-1 place-content-between">
